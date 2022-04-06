@@ -46,7 +46,7 @@ plugins:
 
 nav:
   - はじめに: "index.md"
-  - 技術スタック: "tech_stack.md"
+  - インストレーション: "installation.md"
   - 技術経歴: "background.md"
 
 markdown_extensions:
