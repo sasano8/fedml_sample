@@ -243,8 +243,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../tech_stack/" class="md-nav__link">
-        技術スタック
+      <a href="../installation/" class="md-nav__link">
+        インストレーション
       </a>
     </li>
   
@@ -347,32 +347,29 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
         <section class="print-page" id="index"><h1 id="index-_1">連合学習とは</h1>
 <p>データを取集せずに学習モデルを合成し、学習モデルを改善していく手法。
 データを収集し学習する従来の手法だとプライバシーの問題があるため、近年、異なるドメイン間でデータを送信せず学習させる手法として注目を集める。</p>
-<h1 id="index-_2">参考</h1>
+<h2 id="index-_2">メリット・デメリット</h2>
+<ul>
+<li>M: プライバシーの問題を回避できる</li>
+<li>D: 従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができない</li>
+</ul>
+<p>より詳しくは次のリンクを参照</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
+</ul>
+<h2 id="index-fedml">FedML</h2>
+<p>連合学習における有名なライブラリ</p>
 <ul>
 <li>https://github.com/FedML-AI/FedMー</li>
 <li>https://github.com/chaoyanghe/Awesome-Federated-Learning</li>
-<li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
+</ul>
+<p>複数のノードへのモデル展開など複雑なワークフローを簡略化し、連合学習の実行を支援する</p>
+<h2 id="index-_3">機能</h2>
+<p>次のリンクからGUIから提供している機能を調べた</p>
+<ul>
 <li><a href="http://open.fedml.ai">ライブデモ</a></li>
 <li><a href="https://doc.fedml.ai/user_guide/mlops/mlops_live_demo.html">ライブデモ説明</a></li>
 </ul>
-<h1 id="index-_3">メリット</h1>
-<ul>
-<li>プライバシーの問題を回避できます</li>
-</ul>
-<h1 id="index-_4">デメリット</h1>
-<ul>
-<li>従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができません。</li>
-</ul>
-<h1 id="index-_5">アーキテクチャ</h1>
-<ul>
-<li>fedml_core: 分散コンピューティングに関連する通信機能</li>
-<li>fedml_api: 連合学習アルゴリズムを提供</li>
-<li>fedml_experiments: fedmlのアルゴリズムのテスト機能を提供</li>
-<li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
-<li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
-</ul>
-<h1 id="index-_6">機能</h1>
-<h2 id="index-_7">管理機能</h2>
+<h3 id="index-_4">管理機能</h3>
 <ul>
 <li>ユーザ管理</li>
 <li>グループ管理</li>
@@ -390,315 +387,102 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>ジョブ管理<ul>
 <li>開始したジョブに名前とタグをつけることができる</li>
 <li>ステータスを確認することができる</li>
-<li>エッジのCPU/Memory/Swapなどを確認することができる</li>
+<li>トレーニング結果の視覚化</li>
+<li>Edgeのシステムパフォーマンスの視覚化</li>
+<li>分散ロギング</li>
 <li>client modelとaggregated modelを確認することができる</li>
 <li>client modelとaggregated modelはrunidに紐づいている</li>
 <li>FLServer - ユーザー - Edge Deviceの繋がりが見える</li>
 </ul>
 </li>
-</ul></section><section class="print-page" id="tech_stack"><h1 id="tech_stack-_1">技術スタック</h1>
-<p>現在はPythonを中心とした仕事を請けています。
-得意領域はバックエンドです。アーキテクチャと技術選定を行い、保守性の高い開発プロジェクトを構成できます。</p>
-<h2 id="tech_stack-_2">レイヤー</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>バックエンド</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>フロントエンド</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>インフラ</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>ネットワーク</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>データ分析</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>自然言語処理</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>機械学習</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>組み込み</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-_3">プログラム言語</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>VBA</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>VBAは得意ですが、VBA中心の案件はお断りしています</td>
-</tr>
-<tr>
-<td>Python</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>C#</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>SQL</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>JavaScript</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>HTML</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>CSS</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>shell</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>Java</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>TypeScript</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>SCCS</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>PHP</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>C</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>lua</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-_4">自然言語</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>日本語</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>英語</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>ドキュメント等は翻訳して読んでいます</td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-_5">フレームワーク</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>FastAPI</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>（補足）pytest + sqlalchemyなどと組み合わせ</td>
-</tr>
-<tr>
-<td>Django</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>Vue.js</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>Nuxt.js Vuetify 業務経験なし</td>
-</tr>
-<tr>
-<td>ASP.NET(MVC5)</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>Xamarin(Android)</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>業務経験なし</td>
-</tr>
-<tr>
-<td>Unity</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td>業務経験なし</td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-paas">PaaS</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>AWS</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>Azure</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>GCP</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-_6">ミドルウェア</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PostgreSQL</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>SQLServer</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>MySQL</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>Oracle</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Docker</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>ElasticSearch</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="tech_stack-cicd">CI/CD</h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GitHub Actions</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-<tr>
-<td>CircleCI</td>
-<td><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /><img alt="⭐" class="twemoji" src="https://twemoji.maxcdn.com/v/latest/svg/2b50.svg" title=":star:" /></td>
-<td></td>
-</tr>
-</tbody>
-</table></section><section class="print-page" id="background"><h1 id="background-_1">技術経歴</h1>
+</ul>
+<h3 id="index-_5">実装されていない機能</h3>
+<ul>
+<li>任意のタイミングで自動実行するジョブスケジューラは特に見当たらない</li>
+<li>1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。</li>
+</ul>
+<h2 id="index-_6">学習フロー</h2>
+<p>モデルは次のフローで改善されていく</p>
+<ol>
+<li>train: Edge側で学習済みモデルを生成する</li>
+<li>feedback: 複数のEdgeからサーバへモデルを送信する</li>
+<li>aggregate: モデルを合成する</li>
+<li>transfer:  合成されたモデルをEdgeへ展開する</li>
+</ol>
+<h2 id="index-_7">機械学習の一般的なフロー</h2>
+<ol>
+<li>データ収集</li>
+<li>データ加工・クレンジング</li>
+<li>データロード</li>
+<li>モデル学習</li>
+<li>モデル評価</li>
+<li>モデルデプロイ（本番稼働）</li>
+<li>モデル監視（運用）</li>
+</ol>
+<h2 id="index-_8">アーキテクチャ</h2>
+<ul>
+<li>fedml_core: 動的計画法に基づく分散コンピューティングに関する通信やスケジューラを提供</li>
+<li>fedml_api: 連合学習アルゴリズムを提供</li>
+<li>fedml_experiments: fedmlのアルゴリズムのテスト機能を提供</li>
+<li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
+<li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
+</ul>
+<h2 id="index-_9">トポロジ</h2>
+<p>分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。</p>
+<p>FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさまざまなトポロジ定義がある。</p>
+<ul>
+<li>バス</li>
+<li>スター</li>
+<li>リング</li>
+<li>フルメッシュ</li>
+<li>
+<p>パーシャルメッシュ</p>
+</li>
+<li>
+<p>symmetry（左右対称）</p>
+</li>
+<li>asymmetry（左右非対称・非対称トポロジ）</li>
+</ul>
+<h2 id="index-fedml_core">fedml_core</h2>
+<p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。</p>
+<ol>
+<li>通信プロトコルコンポーネント</li>
+<li>PyTorchまたはTensorFlowに基づいて構築されたデバイス上のディープラーニングコンポーネント</li>
+</ol>
+<h2 id="index-worker-oriented-programming">Worker-Oriented Programming</h2>
+<p>FedML-coreは、FLアルゴリズムのトレーニングまたは調整に参加するときに、ワーカーの動作をプログラムするために使用できる、
+ワーカー指向のプログラミングデザインパターンを提供する</p>
+<ul>
+<li>Coordinator: 中央ワーカーでトレーナの管理をする</li>
+<li>Trainer: 中央ワーカー以外のワーカー</li>
+</ul></section><section class="print-page" id="installation"><h1 id="installation-installation">Installation</h1>
+<h2 id="installation-_1">構成要件</h2>
+<p>https://doc.fedml.ai/user_guide/open_source/installation.html</p>
+<ul>
+<li>ヘッドノード（ログイン・テスト用）が必要</li>
+<li>N個のcomupute node（multi-GPU server: e.g., 8 x NVIDIA V100）が必要</li>
+<li>
+<p>NFSなどの一元化されたフォールトトレラントファイルサーバー必要（計算ノード間で大規模なデータセットを共有）</p>
+</li>
+<li>
+<p>エージェント</p>
+</li>
+</ul>
+<h3 id="installation-software">Software</h3>
+<ul>
+<li>Python &gt;= 3.7.4</li>
+<li>MPI4Py &gt;= 3.0.3: Message Passing Interface (MPI) 規格の Python バインディング</li>
+<li>
+<p>PyTorch &gt;= 1.4.0: PyTorchが提供する分散コンピューティング機械学習はMPIを使っている</p>
+</li>
+<li>
+<p>https://mpi4py.readthedocs.io/en/stable/</p>
+</li>
+</ul>
+<h2 id="installation-_2">環境構築</h2>
+<h3 id="installation-nfs">NFS（ネットワークファイルシステム）構成</h3>
+<div class="highlight"><pre><span></span><code>秘密鍵公開鍵を置いてsshログインできるようにする
+</code></pre></div></section><section class="print-page" id="background"><h1 id="background-_1">技術経歴</h1>
 <h2 id="background-_2">コレクション処理フレームワークの開発</h2>
 <p>ETLなどデータの前処理に活用できるPython用のコレクション処理フレームワーク（OSS）を開発した。
 非同期なイテレーションにも対しても活用でき、プロトタイピング開発に活用可能。</p>

@@ -242,9 +242,115 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          はじめに
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         はじめに
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    メリット・デメリット
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedml" class="md-nav__link">
+    FedML
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    機能
+  </a>
+  
+    <nav class="md-nav" aria-label="機能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    管理機能
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    実装されていない機能
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    学習フロー
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    機械学習の一般的なフロー
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    アーキテクチャ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    トポロジ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedml_core" class="md-nav__link">
+    fedml_core
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-oriented-programming" class="md-nav__link">
+    Worker-Oriented Programming
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -258,8 +364,8 @@
   
   
     <li class="md-nav__item">
-      <a href="tech_stack/" class="md-nav__link">
-        技術スタック
+      <a href="installation/" class="md-nav__link">
+        インストレーション
       </a>
     </li>
   
@@ -314,6 +420,97 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    メリット・デメリット
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedml" class="md-nav__link">
+    FedML
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    機能
+  </a>
+  
+    <nav class="md-nav" aria-label="機能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    管理機能
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    実装されていない機能
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    学習フロー
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    機械学習の一般的なフロー
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    アーキテクチャ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    トポロジ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedml_core" class="md-nav__link">
+    fedml_core
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worker-oriented-programming" class="md-nav__link">
+    Worker-Oriented Programming
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -340,32 +537,29 @@
                 <h1 id="_1">連合学習とは</h1>
 <p>データを取集せずに学習モデルを合成し、学習モデルを改善していく手法。
 データを収集し学習する従来の手法だとプライバシーの問題があるため、近年、異なるドメイン間でデータを送信せず学習させる手法として注目を集める。</p>
-<h1 id="_2">参考</h1>
+<h2 id="_2">メリット・デメリット</h2>
+<ul>
+<li>M: プライバシーの問題を回避できる</li>
+<li>D: 従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができない</li>
+</ul>
+<p>より詳しくは次のリンクを参照</p>
+<ul>
+<li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
+</ul>
+<h2 id="fedml">FedML</h2>
+<p>連合学習における有名なライブラリ</p>
 <ul>
 <li>https://github.com/FedML-AI/FedMー</li>
 <li>https://github.com/chaoyanghe/Awesome-Federated-Learning</li>
-<li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
+</ul>
+<p>複数のノードへのモデル展開など複雑なワークフローを簡略化し、連合学習の実行を支援する</p>
+<h2 id="_3">機能</h2>
+<p>次のリンクからGUIから提供している機能を調べた</p>
+<ul>
 <li><a href="http://open.fedml.ai">ライブデモ</a></li>
 <li><a href="https://doc.fedml.ai/user_guide/mlops/mlops_live_demo.html">ライブデモ説明</a></li>
 </ul>
-<h1 id="_3">メリット</h1>
-<ul>
-<li>プライバシーの問題を回避できます</li>
-</ul>
-<h1 id="_4">デメリット</h1>
-<ul>
-<li>従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができません。</li>
-</ul>
-<h1 id="_5">アーキテクチャ</h1>
-<ul>
-<li>fedml_core: 分散コンピューティングに関連する通信機能</li>
-<li>fedml_api: 連合学習アルゴリズムを提供</li>
-<li>fedml_experiments: fedmlのアルゴリズムのテスト機能を提供</li>
-<li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
-<li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
-</ul>
-<h1 id="_6">機能</h1>
-<h2 id="_7">管理機能</h2>
+<h3 id="_4">管理機能</h3>
 <ul>
 <li>ユーザ管理</li>
 <li>グループ管理</li>
@@ -383,12 +577,74 @@
 <li>ジョブ管理<ul>
 <li>開始したジョブに名前とタグをつけることができる</li>
 <li>ステータスを確認することができる</li>
-<li>エッジのCPU/Memory/Swapなどを確認することができる</li>
+<li>トレーニング結果の視覚化</li>
+<li>Edgeのシステムパフォーマンスの視覚化</li>
+<li>分散ロギング</li>
 <li>client modelとaggregated modelを確認することができる</li>
 <li>client modelとaggregated modelはrunidに紐づいている</li>
 <li>FLServer - ユーザー - Edge Deviceの繋がりが見える</li>
 </ul>
 </li>
+</ul>
+<h3 id="_5">実装されていない機能</h3>
+<ul>
+<li>任意のタイミングで自動実行するジョブスケジューラは特に見当たらない</li>
+<li>1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。</li>
+</ul>
+<h2 id="_6">学習フロー</h2>
+<p>モデルは次のフローで改善されていく</p>
+<ol>
+<li>train: Edge側で学習済みモデルを生成する</li>
+<li>feedback: 複数のEdgeからサーバへモデルを送信する</li>
+<li>aggregate: モデルを合成する</li>
+<li>transfer:  合成されたモデルをEdgeへ展開する</li>
+</ol>
+<h2 id="_7">機械学習の一般的なフロー</h2>
+<ol>
+<li>データ収集</li>
+<li>データ加工・クレンジング</li>
+<li>データロード</li>
+<li>モデル学習</li>
+<li>モデル評価</li>
+<li>モデルデプロイ（本番稼働）</li>
+<li>モデル監視（運用）</li>
+</ol>
+<h2 id="_8">アーキテクチャ</h2>
+<ul>
+<li>fedml_core: 動的計画法に基づく分散コンピューティングに関する通信やスケジューラを提供</li>
+<li>fedml_api: 連合学習アルゴリズムを提供</li>
+<li>fedml_experiments: fedmlのアルゴリズムのテスト機能を提供</li>
+<li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
+<li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
+</ul>
+<h2 id="_9">トポロジ</h2>
+<p>分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。</p>
+<p>FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさまざまなトポロジ定義がある。</p>
+<ul>
+<li>バス</li>
+<li>スター</li>
+<li>リング</li>
+<li>フルメッシュ</li>
+<li>
+<p>パーシャルメッシュ</p>
+</li>
+<li>
+<p>symmetry（左右対称）</p>
+</li>
+<li>asymmetry（左右非対称・非対称トポロジ）</li>
+</ul>
+<h2 id="fedml_core">fedml_core</h2>
+<p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。</p>
+<ol>
+<li>通信プロトコルコンポーネント</li>
+<li>PyTorchまたはTensorFlowに基づいて構築されたデバイス上のディープラーニングコンポーネント</li>
+</ol>
+<h2 id="worker-oriented-programming">Worker-Oriented Programming</h2>
+<p>FedML-coreは、FLアルゴリズムのトレーニングまたは調整に参加するときに、ワーカーの動作をプログラムするために使用できる、
+ワーカー指向のプログラミングデザインパターンを提供する</p>
+<ul>
+<li>Coordinator: 中央ワーカーでトレーナの管理をする</li>
+<li>Trainer: 中央ワーカー以外のワーカー</li>
 </ul>
                 
               
@@ -411,13 +667,13 @@
       
       
         
-        <a href="tech_stack/" class="md-footer__link md-footer__link--next" aria-label="次: 技術スタック" rel="next">
+        <a href="installation/" class="md-footer__link md-footer__link--next" aria-label="次: インストレーション" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 次
               </span>
-              技術スタック
+              インストレーション
             </div>
           </div>
           <div class="md-footer__button md-icon">
