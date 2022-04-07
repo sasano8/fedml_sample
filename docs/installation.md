@@ -60,6 +60,19 @@ pip install -r requirements.txt
 
 ## Setup Server(GUI)
 
+これに従えばできるっぽい？
+
+python3.7を対象としているので書き換える
+
+- [CI-install.sh](https://github.com/FedML-AI/FedML/blob/master/CI-install.sh)
+    - install miniconda
+    - install dependencies
+    - download sample data
+
+
+- [CI-script-fedavg.sh](https://github.com/FedML-AI/FedML/blob/master/CI-script-fedavg.sh)
+    - run [run_fedavg_standalone_pytorch.sh](https://github.com/FedML-AI/FedML/blob/master/fedml_experiments/standalone/fedavg/run_fedavg_standalone_pytorch.sh)
+        - fedavg
 
 
 ## Setup Edge

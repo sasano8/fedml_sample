@@ -95,8 +95,9 @@ fedmlのアルゴリズムのテストを提供し、どのようにアルゴリ
 |  タイプ/リンク |  概要  | 論文 |
 | ---- | ---- | ---- |
 |  [centralized/fedgkt](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/centralized)  |  単体プロセスでの学習  |  |
-|  [standalone/decentralized](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/standalone/decentralized)  |  片側信頼ソーシャルネットワークを介した中央サーバーの自由連合学習（分散型FL）  | [リンク](https://arxiv.org/pdf/1910.04956) |
+|  [standalone/decentralized](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/standalone/decentralized)  |  片側信頼ソーシャルネットワークを介した中央サーバーの自由連合学習（分散型FL）  | [リンク](./pdf/1910.04956.pdf) |
 |  [distributed/fedgkt](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedgkt)  |  大規模エッジ群でのCNN連合学習  |  |
+|  fedavg  | エッジデバイスが中央サーバのプライバシー保護を信頼していない場合に選択される学習パラダイム | [リンク](./pdf/2104.11375.pdf) |
 
 
 ### fedml_api
@@ -134,16 +135,6 @@ FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさま
 
 - symmetry（左右対称）
 - asymmetry（左右非対称・非対称トポロジ）
-
-
-## キーワード
-
-pytorchなどで出てくるキーワードをメモしておく
-
-- DDP(DistributedDataParallel)
-- optim（最適化）: 任意の方法で効率的にパラメータを更新する
-
-学習率（lr）
 
 ## fedml_core
 

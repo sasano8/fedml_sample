@@ -26,9 +26,9 @@ plugins:
   - print-site:
       add_print_site_banner: true
       print_site_banner_template: "docs/print_site_banner.tpl"
-      print_page_title: '印刷用ページ'
+      print_page_title: "印刷用ページ"
       # Table of contents
-      toc_title: '目次'
+      toc_title: "目次"
       toc_depth: 6
       # Content-related
       add_full_urls: false
@@ -42,12 +42,10 @@ plugins:
       # exclude:
       #   - "index.md"
 
-
-
 nav:
   - はじめに: "index.md"
   - インストレーション: "installation.md"
-  - 技術経歴: "background.md"
+  - 用語集: "glossary.md"
 
 markdown_extensions:
   - admonition
@@ -61,8 +59,5 @@ markdown_extensions:
   # - toc:
   #   permalink: 'true'
 
-
-
 extra_css:
   - css/custom.css
-
