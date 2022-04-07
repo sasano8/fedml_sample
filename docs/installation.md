@@ -1,5 +1,11 @@
 # Installation
 
+## システム構成
+
+- FLServer: 連合学習管理用サーバ
+- FLClient(Agent): 連合学習を行うEdge群
+- MLOps(platform): FLServerと通信を行うWeb GUI。[ライブデモ](https://open.fedml.ai)
+
 ## 構成要件
 
 https://doc.fedml.ai/user_guide/open_source/installation.html
@@ -58,7 +64,14 @@ cd FedML/fedml_experiments/distributed
 pip install -r requirements.txt
 ```
 
-## Setup Server(GUI)
+
+## Setup MLOps(platform)
+
+Web GUIは提供されていないと思われる。
+代わりにhttps://docs.wandb.ai/を推奨しているように思える。
+
+
+## Setup Server
 
 これに従えばできるっぽい？
 
@@ -103,3 +116,17 @@ cd fedml_edge_deployment
 # start to pull docker image and run the FL Client Agent
 ./run.sh $account_id
 ```
+
+
+## Setup IOT
+
+IOTの場合は、server_ipを指定する。
+EDGE型でserver_ipは指定できるのか？
+
+```
+python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid '0'
+```
+
+
+MPIは何に使うもの
+->
