@@ -251,6 +251,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../research/" class="md-nav__link">
+        調査
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -287,6 +302,13 @@
       
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
+    システム構成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     構成要件
   </a>
   
@@ -301,7 +323,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     疑問
   </a>
   
@@ -313,7 +335,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     インフラ構築
   </a>
   
@@ -333,15 +355,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     ソフトウェア構築
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setup-servergui" class="md-nav__link">
-    Setup Server(GUI)
+  <a href="#setup-mlopsplatform" class="md-nav__link">
+    Setup MLOps(platform)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-server" class="md-nav__link">
+    Setup Server
   </a>
   
 </li>
@@ -349,6 +378,13 @@
         <li class="md-nav__item">
   <a href="#setup-edge" class="md-nav__link">
     Setup Edge
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-iot" class="md-nav__link">
+    Setup IOT
   </a>
   
 </li>
@@ -418,6 +454,13 @@
       
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
+    システム構成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     構成要件
   </a>
   
@@ -432,7 +475,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     疑問
   </a>
   
@@ -444,7 +487,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     インフラ構築
   </a>
   
@@ -464,15 +507,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     ソフトウェア構築
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#setup-servergui" class="md-nav__link">
-    Setup Server(GUI)
+  <a href="#setup-mlopsplatform" class="md-nav__link">
+    Setup MLOps(platform)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-server" class="md-nav__link">
+    Setup Server
   </a>
   
 </li>
@@ -480,6 +530,13 @@
         <li class="md-nav__item">
   <a href="#setup-edge" class="md-nav__link">
     Setup Edge
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-iot" class="md-nav__link">
+    Setup IOT
   </a>
   
 </li>
@@ -510,7 +567,13 @@
                 
                 
                 <h1 id="installation">Installation</h1>
-<h2 id="_1">構成要件</h2>
+<h2 id="_1">システム構成</h2>
+<ul>
+<li>FLServer: 連合学習管理用サーバ</li>
+<li>FLClient(Agent): 連合学習を行うEdge群</li>
+<li>MLOps(platform): FLServerと通信を行うWeb GUI。<a href="https://open.fedml.ai">ライブデモ</a></li>
+</ul>
+<h2 id="_2">構成要件</h2>
 <p>https://doc.fedml.ai/user_guide/open_source/installation.html</p>
 <ul>
 <li>ヘッドノード（ログイン・テスト用）が必要</li>
@@ -528,14 +591,14 @@
 <p>https://mpi4py.readthedocs.io/en/stable/</p>
 </li>
 </ul>
-<h3 id="_2">疑問</h3>
+<h3 id="_3">疑問</h3>
 <p>連合学習ではデータ共有が不要なのになぜNFSが必要か？</p>
-<h2 id="_3">インフラ構築</h2>
+<h2 id="_4">インフラ構築</h2>
 <h3 id="nfs">NFS（ネットワークファイルシステム）構成</h3>
 <div class="highlight"><pre><span></span><code>秘密鍵公開鍵を置いてsshログインできるようにする
 </code></pre></div>
 
-<h2 id="_4">ソフトウェア構築</h2>
+<h2 id="_5">ソフトウェア構築</h2>
 <div class="highlight"><pre><span></span><code>wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
 bash Miniconda3-py38_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
 </code></pre></div>
@@ -554,7 +617,10 @@ cd FedML/fedml_experiments/distributed
 pip install -r requirements.txt
 </code></pre></div>
 
-<h2 id="setup-servergui">Setup Server(GUI)</h2>
+<h2 id="setup-mlopsplatform">Setup MLOps(platform)</h2>
+<p>Web GUIは提供されていないと思われる。
+代わりにhttps://docs.wandb.ai/を推奨しているように思える。</p>
+<h2 id="setup-server">Setup Server</h2>
 <p>これに従えばできるっぽい？</p>
 <p>python3.7を対象としているので書き換える</p>
 <ul>
@@ -597,6 +663,15 @@ cd fedml_edge_deployment
 # start to pull docker image and run the FL Client Agent
 ./run.sh $account_id
 </code></pre></div>
+
+<h2 id="setup-iot">Setup IOT</h2>
+<p>IOTの場合は、server_ipを指定する。
+EDGE型でserver_ipは指定できるのか？</p>
+<div class="highlight"><pre><span></span><code>python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid &#39;0&#39;
+</code></pre></div>
+
+<p>MPIは何に使うもの
+-&gt;</p>
                 
               
 
@@ -617,7 +692,7 @@ cd fedml_edge_deployment
     <nav class="md-footer__inner md-grid" aria-label="フッター">
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="前: はじめに" rel="prev">
+        <a href="../research/" class="md-footer__link md-footer__link--prev" aria-label="前: 調査" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -626,7 +701,7 @@ cd fedml_edge_deployment
               <span class="md-footer__direction">
                 前
               </span>
-              はじめに
+              調査
             </div>
           </div>
         </a>

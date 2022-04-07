@@ -254,6 +254,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../research/" class="md-nav__link">
+        調査
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         インストレーション
       </a>
@@ -355,10 +370,14 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
                 </nav>
             </div>
         </section>
-        <section class="print-page" id="index"><h1 id="index-_1">連合学習とは</h1>
+        <section class="print-page" id="index"><h1 id="index-_1">はじめに</h1>
+<p>本ドキュメントは、連合学習と連合学習に関する技術やライブラリについてまとめたもので、
+連合学習の環境構築者向けのドキュメントとなる。</p>
+<p>連合学習の環境構築者は、主にネットワーク・グラフに関する知識が重要となる。</p>
+<h1 id="index-_2">連合学習とは</h1>
 <p>データを取集せずに学習モデルを合成し、学習モデルを改善していく手法。
 データを収集し学習する従来の手法だとプライバシーの問題があるため、近年、異なるドメイン間でデータを送信せず学習させる手法として注目を集める。</p>
-<h2 id="index-_2">メリット・デメリット</h2>
+<h2 id="index-_3">メリット・デメリット</h2>
 <ul>
 <li>M: プライバシーの問題を回避できる</li>
 <li>D: 従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができない</li>
@@ -367,52 +386,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <ul>
 <li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
 </ul>
-<h2 id="index-fedml">FedML</h2>
-<p>連合学習における有名なライブラリ</p>
-<ul>
-<li>https://github.com/FedML-AI/FedMー</li>
-<li>https://github.com/chaoyanghe/Awesome-Federated-Learning</li>
-</ul>
-<p>複数のノードへのモデル展開など複雑なワークフローを簡略化し、連合学習の実行を支援する</p>
-<h2 id="index-_3">機能</h2>
-<p>次のリンクからGUIから提供している機能を調べた</p>
-<ul>
-<li><a href="http://open.fedml.ai">ライブデモ</a></li>
-<li><a href="https://doc.fedml.ai/user_guide/mlops/mlops_live_demo.html">ライブデモ説明</a></li>
-</ul>
-<h3 id="index-_4">管理機能</h3>
-<ul>
-<li>ユーザ管理</li>
-<li>グループ管理</li>
-<li>プロジェクト管理<ul>
-<li>グループは１つのみアタッチすることができる</li>
-</ul>
-</li>
-<li>計算ノード（エッジ）管理</li>
-<li>構成管理（モデルとハイパーパラメータなど学習に関する設定）</li>
-<li>学習を開始する<ul>
-<li>構成を指定する</li>
-<li>デバイスを指定する</li>
-</ul>
-</li>
-<li>ジョブ管理<ul>
-<li>開始したジョブに名前とタグをつけることができる</li>
-<li>ステータスを確認することができる</li>
-<li>トレーニング結果の視覚化</li>
-<li>Edgeのシステムパフォーマンスの視覚化</li>
-<li>分散ロギング</li>
-<li>client modelとaggregated modelを確認することができる</li>
-<li>client modelとaggregated modelはrunidに紐づいている</li>
-<li>FLServer - ユーザー - Edge Deviceの繋がりが見える</li>
-</ul>
-</li>
-</ul>
-<h3 id="index-_5">実装されていない機能</h3>
-<ul>
-<li>任意のタイミングで自動実行するジョブスケジューラは特に見当たらない</li>
-<li>1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。</li>
-</ul>
-<h2 id="index-_6">連合学習フロー</h2>
+<h2 id="index-_4">連合学習フロー</h2>
 <p>モデルは次のフローで改善されていく</p>
 <ol>
 <li>train: Edge側で学習済みモデルを生成する</li>
@@ -420,7 +394,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>aggregate: モデルを合成する</li>
 <li>transfer:  合成されたモデルをEdgeへ展開する</li>
 </ol>
-<h2 id="index-_7">機械学習の一般的なフロー</h2>
+<h2 id="index-_5">機械学習の一般的なフロー</h2>
 <ol>
 <li>データ収集</li>
 <li>データ加工・クレンジング</li>
@@ -430,7 +404,140 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>モデルデプロイ（本番稼働）</li>
 <li>モデル監視（運用）</li>
 </ol>
-<h2 id="index-_8">アーキテクチャ</h2>
+<h2 id="index-_6">並列・分散・連合処理について</h2>
+<p>並列・分散・連合処理について、次のように区別することとする。</p>
+<ol>
+<li>並列: １つのマシン上で複数のCPUで同一データセットで同一処理を行い結果を集約する</li>
+<li>分散: 複数のマシン上で同一データセットで同一処理を行い（並列を組み合わせてもよい）結果を集約する</li>
+<li>連合: 複数のマシン上あるいは複数のCPUを用いて、データセットを共有せず同一処理を行い結果を集約する</li>
+</ol>
+<p>連合学習のユースケースとしては、</p>
+<ol>
+<li>企業Ａ内のデータセットAを企業Ａ内のEdge A, Edge Bを用いて並列処理でモデルAを生成</li>
+<li>企業Ｂ内のデータセットBを企業B内のEdge C, Edge Dを用いて並列処理でモデルBを生成</li>
+<li>連合学習サーバにモデルA, モデルBを集約しモデルCを生成</li>
+<li>異なる連合学習サーバで生成したモデル群を集約し、モデルDを生成（クロスサイロ）</li>
+</ol>
+<p>ということができる理解。</p>
+<p>ただし、4.のケース（複数の連合学習サーバ）を組み合わせることは未対応の模様。</p>
+<p>https://github.com/FedML-AI/FedML/issues/59</p>
+<p>疑問</p>
+<p>モデルは隣接ノードの資源を使って集約されていく？
+連合学習サーバで集約される？
+連合転移学習とは</p>
+<h2 id="index-transfer-learning">転移学習（Transfer learning）</h2>
+<p>別のタスクで学習された知識を転移する機械学習の手法</p>
+<h2 id="index-_7">スケーリングについて</h2>
+<h3 id="index-cross-device">cross-device</h3>
+<p>データの所有者自体の数が多いが、データや計算資源は少ない。
+IOT機器など。</p>
+<h3 id="index-cross-silo">cross-silo（クロスサイロ）</h3>
+<p>データの所有者自体の数は多くないが、データや計算資源は比較的十分にある。
+企業間での連合学習などのケース。</p>
+<h2 id="index-_8">データパーティションについて</h2>
+<h3 id="index-fedavg">集中型（FedAVG）</h3>
+<p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
+セキュリティリスクが高いらしい。</p>
+<h3 id="index-simfl">分散型（SimFL）</h3>
+<p>通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新するあ。</p>
+<p>データの流れは非対称とは？？？</p>
+<h2 id="index-_9">通信について</h2>
+<p>FedMLは、次の通信規格を使用可能。</p>
+<ul>
+<li>MPI</li>
+<li>MQTT</li>
+<li>GRPC</li>
+<li>TRPC</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>規格名</th>
+<th>レイヤー</th>
+<th>スループット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MPI</td>
+<td>TCP/IP</td>
+<td>High</td>
+</tr>
+<tr>
+<td>MQTT</td>
+<td>TCP/IP</td>
+<td>High</td>
+</tr>
+<tr>
+<td>GRPC</td>
+<td>HTTP2</td>
+<td>low</td>
+</tr>
+<tr>
+<td>TRPC</td>
+<td>HTTP?</td>
+<td>low</td>
+</tr>
+</tbody>
+</table>
+<p>通信バックエンドを検討する時、レイヤーとスループットの観点で検討する。</p>
+<p>学習にPyTorchを用い、デフォルトでMPIを通信バックエンドに利用する。</p>
+<p>なお、BytePSというフレームワークは、MPIではなくクラウドベースの模様。</p>
+<p>WSGIの実装であるwerkzeug
+mod_wsgiへのインターフェースとしてWerkzeug</p>
+<p>ASGIは、HTTP Trailersを処理しない。
+gRPCストリームではHTTP Trailersを使用するため、ASGIは対応できない。</p>
+<p>https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Trailer</p>
+<h3 id="index-mpi">MPI</h3>
+<p>Point-to-Pointとグループ通信がサポートされる。
+MPIはOSI参照モデルの役割にあてはめると、役割としては5層（セッション層）以上に対応すると考えられるが、実際の実装ではソケットとTCP（トランスポート層）を使用している。</p>
+<p>MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
+MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
+<h3 id="index-mqtt">MQTT</h3>
+<p>主にIOTなど、低電力でコンパクトである場面でのメッセージングで主流となってきている。</p>
+<h3 id="index-grpc">GRPC</h3>
+<p>HTTP2上に構築されるRPCプロトコル。</p>
+<p>GPRCのサンプルは次で紹介されている。</p>
+<ul>
+<li>https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedavg</li>
+<li>https://github.com/FedML-AI/FedML/tree/master/scripts/aws</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="nv">DEV_NODE</span><span class="o">=</span>fedml-grpc-server
+<span class="nv">LOCAL_PATH</span><span class="o">=</span>/Users/hchaoyan/source/FedML/
+<span class="nv">REMOTE_PATH</span><span class="o">=</span>/home/ec2-user/FedML_gRPC
+<span class="nb">alias</span> ws-sync<span class="o">=</span><span class="s1">&#39;rsync -avP -e ssh --exclude &#39;</span>.idea<span class="s1">&#39; $LOCAL_PATH $DEV_NODE:$REMOTE_PATH&#39;</span>
+ws-sync<span class="p">;</span> fswatch -o <span class="nv">$LOCAL_PATH</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> f<span class="p">;</span> <span class="k">do</span> ws-sync<span class="p">;</span> <span class="k">done</span>
+
+<span class="c1"># fswatch -o 現在のバッチの変更イベントの数を含む単一のメッセージを出力します。</span>
+</code></pre></div>
+
+<p>GRPCのサンプル定義ファイルは次に存在する。</p>
+<ul>
+<li>https://github.com/FedML-AI/FedML/tree/e0c58c539bf1d7ae9911e57d7f223ac19af03902/fedml_core/distributed/communication/gRPC/proto</li>
+</ul>
+<p>FastAPIとGRPCの両方（１度の定義で両対応）をサポートするフレームワーク。スター数が少ないのがネック。</p>
+<p>https://bali-framework.github.io/bali/</p>
+<h3 id="index-trpc">TRPC</h3>
+<p>HTTP2</p>
+<ul>
+<li><a href="https://mpi4py.readthedocs.io/en/stable/index.html">pythonバインディング</a></li>
+</ul>
+<p>インストールにはMPIを実装した共有ライブラリが必要。</p>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libopenmpi-dev
+python3 -m pip install mpi4py
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す</span>
+
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="n">MPI</span><span class="o">.</span><span class="n">Open_port</span><span class="p">()</span>
+
+<span class="c1"># port_name文字列 でエンコードされたネットワークアドレス</span>
+<span class="c1"># =&gt; &#39;4206821377.0:3078334918&#39;</span>
+</code></pre></div>
+
+<h2 id="index-_10">アーキテクチャ</h2>
 <ul>
 <li>fedml_core: 動的計画法に基づく分散コンピューティングに関する通信やスケジューラを提供</li>
 <li>fedml_api: 連合学習アルゴリズムを提供</li>
@@ -438,7 +545,8 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
 <li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
 </ul>
-<h2 id="index-_9">ソースコードの読み方</h2>
+<h2 id="index-_11">ソースコードの読み方</h2>
+<p>https://doc.fedml.ai/user_guide/open_source/algorithm-reference-implementation.html</p>
 <h3 id="index-fedml_experiments">fedml_experiments</h3>
 <p>fedmlのアルゴリズムのテストを提供し、どのようにアルゴリズムを実装するかサンプルを確認できる。</p>
 <ul>
@@ -485,7 +593,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <ul>
 <li>https://github.com/FedML-AI/FedML/tree/master/fedml_api</li>
 </ul>
-<h2 id="index-_10">トポロジ</h2>
+<h2 id="index-_12">トポロジ</h2>
 <p>分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。</p>
 <p>FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさまざまなトポロジ定義がある。</p>
 <ul>
@@ -519,21 +627,63 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>Coordinator: 中央ワーカーでトレーナの管理をする</li>
 <li>Trainer: 中央ワーカー以外のワーカー</li>
 </ul>
-<h2 id="index-mpi">MPI</h2>
-<p>FedMLの並列処理の通信はMPIと呼ばれる通信規格を用いる（別の規格にも対応している）。</p>
-<ul>
-<li>MPI</li>
-<li>MQTT</li>
-<li>GRPC</li>
-<li>TRPC</li>
-</ul>
-<p>MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
-MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
 <p>勾配法</p>
-<h2 id="index-_11"></h2>
+<h2 id="index-_13"></h2>
 <p>ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
-モデルマネージャー</p></section><section class="print-page" id="installation"><h1 id="installation-installation">Installation</h1>
-<h2 id="installation-_1">構成要件</h2>
+モデルマネージャー</p></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
+<h2 id="research-fedml">FedML</h2>
+<p>連合学習における有名なライブラリ</p>
+<ul>
+<li><a href="https://doc.fedml.ai/overview.html">公式ドキュメント</a></li>
+<li><a href="https://github.com/FedML-AI/FedML">リポジトリ</a></li>
+<li><a href="https://github.com/chaoyanghe/Awesome-Federated-Learning">連合学習に関する論文など</a></li>
+</ul>
+<p>複数のノードへのモデル展開など複雑なワークフローを簡略化し、連合学習の実行を支援する</p>
+<h2 id="research-_1">機能</h2>
+<p>次のリンクからGUIから提供している機能を調べた</p>
+<ul>
+<li><a href="http://open.fedml.ai">ライブデモ</a></li>
+<li><a href="https://doc.fedml.ai/user_guide/mlops/mlops_live_demo.html">ライブデモ説明</a></li>
+</ul>
+<h3 id="research-_2">管理機能</h3>
+<ul>
+<li>ユーザ管理</li>
+<li>グループ管理</li>
+<li>プロジェクト管理<ul>
+<li>グループは１つのみアタッチすることができる</li>
+</ul>
+</li>
+<li>計算ノード（エッジ）管理</li>
+<li>構成管理（モデルとハイパーパラメータなど学習に関する設定）</li>
+<li>学習を開始する<ul>
+<li>構成を指定する</li>
+<li>デバイスを指定する</li>
+</ul>
+</li>
+<li>ジョブ管理<ul>
+<li>開始したジョブに名前とタグをつけることができる</li>
+<li>ステータスを確認することができる</li>
+<li>トレーニング結果の視覚化</li>
+<li>Edgeのシステムパフォーマンスの視覚化</li>
+<li>分散ロギング</li>
+<li>client modelとaggregated modelを確認することができる</li>
+<li>client modelとaggregated modelはrunidに紐づいている</li>
+<li>FLServer - ユーザー - Edge Deviceの繋がりが見える</li>
+</ul>
+</li>
+</ul>
+<h3 id="research-_3">実装されていない機能</h3>
+<ul>
+<li>任意のタイミングで自動実行するジョブスケジューラは特に見当たらない</li>
+<li>1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。</li>
+</ul></section><section class="print-page" id="installation"><h1 id="installation-installation">Installation</h1>
+<h2 id="installation-_1">システム構成</h2>
+<ul>
+<li>FLServer: 連合学習管理用サーバ</li>
+<li>FLClient(Agent): 連合学習を行うEdge群</li>
+<li>MLOps(platform): FLServerと通信を行うWeb GUI。<a href="https://open.fedml.ai">ライブデモ</a></li>
+</ul>
+<h2 id="installation-_2">構成要件</h2>
 <p>https://doc.fedml.ai/user_guide/open_source/installation.html</p>
 <ul>
 <li>ヘッドノード（ログイン・テスト用）が必要</li>
@@ -551,14 +701,14 @@ MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
 <p>https://mpi4py.readthedocs.io/en/stable/</p>
 </li>
 </ul>
-<h3 id="installation-_2">疑問</h3>
+<h3 id="installation-_3">疑問</h3>
 <p>連合学習ではデータ共有が不要なのになぜNFSが必要か？</p>
-<h2 id="installation-_3">インフラ構築</h2>
+<h2 id="installation-_4">インフラ構築</h2>
 <h3 id="installation-nfs">NFS（ネットワークファイルシステム）構成</h3>
 <div class="highlight"><pre><span></span><code>秘密鍵公開鍵を置いてsshログインできるようにする
 </code></pre></div>
 
-<h2 id="installation-_4">ソフトウェア構築</h2>
+<h2 id="installation-_5">ソフトウェア構築</h2>
 <div class="highlight"><pre><span></span><code>wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
 bash Miniconda3-py38_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
 </code></pre></div>
@@ -577,7 +727,10 @@ cd FedML/fedml_experiments/distributed
 pip install -r requirements.txt
 </code></pre></div>
 
-<h2 id="installation-setup-servergui">Setup Server(GUI)</h2>
+<h2 id="installation-setup-mlopsplatform">Setup MLOps(platform)</h2>
+<p>Web GUIは提供されていないと思われる。
+代わりにhttps://docs.wandb.ai/を推奨しているように思える。</p>
+<h2 id="installation-setup-server">Setup Server</h2>
 <p>これに従えばできるっぽい？</p>
 <p>python3.7を対象としているので書き換える</p>
 <ul>
@@ -619,7 +772,16 @@ cd fedml_edge_deployment
 
 # start to pull docker image and run the FL Client Agent
 ./run.sh $account_id
-</code></pre></div></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
+</code></pre></div>
+
+<h2 id="installation-setup-iot">Setup IOT</h2>
+<p>IOTの場合は、server_ipを指定する。
+EDGE型でserver_ipは指定できるのか？</p>
+<div class="highlight"><pre><span></span><code>python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid &#39;0&#39;
+</code></pre></div>
+
+<p>MPIは何に使うもの
+-&gt;</p></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
 <p>pytorchなどで出てくるキーワードをメモしておく</p>
 <h2 id="glossary-ddpdistributeddataparallel">DDP(DistributedDataParallel)</h2>
 <p>pytorchなどで出てくる</p>
@@ -632,7 +794,11 @@ cd fedml_edge_deployment
 MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格納されており、無料でダウンロードできる。</p>
 <ul>
 <li><a href="http://yann.lecun.com/exdb/mnist/">リンク</a></li>
-</ul></section></div>
+</ul>
+<h2 id="glossary-_2">サイロ</h2>
+<p>システム、業務プロセス、データなどが、他部門と連携を持たず独立してしまう状態。
+連合学習は、サイロとなっているデータを取り扱う。</p>
+<p>FEDN</p></section></div>
                 
               
 
