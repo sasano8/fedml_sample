@@ -58,58 +58,35 @@ cd FedML/fedml_experiments/distributed
 pip install -r requirements.txt
 ```
 
+## Setup Server(GUI)
 
-## バッチ実行
+
+
+## Setup Edge
+
+1. install client agent and login
+2. invite collaborators and group management
+3. project management
+
+https://doc.fedml.ai/user_guide/mlops/mlops_workflow_step_by_step.html
+
+
+事前にアカウントを登録しaccount_idを取得します
 
 ```
-GPU=$1
+https://open.fedml.ai/#/login?isRegister=true
+```
 
-DATASET=$2
+dockerをインストールします
 
-# homo; hetero
-DISTRIBUTION=$3
+```
+...
+```
 
-ROUND=$4
+```
+git clone https://github.com/FedML-AI/fedml_edge_deployment
+cd fedml_edge_deployment
 
-EPOCH_CLIENT=$5
-
-EPOCH_SERVER=$6
-
-OPTM=$7
-
-LR=$8
-
-TRAIN_OR_NOT=$9
-
-DISTILL_ON_SERVER=$10
-
-CLIENT_MODEL=$11
-
-NAME=$12
-
-DATA_DIR=$13
-
-BATCH_SIZE=$14
-
-hostname > mpi_host_file
-
-mpirun -np 9 -hostfile ./mpi_host_file python3 ./main_fedgkt.py \
---gpu $GPU \
---dataset $DATASET \
---data_dir $DATA_DIR \
---partition_method $DISTRIBUTION  \
---client_number 8 \
---client_model $CLIENT_MODEL \
---comm_round $ROUND \
---epochs_client $EPOCH_CLIENT \
---epochs_server $EPOCH_SERVER \
---batch_size $BATCH_SIZE \
---optimizer $OPTM \
---lr $LR \
---weight_init_model resnet32 \
---whether_training_on_client $TRAIN_OR_NOT \
---whether_distill_on_the_server $DISTILL_ON_SERVER \
---running_name $NAME \
---multi_gpu_server
-
+# start to pull docker image and run the FL Client Agent
+./run.sh $account_id
 ```
