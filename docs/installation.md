@@ -24,7 +24,7 @@ https://doc.fedml.ai/user_guide/open_source/installation.html
 連合学習ではデータ共有が不要なのになぜNFSが必要か？
 
 
-## 環境構築
+## インフラ構築
 
 ### NFS（ネットワークファイルシステム）構成
 
@@ -32,6 +32,31 @@ https://doc.fedml.ai/user_guide/open_source/installation.html
 秘密鍵公開鍵を置いてsshログインできるようにする
 ```
 
+
+## ソフトウェア構築
+
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
+bash Miniconda3-py38_4.11.0-Linux-x86_64.sh
+```
+
+```
+conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
+```
+
+```
+conda install -c anaconda mpi4py
+```
+
+```
+pip install --upgrade wandb
+```
+
+```
+git clone https://github.com/FedML-AI/FedML.git
+cd FedML/fedml_experiments/distributed
+pip install -r requirements.txt
+```
 
 
 ## バッチ実行
