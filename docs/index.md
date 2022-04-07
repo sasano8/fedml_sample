@@ -54,7 +54,7 @@
 - 任意のタイミングで自動実行するジョブスケジューラは特に見当たらない
 - 1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。
 
-## 学習フロー
+## 連合学習フロー
 
 モデルは次のフローで改善されていく
 
@@ -81,6 +81,39 @@
 - fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート
 - fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート
 
+
+## ソースコードの読み方
+
+
+### fedml_experiments
+
+fedmlのアルゴリズムのテストを提供し、どのようにアルゴリズムを実装するかサンプルを確認できる。
+
+- https://github.com/FedML-AI/FedML/tree/master/fedml_experiments
+
+
+|  タイプ/リンク |  概要  | 論文 |
+| ---- | ---- | ---- |
+|  [centralized/fedgkt](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/centralized)  |  単体プロセスでの学習  |  |
+|  [standalone/decentralized](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/standalone/decentralized)  |  片側信頼ソーシャルネットワークを介した中央サーバーの自由連合学習（分散型FL）  | [リンク](https://arxiv.org/pdf/1910.04956) |
+|  [distributed/fedgkt](https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedgkt)  |  大規模エッジ群でのCNN連合学習  |  |
+
+
+### fedml_api
+
+連合学習アルゴリズムを提供
+
+- https://github.com/FedML-AI/FedML/tree/master/fedml_api
+
+
+### fedml_core
+
+動的計画法に基づく分散コンピューティングに関する通信やスケジューラを提供
+
+- https://github.com/FedML-AI/FedML/tree/master/fedml_api
+
+
+
 ## トポロジ
 
 分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。
@@ -92,9 +125,25 @@ FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさま
 - リング
 - フルメッシュ
 - パーシャルメッシュ
+- Centralized
+- Hierarchical
+- Decentralized
+- Vertical
+- Split
+
 
 - symmetry（左右対称）
 - asymmetry（左右非対称・非対称トポロジ）
+
+
+## キーワード
+
+pytorchなどで出てくるキーワードをメモしておく
+
+- DDP(DistributedDataParallel)
+- optim（最適化）: 任意の方法で効率的にパラメータを更新する
+
+学習率（lr）
 
 ## fedml_core
 
@@ -110,4 +159,34 @@ FedML-coreは、FLアルゴリズムのトレーニングまたは調整に参�
 
 - Coordinator: 中央ワーカーでトレーナの管理をする
 - Trainer: 中央ワーカー以外のワーカー
+
+## MPI
+
+FedMLの並列処理の通信はMPIと呼ばれる通信規格を用いる（別の規格にも対応している）。
+
+- MPI
+- MQTT
+- GRPC
+- TRPC
+
+
+MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
+MPI_Comm_size: 実行に参加しているプロセス数を取得
+
+
+
+勾配法
+
+
+
+##
+
+ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
+モデルマネージャー
+
+
+
+
+
+
 
