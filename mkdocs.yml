@@ -19,7 +19,7 @@ theme:
 
 repo_name: Federated Learning
 repo_url: https://github.com/sasano8/fedml_sample
-# edit_uri: ""
+edit_uri: edit/main/docs/
 
 plugins:
   - search
