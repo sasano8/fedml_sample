@@ -269,8 +269,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../background/" class="md-nav__link">
-        技術経歴
+      <a href="../glossary/" class="md-nav__link">
+        用語集
       </a>
     </li>
   
@@ -461,12 +461,17 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <tr>
 <td><a href="https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/standalone/decentralized">standalone/decentralized</a></td>
 <td>片側信頼ソーシャルネットワークを介した中央サーバーの自由連合学習（分散型FL）</td>
-<td><a href="https://arxiv.org/pdf/1910.04956">リンク</a></td>
+<td><a href="../pdf/1910.04956.pdf">リンク</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedgkt">distributed/fedgkt</a></td>
 <td>大規模エッジ群でのCNN連合学習</td>
 <td></td>
+</tr>
+<tr>
+<td>fedavg</td>
+<td>エッジデバイスが中央サーバのプライバシー保護を信頼していない場合に選択される学習パラダイム</td>
+<td><a href="../pdf/2104.11375.pdf">リンク</a></td>
 </tr>
 </tbody>
 </table>
@@ -501,13 +506,6 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 </li>
 <li>asymmetry（左右非対称・非対称トポロジ）</li>
 </ul>
-<h2 id="index-_11">キーワード</h2>
-<p>pytorchなどで出てくるキーワードをメモしておく</p>
-<ul>
-<li>DDP(DistributedDataParallel)</li>
-<li>optim（最適化）: 任意の方法で効率的にパラメータを更新する</li>
-</ul>
-<p>学習率（lr）</p>
 <h2 id="index-fedml_core_1">fedml_core</h2>
 <p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。</p>
 <ol>
@@ -532,7 +530,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <p>MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
 MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
 <p>勾配法</p>
-<h2 id="index-_12"></h2>
+<h2 id="index-_11"></h2>
 <p>ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
 モデルマネージャー</p></section><section class="print-page" id="installation"><h1 id="installation-installation">Installation</h1>
 <h2 id="installation-_1">構成要件</h2>
@@ -580,6 +578,27 @@ pip install -r requirements.txt
 </code></pre></div>
 
 <h2 id="installation-setup-servergui">Setup Server(GUI)</h2>
+<p>これに従えばできるっぽい？</p>
+<p>python3.7を対象としているので書き換える</p>
+<ul>
+<li>
+<p><a href="https://github.com/FedML-AI/FedML/blob/master/CI-install.sh">CI-install.sh</a></p>
+<ul>
+<li>install miniconda</li>
+<li>install dependencies</li>
+<li>download sample data</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/FedML-AI/FedML/blob/master/CI-script-fedavg.sh">CI-script-fedavg.sh</a></p>
+<ul>
+<li>run <a href="https://github.com/FedML-AI/FedML/blob/master/fedml_experiments/standalone/fedavg/run_fedavg_standalone_pytorch.sh">run_fedavg_standalone_pytorch.sh</a><ul>
+<li>fedavg</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="installation-setup-edge">Setup Edge</h2>
 <ol>
 <li>install client agent and login</li>
@@ -600,264 +619,19 @@ cd fedml_edge_deployment
 
 # start to pull docker image and run the FL Client Agent
 ./run.sh $account_id
-</code></pre></div></section><section class="print-page" id="background"><h1 id="background-_1">技術経歴</h1>
-<h2 id="background-_2">コレクション処理フレームワークの開発</h2>
-<p>ETLなどデータの前処理に活用できるPython用のコレクション処理フレームワーク（OSS）を開発した。
-非同期なイテレーションにも対しても活用でき、プロトタイピング開発に活用可能。</p>
+</code></pre></div></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
+<p>pytorchなどで出てくるキーワードをメモしておく</p>
+<h2 id="glossary-ddpdistributeddataparallel">DDP(DistributedDataParallel)</h2>
+<p>pytorchなどで出てくる</p>
+<h2 id="glossary-optim">optim（最適化）</h2>
+<p>pytorchなどで出てくる。
+任意の方法で効率的にパラメータを更新する。</p>
+<h2 id="glossary-lr">学習率（lr）</h2>
+<h2 id="glossary-mnist">MNIST</h2>
+<p>データセットの名前である。
+MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格納されており、無料でダウンロードできる。</p>
 <ul>
-<li><a href="https://sasano8.github.io/pnq/">PNQ</a></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2021年7月 ~ 2021年9月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>設計～テスト</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Python</li>
-<li>pytest</li>
-<li>GitHub Actions</li>
-</ul>
-<h2 id="background-_3">データ収集基盤の構築</h2>
-<p>コンサルティングファーム様へ、データ収集基盤を構築し業務支援を行った。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2019年3月 ~ 2020年6月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>要件定義～運用</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>AWS</li>
-<li>Python（Django）</li>
-<li>SQL（PostgreSQL）</li>
-<li>ElasicSearch</li>
-<li>ETL（Selenium/Beautiful Soup/SQL）</li>
-</ul>
-<div style="page-break-before:always" />
-
-<h2 id="background-_4">代理店手数料試算ツールの実装</h2>
-<p>保険代理店様向けの代理店手数料の支払見込み算出ツールを改修した。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2018年10月 ~ 2019年2月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>実装～テスト</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>VBA（Excelのマトリクスに数年間の支払見込みを表示する機能を実装）</li>
-<li>SQL（SQLServer）</li>
-<li>C# ASP.net</li>
-</ul>
-<h2 id="background-tagetik">予算管理システム（Tagetik）の導入</h2>
-<p>生命保険会社様へ予算管理（オンライン分析）システムの導入を行った。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2018年6月 ~ 2018年9月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>要件定義～テスト</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Tagetik構築</li>
-<li>SQLServer構築</li>
-<li>JBOSS</li>
-<li>Excel 分析画面実装（オンライン分析用Excelプラグイン）</li>
-<li>予算実績の取り込み（ETL・SQL）</li>
-</ul>
-<h2 id="background-oracle-essbase">業績管理システム（Oracle Essbase）のバージョンアップ影響調査</h2>
-<p>証券取引所様向けにOracle Essbaseのバージョンアップによる影響を調査した。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2018年2月 ~ 2018年5月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>影響調査</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Oracle Essbase Smart View（オンライン分析用Excelプラグイン）</li>
-</ul>
-<h2 id="background-_5">サーバパラメータ管理ツールの開発</h2>
-<p>金融会社様の大規模システムリプレースに伴う、サーバ構築に必要なパラメータを管理する支援ツールを開発した。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2016年6月 ~ 2017年7月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>要件定義～運用</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>VBA</li>
-<li>SQL（MySQL）</li>
-</ul>
-<h2 id="background-e-learning">e-Learningシステムのテスト支援</h2>
-<p>e-Learningシステムのテスト支援を行った。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2016年4月 ~ 2016年5月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>テスト</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>PHP（Phalcon）</li>
-<li>SQL（PostgreSQL）</li>
-</ul>
-<h2 id="background-_6">複合機のテスト支援</h2>
-<p>複合機製造メーカー様のテスト支援（組み込みOS上のREST API・実機テスト）を行った。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2016年1月 ~ 2016年3月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>テスト</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>C言語</li>
-<li>NetBSD</li>
-</ul>
-<h2 id="background-_7">保険料試算ツールの開発</h2>
-<p>保険会社様の保険料試算ツールを開発・保守した。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2014年2月 ~ 2015年6月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>要件定義～保守</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>VBA</li>
-<li>Excel Diffツール開発</li>
-</ul>
-<h2 id="background-crm">CRM（顧客管理システム）の開発</h2>
-<p>ERPパッケージのカスタマーサポート業務に従事しながら、お客様に導入されているERPパッケージのバージョンを管理するツールを開発した。</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>期間</td>
-<td>2006年1月 ~ 2009年6月</td>
-</tr>
-<tr>
-<td>フェーズ</td>
-<td>開発～保守</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>VBA</li>
-<li>SQL</li>
-</ul>
-<h1 id="background-_8">最終学歴</h1>
-<ul>
-<li>帝京平成大学　中退</li>
-<li>江戸川高等学校　卒業</li>
+<li><a href="http://yann.lecun.com/exdb/mnist/">リンク</a></li>
 </ul></section></div>
                 
               

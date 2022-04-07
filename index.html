@@ -374,13 +374,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    キーワード
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#fedml_core_1" class="md-nav__link">
     fedml_core
   </a>
@@ -402,7 +395,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     
   </a>
   
@@ -439,8 +432,8 @@
   
   
     <li class="md-nav__item">
-      <a href="background/" class="md-nav__link">
-        技術経歴
+      <a href="glossary/" class="md-nav__link">
+        用語集
       </a>
     </li>
   
@@ -590,13 +583,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    キーワード
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#fedml_core_1" class="md-nav__link">
     fedml_core
   </a>
@@ -618,7 +604,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
+  <a href="#_11" class="md-nav__link">
     
   </a>
   
@@ -755,12 +741,17 @@
 <tr>
 <td><a href="https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/standalone/decentralized">standalone/decentralized</a></td>
 <td>片側信頼ソーシャルネットワークを介した中央サーバーの自由連合学習（分散型FL）</td>
-<td><a href="https://arxiv.org/pdf/1910.04956">リンク</a></td>
+<td><a href="pdf/1910.04956.pdf">リンク</a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedgkt">distributed/fedgkt</a></td>
 <td>大規模エッジ群でのCNN連合学習</td>
 <td></td>
+</tr>
+<tr>
+<td>fedavg</td>
+<td>エッジデバイスが中央サーバのプライバシー保護を信頼していない場合に選択される学習パラダイム</td>
+<td><a href="pdf/2104.11375.pdf">リンク</a></td>
 </tr>
 </tbody>
 </table>
@@ -795,13 +786,6 @@
 </li>
 <li>asymmetry（左右非対称・非対称トポロジ）</li>
 </ul>
-<h2 id="_11">キーワード</h2>
-<p>pytorchなどで出てくるキーワードをメモしておく</p>
-<ul>
-<li>DDP(DistributedDataParallel)</li>
-<li>optim（最適化）: 任意の方法で効率的にパラメータを更新する</li>
-</ul>
-<p>学習率（lr）</p>
 <h2 id="fedml_core_1">fedml_core</h2>
 <p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。</p>
 <ol>
@@ -826,7 +810,7 @@
 <p>MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
 MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
 <p>勾配法</p>
-<h2 id="_12"></h2>
+<h2 id="_11"></h2>
 <p>ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
 モデルマネージャー</p>
                 

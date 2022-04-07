@@ -369,8 +369,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../background/" class="md-nav__link">
-        技術経歴
+      <a href="../glossary/" class="md-nav__link">
+        用語集
       </a>
     </li>
   
@@ -555,6 +555,27 @@ pip install -r requirements.txt
 </code></pre></div>
 
 <h2 id="setup-servergui">Setup Server(GUI)</h2>
+<p>これに従えばできるっぽい？</p>
+<p>python3.7を対象としているので書き換える</p>
+<ul>
+<li>
+<p><a href="https://github.com/FedML-AI/FedML/blob/master/CI-install.sh">CI-install.sh</a></p>
+<ul>
+<li>install miniconda</li>
+<li>install dependencies</li>
+<li>download sample data</li>
+</ul>
+</li>
+<li>
+<p><a href="https://github.com/FedML-AI/FedML/blob/master/CI-script-fedavg.sh">CI-script-fedavg.sh</a></p>
+<ul>
+<li>run <a href="https://github.com/FedML-AI/FedML/blob/master/fedml_experiments/standalone/fedavg/run_fedavg_standalone_pytorch.sh">run_fedavg_standalone_pytorch.sh</a><ul>
+<li>fedavg</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="setup-edge">Setup Edge</h2>
 <ol>
 <li>install client agent and login</li>
@@ -612,13 +633,13 @@ cd fedml_edge_deployment
       
       
         
-        <a href="../background/" class="md-footer__link md-footer__link--next" aria-label="次: 技術経歴" rel="next">
+        <a href="../glossary/" class="md-footer__link md-footer__link--next" aria-label="次: 用語集" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 次
               </span>
-              技術経歴
+              用語集
             </div>
           </div>
           <div class="md-footer__button md-icon">
