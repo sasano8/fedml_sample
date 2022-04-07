@@ -25,16 +25,16 @@ jobs:
       - name: check python version
         run: python --version
 
-      - name: Install dependencies
-        run: |
-          wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
-          bash Miniconda3-py38_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
-          conda install pytorch=1.7.1 torchvision cudatoolkit=11.0 -c pytorch
-          # pytorchのバージョンを指定しないとglibcのバージョンが衝突してしまう（cudatoolkitが公式指定のバージョンと異なるが大丈夫か？）
-          # https://github.com/NVIDIA/MinkowskiEngine/issues/354
-          # conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
-          conda install -c anaconda mpi4py
-          pip install --upgrade wandb
-          git clone https://github.com/FedML-AI/FedML.git
-          cd FedML/fedml_experiments/distributed
-          pip install -r requirements.txt
+      # - name: Install dependencies
+      #   run: |
+      #     wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
+      #     bash Miniconda3-py38_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
+      #     conda install pytorch=1.7.1 torchvision cudatoolkit=11.0 -c pytorch
+      #     # pytorchのバージョンを指定しないとglibcのバージョンが衝突してしまう（cudatoolkitが公式指定のバージョンと異なるが大丈夫か？）
+      #     # https://github.com/NVIDIA/MinkowskiEngine/issues/354
+      #     # conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
+      #     conda install -c anaconda mpi4py
+      #     pip install --upgrade wandb
+      #     git clone https://github.com/FedML-AI/FedML.git
+      #     cd FedML/fedml_experiments/distributed
+      #     pip install -r requirements.txt
