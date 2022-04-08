@@ -42,7 +42,7 @@
     
       <link rel="stylesheet" href="../css/custom.css">
     
-      <link rel="stylesheet" href="https://unpkg.com/mermaid@9.0.0/dist/mermaid.css">
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
     
     
       
@@ -454,14 +454,12 @@ IOT機器など。</p>
 <li>Hierarchical</li>
 <li>Decentralized</li>
 <li>Vertical</li>
-<li>
-<p>Split</p>
-</li>
-<li>
-<p>symmetry（左右対称）</p>
-</li>
-<li>asymmetry（左右非対称・非対称トポロジ）</li>
+<li>Split</li>
 </ul>
+<h3 id="index-symmetry">symmetry（左右対称）</h3>
+<p>分散型（SimFLなど）では通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新することができる</p>
+<h3 id="index-asymmetry">asymmetry（左右非対称・非対称トポロジ）</h3>
+<p>集中型（FedAvgなど）は、データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。</p>
 <h2 id="index-_10">データパーティションについて</h2>
 <h3 id="index-fedavg">集中型（FedAVG）</h3>
 <p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
@@ -486,7 +484,19 @@ IOT機器など。</p>
 <h3 id="index-dt">DT</h3>
 <h3 id="index-lm">LM</h3>
 <h2 id="index-_15">アルゴリズム</h2>
-<p><img alt="代替テキスト" src="../pdf/algorithms.png" /></p></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
+<p><img alt="代替テキスト" src="../pdf/algorithms.png" /></p>
+<h2 id="index-_16">更新タイミング・プッシュ型・プル型</h2>
+<p>グローバルパラメータをいつ更新するのか？
+ローカルへの展開はどのタイミングで行われるか。</p>
+<p>プル型</p>
+<ol>
+<li>学習開始時に、最新のモデルをダウンロードし、学習終了後に、ローカルで更新されたモデルをプッシュする</li>
+<li>または、1.の後に最新のモデルがダウンロードされるまで待機する</li>
+</ol>
+<p>プッシュ型</p>
+<ol>
+<li>グローバルパラメータが更新されたら、自動的にローカルに展開（NFSがあると、1度の展開で済み効率的）</li>
+</ol></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
 <h2 id="research-oss">OSS</h2>
 <ul>
 <li><a href="https://github.com/FedML-AI/FedML">FedML</a>: star 1.1k</li>
@@ -875,11 +885,17 @@ cd fedml_edge_deployment
 EDGE型でserver_ipは指定できるのか？</p>
 <div class="highlight"><pre><span></span><code>python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid &#39;0&#39;
 </code></pre></div>
-<pre class="mermaid"><code>graph TD
-    A--&gt;B;
-    A--&gt;C;
-    B--&gt;D;
-    C--&gt;D;</code></pre></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
+<div class="mermaid">graph BT
+    Central_Domain_A;
+    Platform --- Central_Domain_A;
+    Domain_B --- Platform;
+    Domain_C --- Platform;
+    Edge_A --- Domain_B;
+    Edge_B --- Domain_B;
+    Edge_C --- Domain_C;
+    Edge_D --- Domain_C;
+    Edge_E --- Platform;
+    Edge_F --- Platform;</div></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
 <p>pytorchなどで出てくるキーワードをメモしておく</p>
 <h2 id="glossary-ddpdistributeddataparallel">DDP(DistributedDataParallel)</h2>
 <p>pytorchなどで出てくる</p>
@@ -950,7 +966,7 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
       
         <script src="../js/print-site.js"></script>
       
-        <script src="https://unpkg.com/mermaid@9.0.0/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
       
     
   </body>

@@ -42,7 +42,7 @@
     
       <link rel="stylesheet" href="css/custom.css">
     
-      <link rel="stylesheet" href="https://unpkg.com/mermaid@9.0.0/dist/mermaid.css">
+      <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
     
     
       
@@ -353,6 +353,26 @@
     トポロジ
   </a>
   
+    <nav class="md-nav" aria-label="トポロジ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symmetry" class="md-nav__link">
+    symmetry（左右対称）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asymmetry" class="md-nav__link">
+    asymmetry（左右非対称・非対称トポロジ）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -480,6 +500,13 @@
         <li class="md-nav__item">
   <a href="#_15" class="md-nav__link">
     アルゴリズム
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    更新タイミング・プッシュ型・プル型
   </a>
   
 </li>
@@ -658,6 +685,26 @@
     トポロジ
   </a>
   
+    <nav class="md-nav" aria-label="トポロジ">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symmetry" class="md-nav__link">
+    symmetry（左右対称）
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#asymmetry" class="md-nav__link">
+    asymmetry（左右非対称・非対称トポロジ）
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -789,6 +836,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    更新タイミング・プッシュ型・プル型
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -896,14 +950,12 @@ IOT機器など。</p>
 <li>Hierarchical</li>
 <li>Decentralized</li>
 <li>Vertical</li>
-<li>
-<p>Split</p>
-</li>
-<li>
-<p>symmetry（左右対称）</p>
-</li>
-<li>asymmetry（左右非対称・非対称トポロジ）</li>
+<li>Split</li>
 </ul>
+<h3 id="symmetry">symmetry（左右対称）</h3>
+<p>分散型（SimFLなど）では通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新することができる</p>
+<h3 id="asymmetry">asymmetry（左右非対称・非対称トポロジ）</h3>
+<p>集中型（FedAvgなど）は、データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。</p>
 <h2 id="_10">データパーティションについて</h2>
 <h3 id="fedavg">集中型（FedAVG）</h3>
 <p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
@@ -929,6 +981,18 @@ IOT機器など。</p>
 <h3 id="lm">LM</h3>
 <h2 id="_15">アルゴリズム</h2>
 <p><img alt="代替テキスト" src="pdf/algorithms.png" /></p>
+<h2 id="_16">更新タイミング・プッシュ型・プル型</h2>
+<p>グローバルパラメータをいつ更新するのか？
+ローカルへの展開はどのタイミングで行われるか。</p>
+<p>プル型</p>
+<ol>
+<li>学習開始時に、最新のモデルをダウンロードし、学習終了後に、ローカルで更新されたモデルをプッシュする</li>
+<li>または、1.の後に最新のモデルがダウンロードされるまで待機する</li>
+</ol>
+<p>プッシュ型</p>
+<ol>
+<li>グローバルパラメータが更新されたら、自動的にローカルに展開（NFSがあると、1度の展開で済み効率的）</li>
+</ol>
                 
               
 
@@ -994,7 +1058,7 @@ IOT機器など。</p>
       
         <script src="js/print-site.js"></script>
       
-        <script src="https://unpkg.com/mermaid@9.0.0/dist/mermaid.min.js"></script>
+        <script src="https://unpkg.com/mermaid@8.0.0/dist/mermaid.min.js"></script>
       
     
   </body>
