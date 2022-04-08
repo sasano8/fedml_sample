@@ -597,26 +597,20 @@
 <h3 id="nfs">NFS（ネットワークファイルシステム）構成</h3>
 <div class="highlight"><pre><span></span><code>秘密鍵公開鍵を置いてsshログインできるようにする
 </code></pre></div>
-
 <h2 id="_5">ソフトウェア構築</h2>
 <div class="highlight"><pre><span></span><code>wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh
 bash Miniconda3-py38_4.11.0-Linux-x86_64.sh -b -p $HOME/miniconda
 </code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="n">conda</span><span class="w"> </span><span class="n">install</span><span class="w"> </span><span class="n">pytorch</span><span class="w"> </span><span class="n">torchvision</span><span class="w"> </span><span class="n">cudatoolkit</span><span class="o">=</span><span class="mf">10.2</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="n">pytorch</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code>conda install pytorch torchvision cudatoolkit=10.2 -c pytorch
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code>conda install -c anaconda mpi4py
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code>pip install --upgrade wandb
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code>git clone https://github.com/FedML-AI/FedML.git
 cd FedML/fedml_experiments/distributed
 pip install -r requirements.txt
 </code></pre></div>
-
 <h2 id="setup-mlopsplatform">Setup MLOps(platform)</h2>
 <p>Web GUIは提供されていないと思われる。
 代わりにhttps://docs.wandb.ai/を推奨しているように思える。</p>
@@ -652,30 +646,25 @@ pip install -r requirements.txt
 <p>事前にアカウントを登録しaccount_idを取得します</p>
 <div class="highlight"><pre><span></span><code>https://open.fedml.ai/#/login?isRegister=true
 </code></pre></div>
-
 <p>dockerをインストールします</p>
 <div class="highlight"><pre><span></span><code>...
 </code></pre></div>
-
 <div class="highlight"><pre><span></span><code>git clone https://github.com/FedML-AI/fedml_edge_deployment
 cd fedml_edge_deployment
 
 # start to pull docker image and run the FL Client Agent
 ./run.sh $account_id
 </code></pre></div>
-
 <h2 id="setup-iot">Setup IOT</h2>
 <p>IOTの場合は、server_ipを指定する。
 EDGE型でserver_ipは指定できるのか？</p>
 <div class="highlight"><pre><span></span><code>python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid &#39;0&#39;
 </code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="nf">graph</span><span class="w"> </span><span class="n">TD</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">A</span><span class="o">--&gt;</span><span class="n">B</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">A</span><span class="o">--&gt;</span><span class="n">C</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">B</span><span class="o">--&gt;</span><span class="n">D</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">C</span><span class="o">--&gt;</span><span class="n">D</span><span class="p">;</span><span class="w"></span>
-</code></pre></div>
+<pre class="mermaid"><code>graph TD;
+    A--&gt;B;
+    A--&gt;C;
+    B--&gt;D;
+    C--&gt;D;</code></pre>
                 
               
 

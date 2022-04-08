@@ -932,16 +932,14 @@ MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
 <div class="highlight"><pre><span></span><code>sudo apt-get install libopenmpi-dev
 python3 -m pip install mpi4py
 </code></pre></div>
+<div class="highlight"><pre><span></span><code># mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す
 
-<div class="highlight"><pre><span></span><code><span class="c1"># mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す</span>
+from mpi4py import MPI
+MPI.Open_port()
 
-<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
-<span class="n">MPI</span><span class="o">.</span><span class="n">Open_port</span><span class="p">()</span>
-
-<span class="c1"># port_name文字列 でエンコードされたネットワークアドレス</span>
-<span class="c1"># =&gt; &#39;4206821377.0:3078334918&#39;</span>
+# port_name文字列 でエンコードされたネットワークアドレス
+# =&gt; &#39;4206821377.0:3078334918&#39;
 </code></pre></div>
-
 <h3 id="mqtt">MQTT</h3>
 <p>主にIOTなど、低電力でコンパクトである場面でのメッセージングで主流となってきている。</p>
 <h3 id="grpc">GRPC</h3>
@@ -951,16 +949,15 @@ python3 -m pip install mpi4py
 <li>https://github.com/FedML-AI/FedML/tree/master/fedml_experiments/distributed/fedavg</li>
 <li>https://github.com/FedML-AI/FedML/tree/master/scripts/aws</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
-<span class="nv">DEV_NODE</span><span class="o">=</span>fedml-grpc-server
-<span class="nv">LOCAL_PATH</span><span class="o">=</span>/Users/hchaoyan/source/FedML/
-<span class="nv">REMOTE_PATH</span><span class="o">=</span>/home/ec2-user/FedML_gRPC
-<span class="nb">alias</span> ws-sync<span class="o">=</span><span class="s1">&#39;rsync -avP -e ssh --exclude &#39;</span>.idea<span class="s1">&#39; $LOCAL_PATH $DEV_NODE:$REMOTE_PATH&#39;</span>
-ws-sync<span class="p">;</span> fswatch -o <span class="nv">$LOCAL_PATH</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> f<span class="p">;</span> <span class="k">do</span> ws-sync<span class="p">;</span> <span class="k">done</span>
+<div class="highlight"><pre><span></span><code>#!/bin/bash
+DEV_NODE=fedml-grpc-server
+LOCAL_PATH=/Users/hchaoyan/source/FedML/
+REMOTE_PATH=/home/ec2-user/FedML_gRPC
+alias ws-sync=&#39;rsync -avP -e ssh --exclude &#39;.idea&#39; $LOCAL_PATH $DEV_NODE:$REMOTE_PATH&#39;
+ws-sync; fswatch -o $LOCAL_PATH | while read f; do ws-sync; done
 
-<span class="c1"># fswatch -o 現在のバッチの変更イベントの数を含む単一のメッセージを出力します。</span>
+# fswatch -o 現在のバッチの変更イベントの数を含む単一のメッセージを出力します。
 </code></pre></div>
-
 <p>GRPCのサンプル定義ファイルは次に存在する。</p>
 <ul>
 <li>https://github.com/FedML-AI/FedML/tree/e0c58c539bf1d7ae9911e57d7f223ac19af03902/fedml_core/distributed/communication/gRPC/proto</li>
