@@ -5,22 +5,24 @@
 - [FedML](https://github.com/FedML-AI/FedML): star 1.1k
 - [FATE](https://github.com/FederatedAI/FATE): star 4.1k
 - [TensorFlow Federated](https://github.com/tensorflow/federated): star 1.8k
-- [PySyft](https://github.com/OpenMined/PySyft): star 8k
+- [PySyft](https://github.com/OpenMined/PySyft): star 8k トロポジ
 - [PaddleFL](https://github.com/PaddlePaddle/PaddleFL): star 0.3k
 - [fedn](https://github.com/scaleoutsystems/fedn): star 59
+- [byteps](https://github.com/bytedance/byteps): star 3k
 
 ## 比較
 
 ![代替テキスト](./pdf/comparison.png)
 
-|  タイプ/リンク |  クロスデバイス  | クロスサイロ |
-| ---- | ---- | ---- |
-| FedML | true | false? |
-| FATE | true | ? |
-| TensorFlow Federated | true | ? |
-| PySyft | true | ? |
-| PaddleFL | true | ? |
-| fedn | true | ? |
+|  フレームワーク |  クロスデバイス  | クロスサイロ | 通信 | ライセンス | CPU利用 |
+| ---- | ---- | ---- | ---- | ---- | ---- |
+| FedML | true | false? | MPI/HTTP2(GRPC) + SSH |  | true |
+| FATE | true | ? |  |  |  |
+| TensorFlow Federated | true | ? |  |  |  |
+| PySyft | true | ? | HTTP(Websocket) |  |  |
+| PaddleFL | true | ? |  |  |  |
+| fedn | true | ? |  |  |  |
+| byteps | true | ? | HTTP |  | false |
 
 
 ## FedML
@@ -98,7 +100,7 @@ fedmlのアルゴリズムのテストを提供し、どのようにアルゴリ
 
 ### fedml_api
 
-連合学習アルゴリズムを提供
+連合学習アルゴリズムの実装を提供
 
 - https://github.com/FedML-AI/FedML/tree/master/fedml_api
 
@@ -110,10 +112,7 @@ fedmlのアルゴリズムのテストを提供し、どのようにアルゴリ
 - https://github.com/FedML-AI/FedML/tree/master/fedml_api
 
 
-
-## fedml_core
-
-FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。
+FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離。
 
 1. 通信プロトコルコンポーネント
 2. PyTorchまたはTensorFlowに基づいて構築されたデバイス上のディープラーニングコンポーネント
@@ -125,20 +124,6 @@ FedML-coreは、FLアルゴリズムのトレーニングまたは調整に参�
 
 - Coordinator: 中央ワーカーでトレーナの管理をする
 - Trainer: 中央ワーカー以外のワーカー
-
-
-
-
-
-
-勾配法
-
-
-
-##
-
-ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
-モデルマネージャー
 
 
 ## 通信について
@@ -183,6 +168,25 @@ MPIはOSI参照モデルの役割にあてはめると、役割としては5層�
 MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
 MPI_Comm_size: 実行に参加しているプロセス数を取得
 
+- [pythonバインディング](https://mpi4py.readthedocs.io/en/stable/index.html)
+
+インストールにはMPIを実装した共有ライブラリが必要。
+
+```
+sudo apt-get install libopenmpi-dev
+python3 -m pip install mpi4py
+```
+
+```
+# mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す
+
+from mpi4py import MPI
+MPI.Open_port()
+
+# port_name文字列 でエンコードされたネットワークアドレス
+# => '4206821377.0:3078334918'
+```
+
 ### MQTT
 
 主にIOTなど、低電力でコンパクトである場面でのメッセージングで主流となってきている。
@@ -217,28 +221,15 @@ FastAPIとGRPCの両方（１度の定義で両対応）をサポートするフ
 https://bali-framework.github.io/bali/
 
 
-
-
 ### TRPC
 
 HTTP2
 
 
-- [pythonバインディング](https://mpi4py.readthedocs.io/en/stable/index.html)
+## ファイル同期方式
 
-インストールにはMPIを実装した共有ライブラリが必要。
+- MPIはssh経由で同期を行う。https://docs.open-mpi.org/en/v5.0.x/running-apps/quickstart.html#launching-in-a-non-scheduled-environments-via-ssh
+- GRPCにおいては、GRPCで利用するHTTP通信に加え、rsyncの支援スクリプトを使っている。
 
-```
-sudo apt-get install libopenmpi-dev
-python3 -m pip install mpi4py
-```
+上記のことから、NFS上にユーザ毎のフォルダを作る前提の作りになっているようだ。
 
-```
-# mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す
-
-from mpi4py import MPI
-MPI.Open_port()
-
-# port_name文字列 でエンコードされたネットワークアドレス
-# => '4206821377.0:3078334918'
-```

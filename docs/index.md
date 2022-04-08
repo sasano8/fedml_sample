@@ -15,7 +15,7 @@
 
 ## 参考論文
 
-A Survey on Federated Learning Systems: Vision, Hype and Reality for Data Privacy and Protection
+- [A Survey on Federated Learning Systems: Vision, Hype and Reality for Data Privacy and Protection](./pdf/1907.09693.pdf)
 
 ## メリット・デメリット
 
