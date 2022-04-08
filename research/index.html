@@ -375,13 +375,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fedml_core_1" class="md-nav__link">
-    fedml_core
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#worker-oriented-programming" class="md-nav__link">
     Worker-Oriented Programming
   </a>
@@ -390,13 +383,6 @@
       
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
-    
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
     通信について
   </a>
   
@@ -433,6 +419,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    ファイル同期方式
+  </a>
   
 </li>
       
@@ -604,13 +597,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fedml_core_1" class="md-nav__link">
-    fedml_core
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#worker-oriented-programming" class="md-nav__link">
     Worker-Oriented Programming
   </a>
@@ -619,13 +605,6 @@
       
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
-    
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
     通信について
   </a>
   
@@ -665,6 +644,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    ファイル同期方式
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -696,18 +682,22 @@
 <li><a href="https://github.com/FedML-AI/FedML">FedML</a>: star 1.1k</li>
 <li><a href="https://github.com/FederatedAI/FATE">FATE</a>: star 4.1k</li>
 <li><a href="https://github.com/tensorflow/federated">TensorFlow Federated</a>: star 1.8k</li>
-<li><a href="https://github.com/OpenMined/PySyft">PySyft</a>: star 8k</li>
+<li><a href="https://github.com/OpenMined/PySyft">PySyft</a>: star 8k トロポジ</li>
 <li><a href="https://github.com/PaddlePaddle/PaddleFL">PaddleFL</a>: star 0.3k</li>
 <li><a href="https://github.com/scaleoutsystems/fedn">fedn</a>: star 59</li>
+<li><a href="https://github.com/bytedance/byteps">byteps</a>: star 3k</li>
 </ul>
 <h2 id="_1">比較</h2>
 <p><img alt="代替テキスト" src="../pdf/comparison.png" /></p>
 <table>
 <thead>
 <tr>
-<th>タイプ/リンク</th>
+<th>フレームワーク</th>
 <th>クロスデバイス</th>
 <th>クロスサイロ</th>
+<th>通信</th>
+<th>ライセンス</th>
+<th>CPU利用</th>
 </tr>
 </thead>
 <tbody>
@@ -715,31 +705,57 @@
 <td>FedML</td>
 <td>true</td>
 <td>false?</td>
+<td>MPI/HTTP2(GRPC) + SSH</td>
+<td></td>
+<td>true</td>
 </tr>
 <tr>
 <td>FATE</td>
 <td>true</td>
 <td>?</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>TensorFlow Federated</td>
 <td>true</td>
 <td>?</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>PySyft</td>
 <td>true</td>
 <td>?</td>
+<td>HTTP(Websocket)</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>PaddleFL</td>
 <td>true</td>
 <td>?</td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td>fedn</td>
 <td>true</td>
 <td>?</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>byteps</td>
+<td>true</td>
+<td>?</td>
+<td>HTTP</td>
+<td></td>
+<td>false</td>
 </tr>
 </tbody>
 </table>
@@ -836,7 +852,7 @@
 </tbody>
 </table>
 <h3 id="fedml_api">fedml_api</h3>
-<p>連合学習アルゴリズムを提供</p>
+<p>連合学習アルゴリズムの実装を提供</p>
 <ul>
 <li>https://github.com/FedML-AI/FedML/tree/master/fedml_api</li>
 </ul>
@@ -845,8 +861,7 @@
 <ul>
 <li>https://github.com/FedML-AI/FedML/tree/master/fedml_api</li>
 </ul>
-<h2 id="fedml_core_1">fedml_core</h2>
-<p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離します。</p>
+<p>FedML-coreは、通信とモデルトレーニングを2つのコアコンポーネントに分離。</p>
 <ol>
 <li>通信プロトコルコンポーネント</li>
 <li>PyTorchまたはTensorFlowに基づいて構築されたデバイス上のディープラーニングコンポーネント</li>
@@ -858,11 +873,7 @@
 <li>Coordinator: 中央ワーカーでトレーナの管理をする</li>
 <li>Trainer: 中央ワーカー以外のワーカー</li>
 </ul>
-<p>勾配法</p>
-<h2 id="_7"></h2>
-<p>ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
-モデルマネージャー</p>
-<h2 id="_8">通信について</h2>
+<h2 id="_7">通信について</h2>
 <p>FedMLは、次の通信規格を使用可能。</p>
 <ul>
 <li>MPI</li>
@@ -914,6 +925,23 @@ gRPCストリームではHTTP Trailersを使用するため、ASGIは対応で�
 MPIはOSI参照モデルの役割にあてはめると、役割としては5層（セッション層）以上に対応すると考えられるが、実際の実装ではソケットとTCP（トランスポート層）を使用している。</p>
 <p>MPI_Comm_rank: 自分のプロセス番号（＝ランク）を取得
 MPI_Comm_size: 実行に参加しているプロセス数を取得</p>
+<ul>
+<li><a href="https://mpi4py.readthedocs.io/en/stable/index.html">pythonバインディング</a></li>
+</ul>
+<p>インストールにはMPIを実装した共有ライブラリが必要。</p>
+<div class="highlight"><pre><span></span><code>sudo apt-get install libopenmpi-dev
+python3 -m pip install mpi4py
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す</span>
+
+<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
+<span class="n">MPI</span><span class="o">.</span><span class="n">Open_port</span><span class="p">()</span>
+
+<span class="c1"># port_name文字列 でエンコードされたネットワークアドレス</span>
+<span class="c1"># =&gt; &#39;4206821377.0:3078334918&#39;</span>
+</code></pre></div>
+
 <h3 id="mqtt">MQTT</h3>
 <p>主にIOTなど、低電力でコンパクトである場面でのメッセージングで主流となってきている。</p>
 <h3 id="grpc">GRPC</h3>
@@ -941,22 +969,12 @@ ws-sync<span class="p">;</span> fswatch -o <span class="nv">$LOCAL_PATH</span> <
 <p>https://bali-framework.github.io/bali/</p>
 <h3 id="trpc">TRPC</h3>
 <p>HTTP2</p>
+<h2 id="_8">ファイル同期方式</h2>
 <ul>
-<li><a href="https://mpi4py.readthedocs.io/en/stable/index.html">pythonバインディング</a></li>
+<li>MPIはssh経由で同期を行う。https://docs.open-mpi.org/en/v5.0.x/running-apps/quickstart.html#launching-in-a-non-scheduled-environments-via-ssh</li>
+<li>GRPCにおいては、GRPCで利用するHTTP通信に加え、rsyncの支援スクリプトを使っている。</li>
 </ul>
-<p>インストールにはMPIを実装した共有ライブラリが必要。</p>
-<div class="highlight"><pre><span></span><code>sudo apt-get install libopenmpi-dev
-python3 -m pip install mpi4py
-</code></pre></div>
-
-<div class="highlight"><pre><span></span><code><span class="c1"># mpi4py.MPI.Open_portでMPIプロセスのグループ間の接続を確立するために使用できるアドレスを返す</span>
-
-<span class="kn">from</span> <span class="nn">mpi4py</span> <span class="kn">import</span> <span class="n">MPI</span>
-<span class="n">MPI</span><span class="o">.</span><span class="n">Open_port</span><span class="p">()</span>
-
-<span class="c1"># port_name文字列 でエンコードされたネットワークアドレス</span>
-<span class="c1"># =&gt; &#39;4206821377.0:3078334918&#39;</span>
-</code></pre></div>
+<p>上記のことから、NFS上にユーザ毎のフォルダを作る前提の作りになっているようだ。</p>
                 
               
 
