@@ -129,9 +129,15 @@ python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid '0'
 
 
 ``` mermaid
-graph TD
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+graph BT
+    Central_Domain_A;
+    Platform --- Central_Domain_A;
+    Domain_B --- Platform;
+    Domain_C --- Platform;
+    Edge_A --- Domain_B;
+    Edge_B --- Domain_B;
+    Edge_C --- Domain_C;
+    Edge_D --- Domain_C;
+    Edge_E --- Platform;
+    Edge_F --- Platform;
 ```
