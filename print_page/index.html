@@ -373,11 +373,14 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
         <section class="print-page" id="index"><h1 id="index-_1">はじめに</h1>
 <p>本ドキュメントは、連合学習と連合学習に関する技術やライブラリについてまとめたもので、
 連合学習の環境構築者向けのドキュメントとなる。</p>
-<p>連合学習の環境構築者は、主にネットワーク・グラフに関する知識が重要となる。</p>
+<p>連合学習の環境構築者は、主にネットワーク・グラフや並列処理・分散処理（スーパーコンピュータ）に関する知識が重要となる。</p>
 <h2 id="index-_2">連合学習とは</h2>
 <p>データを取集せずに学習モデルを合成し、学習モデルを改善していく手法。
 データを収集し学習する従来の手法だとプライバシーの問題があるため、近年、異なるドメイン間でデータを送信せず学習させる手法として注目を集める。</p>
-<h2 id="index-_3">メリット・デメリット</h2>
+<p>転移学習との違いは？？</p>
+<h2 id="index-_3">参考論文</h2>
+<p>A Survey on Federated Learning Systems: Vision, Hype and Reality for Data Privacy and Protection</p>
+<h2 id="index-_4">メリット・デメリット</h2>
 <ul>
 <li>M: プライバシーの問題を回避できる</li>
 <li>D: 従来のデータセンターでの学習は、学習データの偏りをコントロールできますが、連合学習の場合、データが散らばっているため偏りをコントロールすることができない</li>
@@ -386,7 +389,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <ul>
 <li><a href="https://arxiv.org/pdf/1912.04977.pdf">進歩と未解決の問題</a></li>
 </ul>
-<h2 id="index-_4">連合学習フロー</h2>
+<h2 id="index-_5">連合学習フロー</h2>
 <p>モデルは次のフローで改善されていく</p>
 <ol>
 <li>train: Edge側で学習済みモデルを生成する</li>
@@ -394,7 +397,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>aggregate: モデルを合成する</li>
 <li>transfer:  合成されたモデルをEdgeへ展開する</li>
 </ol>
-<h2 id="index-_5">機械学習の一般的なフロー</h2>
+<h2 id="index-_6">機械学習の一般的なフロー</h2>
 <ol>
 <li>データ収集</li>
 <li>データ加工・クレンジング</li>
@@ -404,7 +407,7 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <li>モデルデプロイ（本番稼働）</li>
 <li>モデル監視（運用）</li>
 </ol>
-<h2 id="index-_6">並列・分散・連合処理について</h2>
+<h2 id="index-_7">並列・分散・連合処理について</h2>
 <p>並列・分散・連合処理について、次のように区別することとする。</p>
 <ol>
 <li>並列: １つのマシン上で複数のCPUで同一データセットで同一処理を行い結果を集約する</li>
@@ -427,20 +430,13 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 連合転移学習とは</p>
 <h2 id="index-transfer-learning">転移学習（Transfer learning）</h2>
 <p>別のタスクで学習された知識を転移する機械学習の手法</p>
-<h2 id="index-_7">スケーリングについて</h2>
+<h2 id="index-_8">スケーリングについて</h2>
 <h3 id="index-cross-device">cross-device</h3>
 <p>データの所有者自体の数が多いが、データや計算資源は少ない。
 IOT機器など。</p>
 <h3 id="index-cross-silo">cross-silo（クロスサイロ）</h3>
 <p>データの所有者自体の数は多くないが、データや計算資源は比較的十分にある。
 企業間での連合学習などのケース。</p>
-<h2 id="index-_8">データパーティションについて</h2>
-<h3 id="index-fedavg">集中型（FedAVG）</h3>
-<p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
-セキュリティリスクが高いらしい。</p>
-<h3 id="index-simfl">分散型（SimFL）</h3>
-<p>通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新するあ。</p>
-<p>データの流れは非対称とは？？？</p>
 <h2 id="index-_9">トポロジ</h2>
 <p>分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。</p>
 <p>FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさまざまなトポロジ定義がある。</p>
@@ -461,7 +457,84 @@ IOT機器など。</p>
 <p>symmetry（左右対称）</p>
 </li>
 <li>asymmetry（左右非対称・非対称トポロジ）</li>
-</ul></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
+</ul>
+<h2 id="index-_10">データパーティションについて</h2>
+<h3 id="index-fedavg">集中型（FedAVG）</h3>
+<p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
+セキュリティリスクが高いらしい。</p>
+<h3 id="index-simfl">分散型（SimFL）</h3>
+<p>通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新するあ。</p>
+<p>データの流れは非対称とは？？？</p>
+<h2 id="index-_11">インセンティブ設計</h2>
+<p>クロスデバイス設計では、マネージャーは強力な中央サーバ。
+クロスサイロ設定では、組織は強力なマシンを持っていることが期待されるため、マネージャーはFLプロセスを支
+配する組織の1つになることもできます。</p>
+<h2 id="index-_12">通信</h2>
+<h3 id="index-simulated">simulated</h3>
+<h3 id="index-distributed">distributed</h3>
+<h2 id="index-_13">セキュリティ</h2>
+<h3 id="index-differential-privacydp">Differential privacy（DP・差分プライバシー）</h3>
+<p>個々のレコードが学習に参加しているかどうかを当事者が知ることができないようにする手法。</p>
+<h3 id="index-cryptographic-methodscm">Cryptographic methods（CM・暗号化手法）</h3>
+<p>当事者は、送信する前にメッセージを暗号化し、暗号化されたメッセージを操作し、暗号化された出力を復号化して最終結果を取得する手法。</p>
+<h2 id="index-_14">モデル</h2>
+<h3 id="index-nn">NN</h3>
+<h3 id="index-dt">DT</h3>
+<h3 id="index-lm">LM</h3>
+<h2 id="index-_15">アルゴリズム</h2>
+<p><img alt="代替テキスト" src="../pdf/algorithms.png" /></p></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
+<h2 id="research-oss">OSS</h2>
+<ul>
+<li><a href="https://github.com/FedML-AI/FedML">FedML</a>: star 1.1k</li>
+<li><a href="https://github.com/FederatedAI/FATE">FATE</a>: star 4.1k</li>
+<li><a href="https://github.com/tensorflow/federated">TensorFlow Federated</a>: star 1.8k</li>
+<li><a href="https://github.com/OpenMined/PySyft">PySyft</a>: star 8k</li>
+<li><a href="https://github.com/PaddlePaddle/PaddleFL">PaddleFL</a>: star 0.3k</li>
+<li><a href="https://github.com/scaleoutsystems/fedn">fedn</a>: star 59</li>
+</ul>
+<h2 id="research-_1">比較</h2>
+<p><img alt="代替テキスト" src="../pdf/comparison.png" /></p>
+<table>
+<thead>
+<tr>
+<th>タイプ/リンク</th>
+<th>クロスデバイス</th>
+<th>クロスサイロ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FedML</td>
+<td>true</td>
+<td>false?</td>
+</tr>
+<tr>
+<td>FATE</td>
+<td>true</td>
+<td>?</td>
+</tr>
+<tr>
+<td>TensorFlow Federated</td>
+<td>true</td>
+<td>?</td>
+</tr>
+<tr>
+<td>PySyft</td>
+<td>true</td>
+<td>?</td>
+</tr>
+<tr>
+<td>PaddleFL</td>
+<td>true</td>
+<td>?</td>
+</tr>
+<tr>
+<td>fedn</td>
+<td>true</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
 <h2 id="research-fedml">FedML</h2>
 <p>連合学習における有名なライブラリ</p>
 <ul>
@@ -470,13 +543,13 @@ IOT機器など。</p>
 <li><a href="https://github.com/chaoyanghe/Awesome-Federated-Learning">連合学習に関する論文など</a></li>
 </ul>
 <p>複数のノードへのモデル展開など複雑なワークフローを簡略化し、連合学習の実行を支援する</p>
-<h2 id="research-_1">機能</h2>
+<h2 id="research-_2">機能</h2>
 <p>次のリンクからGUIから提供している機能を調べた</p>
 <ul>
 <li><a href="http://open.fedml.ai">ライブデモ</a></li>
 <li><a href="https://doc.fedml.ai/user_guide/mlops/mlops_live_demo.html">ライブデモ説明</a></li>
 </ul>
-<h3 id="research-_2">管理機能</h3>
+<h3 id="research-_3">管理機能</h3>
 <ul>
 <li>ユーザ管理</li>
 <li>グループ管理</li>
@@ -503,12 +576,12 @@ IOT機器など。</p>
 </ul>
 </li>
 </ul>
-<h3 id="research-_3">実装されていない機能</h3>
+<h3 id="research-_4">実装されていない機能</h3>
 <ul>
 <li>任意のタイミングで自動実行するジョブスケジューラは特に見当たらない</li>
 <li>1つ連合学習のサイクルを管理。関連するジョブフローなどの実行などは管理していない。</li>
 </ul>
-<h2 id="research-_4">アーキテクチャ</h2>
+<h2 id="research-_5">アーキテクチャ</h2>
 <ul>
 <li>fedml_core: 動的計画法に基づく分散コンピューティングに関する通信やスケジューラを提供</li>
 <li>fedml_api: 連合学習アルゴリズムを提供</li>
@@ -516,7 +589,7 @@ IOT機器など。</p>
 <li>fedml_mobile: スマートフォンを使用したデバイス上のトレーニングをサポート</li>
 <li>fedml_IoT: IoTデバイスを使用したデバイス上のトレーニングをサポート</li>
 </ul>
-<h2 id="research-_5">ソースコードの読み方</h2>
+<h2 id="research-_6">ソースコードの読み方</h2>
 <p>https://doc.fedml.ai/user_guide/open_source/algorithm-reference-implementation.html</p>
 <h3 id="research-fedml_experiments">fedml_experiments</h3>
 <p>fedmlのアルゴリズムのテストを提供し、どのようにアルゴリズムを実装するかサンプルを確認できる。</p>
@@ -578,10 +651,10 @@ IOT機器など。</p>
 <li>Trainer: 中央ワーカー以外のワーカー</li>
 </ul>
 <p>勾配法</p>
-<h2 id="research-_6"></h2>
+<h2 id="research-_7"></h2>
 <p>ComManager: トポロジ（隣接するノード）に基づいて通信を行う？
 モデルマネージャー</p>
-<h2 id="research-_7">通信について</h2>
+<h2 id="research-_8">通信について</h2>
 <p>FedMLは、次の通信規格を使用可能。</p>
 <ul>
 <li>MPI</li>
@@ -797,7 +870,15 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 <h2 id="glossary-_2">サイロ</h2>
 <p>システム、業務プロセス、データなどが、他部門と連携を持たず独立してしまう状態。
 連合学習は、サイロとなっているデータを取り扱う。</p>
-<p>FEDN</p></section></div>
+<h2 id="glossary-iid">独立同一分布（IID）</h2>
+<p>確率論と統計学において、確率変数の列やその他の系が、それぞれの確率変数が他の確率変数と同じ確率分布を持ち、かつ、それぞれ互いに独立している場合をいう。
+そうでない場合、非IIDという。</p>
+<p>簡単にいうと、非IIDは観測した出来事に偏りがあり、思い込みが生じているようなもの。だと思う。</p>
+<h2 id="glossary-symmetryasymmetry-information">完全情報ゲーム・不完全情報ゲーム（symmetry/asymmetry information）</h2>
+<p>とられた行動や実現した状態に関する情報が全て与えられているゲーム。将棋など。
+カードゲームなど、自分の手札が相手に公開されていないなど、互いに持っている情報が違うゲームを不完全情報ゲームという。</p>
+<h2 id="glossary-_3">ロバスト</h2>
+<p>頑強性。例：チェックサムを仕込んでプログラムやバイナリデータのデータ改変を検知する機能を持たせる。</p></section></div>
                 
               
 
