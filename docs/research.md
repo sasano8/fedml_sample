@@ -1,5 +1,28 @@
 # research
 
+## OSS
+
+- [FedML](https://github.com/FedML-AI/FedML): star 1.1k
+- [FATE](https://github.com/FederatedAI/FATE): star 4.1k
+- [TensorFlow Federated](https://github.com/tensorflow/federated): star 1.8k
+- [PySyft](https://github.com/OpenMined/PySyft): star 8k
+- [PaddleFL](https://github.com/PaddlePaddle/PaddleFL): star 0.3k
+- [fedn](https://github.com/scaleoutsystems/fedn): star 59
+
+## 比較
+
+![代替テキスト](./pdf/comparison.png)
+
+|  タイプ/リンク |  クロスデバイス  | クロスサイロ |
+| ---- | ---- | ---- |
+| FedML | true | false? |
+| FATE | true | ? |
+| TensorFlow Federated | true | ? |
+| PySyft | true | ? |
+| PaddleFL | true | ? |
+| fedn | true | ? |
+
+
 ## FedML
 
 連合学習における有名なライブラリ
