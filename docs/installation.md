@@ -128,5 +128,10 @@ python fedavg_rpi_client.py --server_ip http://127.0.0.1:5000 --client_uuid '0'
 ```
 
 
-MPIは何に使うもの
-->
+``` mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
