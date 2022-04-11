@@ -4,16 +4,16 @@
 
 公式手順は次を参照ください。
 
-- [Fedml installation]https://doc.fedml.ai/user_guide/open_source/installation/installation-distributed-computing.html
+- [Fedml installation](https://doc.fedml.ai/user_guide/open_source/installation/installation-distributed-computing.html)
 
 
 ## 構成要件
 
 次のホストに対して、必要なスクリプトの配布とテストの実施を行います
 
-- 1台のNFS: モデルを共有するためファイルストレージ
-- 1台のヘッドノード
-- 複数台の計算ノード
+- nfs: モデルを共有するためファイルストレージが1台必要です
+- head: 計算ノード管理のホストが1台必要です
+- nodes: 複数台の計算ノードが必要です
 
 ## マシンを用意
 
@@ -51,7 +51,7 @@ cat << EOS > hosts
 [nfs]
 fedml
 
-[manager]
+[head]
 fedml
 
 [nodes]
@@ -65,3 +65,8 @@ EOS
 make ping
 ```
 
+次のコマンドで環境構築に必要なスクリプトを配布&インストールします。
+
+```
+make delivery
+```
