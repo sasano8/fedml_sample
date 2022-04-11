@@ -4,4 +4,4 @@ ping:
 	@ansible all -i hosts -m ping
 
 delivery:
-	@ansible-playbook -i hosts playbook.yml
+	@ansible-playbook -i hosts playbooks/delivery.yml
