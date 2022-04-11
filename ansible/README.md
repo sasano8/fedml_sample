@@ -40,6 +40,18 @@ Host fedml
 ssh fedml
 ```
 
+## config定義
+
+```
+cd ansible
+
+cat << EOS > ansible.cfg
+[defaults]
+log_path=/var/tmp/ansible.log
+EOS
+```
+
+
 ## hosts定義
 
 環境構築対象となるホスト群を`hosts`に定義します。

@@ -3,10 +3,10 @@
     - name: test login to nfs
       command: echo hello nfs
 
-- hosts: manager
+- hosts: head
   tasks:
-    - name: test login to manager
-      command: echo hello nfs
+    - name: test login to head
+      command: echo hello head
 
 - hosts: nodes
   tasks:
