@@ -1,5 +1,20 @@
 # クラスター構築
 
+クラスタ構築手順を記します。
+
+公式手順は次を参照ください。
+
+- [Fedml installation]https://doc.fedml.ai/user_guide/open_source/installation/installation-distributed-computing.html
+
+
+## 構成要件
+
+次のホストに対して、必要なスクリプトの配布とテストの実施を行います
+
+- 1台のNFS: モデルを共有するためファイルストレージ
+- 1台のヘッドノード
+- 複数台の計算ノード
+
 ## マシンを用意
 
 必要となるマシンの最低スペックは次の通りです。

@@ -1,11 +1,11 @@
 - hosts: nfs
   tasks:
-    - name: login to nfs
+    - name: test login to nfs
       command: echo hello nfs
 
 - hosts: manager
   tasks:
-    - name: login to manager
+    - name: test login to manager
       command: echo hello nfs
 
 - hosts: nodes
