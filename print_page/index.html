@@ -430,18 +430,76 @@ PDFとして保存したい場合は、<code>印刷 -> PDFに保存</code>を実
 <p>https://github.com/FedML-AI/FedML/issues/59</p>
 <p>疑問</p>
 <p>モデルは隣接ノードの資源を使って集約されていく？
-連合学習サーバで集約される？
-連合転移学習とは</p>
+連合学習サーバで集約される？</p>
 <h2 id="index-transfer-learning">転移学習（Transfer learning）</h2>
 <p>別のタスクで学習された知識を転移する機械学習の手法</p>
-<h2 id="index-_8">スケーリングについて</h2>
+<h2 id="index-_8">体系</h2>
+<ul>
+<li>Federated Learning Systems<ul>
+<li>Machine Learning Model<ul>
+<li>Horizontal</li>
+<li>Vertical</li>
+<li>Hybrid</li>
+</ul>
+</li>
+<li>Data Partitioning<ul>
+<li>Linear Models</li>
+<li>Decision Trees</li>
+<li>Neural Networks</li>
+</ul>
+</li>
+<li>Privacy Mechanism<ul>
+<li>Differential Privacy</li>
+<li>Cryptographic Methods</li>
+</ul>
+</li>
+<li>Communication Architecture<ul>
+<li>Centralized</li>
+<li>Decentralized</li>
+</ul>
+</li>
+<li>Scale of Federation<ul>
+<li>Cross-silo</li>
+<li>Cross-device</li>
+</ul>
+</li>
+<li>Motivation of Federation<ul>
+<li>Incentive</li>
+<li>Regulation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="index-_9">コミュニケーション</h2>
+<p>集中型設計と分散型設計の2つの主要な⽅法がある。</p>
+<h3 id="index-centralized">集中型（centralized）</h3>
+<p>マネージャーはパーティからの情報（ローカルモデルなど）を集約し、トレーニング結果を送り返す。
+グローバルモデルのパラメーターの更新は、常にこのマネージャーで行われる。</p>
+<h3 id="index-decentralized">分散型（decentralized）</h3>
+<p>通信はパーティ間で実行され、すべてのパーティはグローバルパラメータを直接更新できます。
+分散型通信アーキテクチャの設計は困難であり、公平性と通信オーバーヘッドを考慮に⼊れる必要がある。</p>
+<p>公平性を担保するために次のような分散技術を使う。</p>
+<ul>
+<li>P2P</li>
+<li>グラフ</li>
+<li>ブロックチェーン</li>
+</ul>
+<h2 id="index-_10">スケーリングについて</h2>
 <h3 id="index-cross-device">cross-device</h3>
 <p>データの所有者自体の数が多いが、データや計算資源は少ない。
 IOT機器など。</p>
 <h3 id="index-cross-silo">cross-silo（クロスサイロ）</h3>
 <p>データの所有者自体の数は多くないが、データや計算資源は比較的十分にある。
 企業間での連合学習などのケース。</p>
-<h2 id="index-_9">トポロジ</h2>
+<h2 id="index-_11">分散アルゴリズム</h2>
+<p>分散アルゴリズムを実装する時、次の要素が重要となる。</p>
+<ul>
+<li>システムの不均一性</li>
+<li>データの不均一性</li>
+<li>スケーラビリティ</li>
+</ul>
+<h2 id="index-_12">トポロジ</h2>
 <p>分散型機械学習では、コンピュータネットワークの接続形態（トポロジ）を考慮する必要がある（どのような時、何を選ぶかについては理解していない）。</p>
 <p>FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさまざまなトポロジ定義がある。</p>
 <ul>
@@ -460,32 +518,32 @@ IOT機器など。</p>
 <p>分散型（SimFLなど）では通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新することができる</p>
 <h3 id="index-asymmetry">asymmetry（左右非対称・非対称トポロジ）</h3>
 <p>集中型（FedAvgなど）は、データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。</p>
-<h2 id="index-_10">データパーティションについて</h2>
+<h2 id="index-_13">データパーティションについて</h2>
 <h3 id="index-fedavg">集中型（FedAVG）</h3>
 <p>データの流れは非対称で、マネージャーがローカルモデルの情報を集計し、グローバルなパラメータをアップデートする。
 セキュリティリスクが高いらしい。</p>
 <h3 id="index-simfl">分散型（SimFL）</h3>
 <p>通信が直接データの所有者同士で行われ、すべてのデータの所有者がグローバルなパラメータを更新するあ。</p>
 <p>データの流れは非対称とは？？？</p>
-<h2 id="index-_11">インセンティブ設計</h2>
+<h2 id="index-_14">インセンティブ設計</h2>
 <p>クロスデバイス設計では、マネージャーは強力な中央サーバ。
 クロスサイロ設定では、組織は強力なマシンを持っていることが期待されるため、マネージャーはFLプロセスを支
 配する組織の1つになることもできます。</p>
-<h2 id="index-_12">通信</h2>
+<h2 id="index-_15">通信</h2>
 <h3 id="index-simulated">simulated</h3>
 <h3 id="index-distributed">distributed</h3>
-<h2 id="index-_13">セキュリティ</h2>
+<h2 id="index-_16">セキュリティ</h2>
 <h3 id="index-differential-privacydp">Differential privacy（DP・差分プライバシー）</h3>
 <p>個々のレコードが学習に参加しているかどうかを当事者が知ることができないようにする手法。</p>
 <h3 id="index-cryptographic-methodscm">Cryptographic methods（CM・暗号化手法）</h3>
 <p>当事者は、送信する前にメッセージを暗号化し、暗号化されたメッセージを操作し、暗号化された出力を復号化して最終結果を取得する手法。</p>
-<h2 id="index-_14">モデル</h2>
+<h2 id="index-_17">モデル</h2>
 <h3 id="index-nn">NN</h3>
 <h3 id="index-dt">DT</h3>
 <h3 id="index-lm">LM</h3>
-<h2 id="index-_15">アルゴリズム</h2>
+<h2 id="index-_18">アルゴリズム</h2>
 <p><img alt="代替テキスト" src="../pdf/algorithms.png" /></p>
-<h2 id="index-_16">更新タイミング・プッシュ型・プル型</h2>
+<h2 id="index-_19">更新タイミング・プッシュ型・プル型</h2>
 <p>グローバルパラメータをいつ更新するのか？
 ローカルへの展開はどのタイミングで行われるか。</p>
 <p>プル型</p>
@@ -496,7 +554,9 @@ IOT機器など。</p>
 <p>プッシュ型</p>
 <ol>
 <li>グローバルパラメータが更新されたら、自動的にローカルに展開（NFSがあると、1度の展開で済み効率的）</li>
-</ol></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
+</ol>
+<h2 id="index-_20">メモ</h2>
+<p>連合転移学習とは</p></section><section class="print-page" id="research"><h1 id="research-research">research</h1>
 <h2 id="research-oss">OSS</h2>
 <ul>
 <li><a href="https://github.com/FedML-AI/FedML">FedML</a>: star 1.1k</li>
@@ -508,6 +568,7 @@ IOT機器など。</p>
 <li><a href="https://github.com/bytedance/byteps">byteps</a>: star 3k</li>
 </ul>
 <h2 id="research-_1">比較</h2>
+<p>Communicationのsimulatedは、疑似的な分散シミュレーション（つまり、スタンドアロンで実行）が可能なことだと思われる。</p>
 <p><img alt="代替テキスト" src="../pdf/comparison.png" /></p>
 <table>
 <thead>
@@ -895,7 +956,9 @@ EDGE型でserver_ipは指定できるのか？</p>
     Edge_C --- Domain_C;
     Edge_D --- Domain_C;
     Edge_E --- Platform;
-    Edge_F --- Platform;</div></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
+    Edge_F --- Platform;</div>
+<p>すべてのトレーニングアルゴリズムまたはトリックを単一のフレームワークに統合するために使用されます。現在、開発中です。</p>
+<p>https://github.com/FedML-AI/FedML/blob/e0c58c539bf1d7ae9911e57d7f223ac19af03902/fedml_experiments/distributed/fedall/README.md</p></section><section class="print-page" id="glossary"><h1 id="glossary-_1">用語集</h1>
 <p>pytorchなどで出てくるキーワードをメモしておく</p>
 <h2 id="glossary-ddpdistributeddataparallel">DDP(DistributedDataParallel)</h2>
 <p>pytorchなどで出てくる</p>
@@ -920,7 +983,14 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 <p>とられた行動や実現した状態に関する情報が全て与えられているゲーム。将棋など。
 カードゲームなど、自分の手札が相手に公開されていないなど、互いに持っている情報が違うゲームを不完全情報ゲームという。</p>
 <h2 id="glossary-_3">ロバスト</h2>
-<p>頑強性。例：チェックサムを仕込んでプログラムやバイナリデータのデータ改変を検知する機能を持たせる。</p></section></div>
+<p>頑強性。例：チェックサムを仕込んでプログラムやバイナリデータのデータ改変を検知する機能を持たせる。</p>
+<h2 id="glossary-fdbs">連合データベースシステム（FDBS）</h2>
+<p>1990年頃公安されたシステムで、相互利益のために協力する⾃律型データベースのコレクション。</p>
+<ul>
+<li>⾃律性: FDBSに参加するデータベースシステム（DBS）は⾃律的。つまり、独立した制御下にあります。当事者は、FDBSがなくてもデータを管理できます。</li>
+<li>不均⼀性: データベース管理システムは、FDBS内で異なる場合があります。たとえば、違いは、データ構造、クエリ⾔語、システムソフトウェア要件、および通信機能にある可能性があります。</li>
+<li>配布: FDBSが構築される前に複数のDBSが存在するため、データ分散はDBSごとに異なる場合があります。データレコードは、⽔平⽅向または垂直⽅向に異なるDBSに分割できます。</li>
+</ul></section></div>
                 
               
 
