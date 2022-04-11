@@ -141,3 +141,8 @@ graph BT
     Edge_E --- Platform;
     Edge_F --- Platform;
 ```
+
+
+すべてのトレーニングアルゴリズムまたはトリックを単一のフレームワークに統合するために使用されます。現在、開発中です。
+
+https://github.com/FedML-AI/FedML/blob/e0c58c539bf1d7ae9911e57d7f223ac19af03902/fedml_experiments/distributed/fedall/README.md

@@ -72,13 +72,58 @@ https://github.com/FedML-AI/FedML/issues/59
 
 モデルは隣接ノードの資源を使って集約されていく？
 連合学習サーバで集約される？
-連合転移学習とは
+
 
 
 ## 転移学習（Transfer learning）
 
 別のタスクで学習された知識を転移する機械学習の手法
 
+
+## 体系
+
+- Federated Learning Systems
+    - Machine Learning Model
+        - Horizontal
+        - Vertical
+        - Hybrid
+    - Data Partitioning
+        - Linear Models
+        - Decision Trees
+        - Neural Networks
+    - Privacy Mechanism
+        - Differential Privacy
+        - Cryptographic Methods
+    - Communication Architecture
+        - Centralized
+        - Decentralized
+    - Scale of Federation
+        - Cross-silo
+        - Cross-device
+    - Motivation of Federation
+        - Incentive
+        - Regulation
+
+## コミュニケーション
+
+集中型設計と分散型設計の2つの主要な⽅法がある。
+
+
+### 集中型（centralized）
+
+マネージャーはパーティからの情報（ローカルモデルなど）を集約し、トレーニング結果を送り返す。
+グローバルモデルのパラメーターの更新は、常にこのマネージャーで行われる。
+
+### 分散型（decentralized）
+
+通信はパーティ間で実行され、すべてのパーティはグローバルパラメータを直接更新できます。
+分散型通信アーキテクチャの設計は困難であり、公平性と通信オーバーヘッドを考慮に⼊れる必要がある。
+
+公平性を担保するために次のような分散技術を使う。
+
+- P2P
+- グラフ
+- ブロックチェーン
 
 ## スケーリングについて
 
@@ -93,6 +138,16 @@ IOT機器など。
 
 データの所有者自体の数は多くないが、データや計算資源は比較的十分にある。
 企業間での連合学習などのケース。
+
+
+## 分散アルゴリズム
+
+分散アルゴリズムを実装する時、次の要素が重要となる。
+
+- システムの不均一性
+- データの不均一性
+- スケーラビリティ
+
 
 ## トポロジ
 
@@ -192,3 +247,7 @@ FedMLには、垂直FL、分割学習、分散型FL、階層型FLなどのさま
 
 1. グローバルパラメータが更新されたら、自動的にローカルに展開（NFSがあると、1度の展開で済み効率的）
 
+
+## メモ
+
+連合転移学習とは

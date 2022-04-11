@@ -1,0 +1,14 @@
+- hosts: nfs
+  tasks:
+    - name: login to nfs
+      command: echo hello nfs
+
+- hosts: manager
+  tasks:
+    - name: login to manager
+      command: echo hello nfs
+
+- hosts: nodes
+  tasks:
+    - name: Fetch the file from the mwiapp01 to master
+      copy: src=scripts dest=. mode=+x

@@ -1,0 +1,7 @@
+- hosts: nodes
+  # sudo: yes
+  tasks:
+    - name: uninstall conda
+      shell: |
+        conda install anaconda-clean
+        anaconda-clean --yes
