@@ -42,6 +42,8 @@ ssh fedml
 
 ## config定義
 
+必要に応じてansible.cfgを定義します。
+
 ```
 cd ansible
 
@@ -54,7 +56,7 @@ EOS
 
 ## hosts定義
 
-環境構築対象となるホスト群を`hosts`に定義します。
+環境構築対象となるホスト群を`hosts`（iniファイル形式）に定義します。
 
 ```
 cd ansible
@@ -74,11 +76,11 @@ EOS
 次のコマンドを実行し疎通確認します。
 
 ```
-make ping
+ansible all -i hosts -m ping
 ```
 
 次のコマンドで環境構築に必要なスクリプトを配布&インストールします。
 
 ```
-make delivery
+ansible-playbook -i hosts playbooks/delivery.yml
 ```
