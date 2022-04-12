@@ -71,10 +71,10 @@ multipass launch 20.04 --name fedml  # ノードはn個に増やしてかまい�
 sudo groupadd fedml
 
 sudo useradd -m -d /home/ansible -s /bin/bash -g fedml ansible
-sudo useradd -m -d /home/ansible -s /bin/bash -g fedml nfs
+sudo useradd -m -d /home/nfs -s /bin/bash -g fedml nfs
 
 # head & nodes
-sudo useradd -m -d /home/ansible -s /bin/bash -g fedml fedml
+sudo useradd -m -d /home/fedml -s /bin/bash -g fedml fedml
 ```
 
 
