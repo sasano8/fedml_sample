@@ -11,4 +11,4 @@
 - hosts: nodes
   tasks:
     - name: Fetch the file from the mwiapp01 to master
-      copy: src=scripts dest=. mode=+x
+      copy: src=../scripts dest=. mode=+x

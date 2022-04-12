@@ -63,41 +63,31 @@
 ### スタンドアロン
 
 ``` shell
-# multipass launch 20.04 --name ansible  # 環境構築用のマシン 兼 nfs 兼 head
-# multipass launch 20.04 --name fedml  # ノードはn個に増やしてかまいません
-multipass launch 20.04 --name fedml
+multipass launch 20.04 --disk 20G --name fedml
+multipass shell fedml
 ```
 
 ``` shell
-# sudo useradd -m -d /home/ansible -s /bin/bash -g ubuntu ansible
-sudo useradd -m -d /home/nfs -s /bin/bash -g ubuntu nfs
+sudo useradd -m -d /home/nfs -s /bin/bash nfs
+sudo useradd -m -d /home/fedml -s /bin/bash fedml  # head & nodes
 
-# head & nodes
-sudo useradd -m -d /home/fedml -s /bin/bash -g ubuntu fedml
+ssh-keygen -t ed25519 -f ~/.ssh/key_`hostname`
 
-# echo ansible:ubuntu | sudo chpasswd
-# echo nfs:ubuntu | sudo chpasswd
-# echo fedml:ubuntu | sudo chpasswd
+sudo mkdir -p /home/nfs/.ssh; sudo chown nfs:nfs /home/nfs/.ssh
+sudo mkdir -p /home/fedml/.ssh; sudo chown fedml:fedml /home/fedml/.ssh
 
-ssh-keygetn -t ed25519 -f ~/.ssh/key_`hostname`
+sudo touch /home/nfs/.ssh/authorized_keys; sudo chown nfs /home/nfs/.ssh/authorized_keys
+sudo touch /home/fedml/.ssh/authorized_keys; sudo chown fedml /home/fedml/.ssh/authorized_keys
 
-sudo touch /home/nfs/.ssh/authorized_keys | sudo chown nfs /home/nfs/.ssh/authorized_keys
-sudo touch /home/fedml/.ssh/authorized_keys | sudo chown fedml /home/fedml/.ssh/authorized_keys
-
-# cat ~/.ssh/key_`hostname`.pub | sudo tee /home/ansible/.ssh/authorized_keys
 cat ~/.ssh/key_`hostname`.pub | sudo tee /home/nfs/.ssh/authorized_keys
 cat ~/.ssh/key_`hostname`.pub | sudo tee /home/fedml/.ssh/authorized_keys
 
-# sudo cp ~/.ssh/key_`hostname` /home/ansible/.ssh/key_ansible
 sudo cp ~/.ssh/key_`hostname` /home/fedml/.ssh/key_fedml
-# sudo chown ansible /home/ansible/.ssh/key_ansible
 sudo chown fedml /home/fedml/.ssh/key_fedml
 ```
 
 
 ``` shell
-# su - ansible
-
 cat << EOS >> .ssh/config
 Host fedml-nfs
   HostName localhost
@@ -114,12 +104,10 @@ Host fedml-node_1
   IdentityFile ~/.ssh/key_`hostname`
   User fedml
 EOS
-
-# exit
 ```
 
-```
-su - fedml
+``` shell
+ssh fedml-head
 
 cat << EOS >> .ssh/config
 Host fedml-nfs
@@ -131,47 +119,26 @@ EOS
 exit
 ```
 
+## install ansible
 
-
-## ssh接続確認
-
-必要なマシンを用意しssh接続ができるようにします。
-
-本手順では、`~/.ssh/config`に次の設定がされていることを前提に進めます。
+https://docs.ansible.com/ansible/2.9_ja/installation_guide/intro_installation.html#ubuntu-ansible
 
 ```
-Host fedml
-  HostName yourhost
-  IdentityFile ~/.ssh/yourkey.pem
-  User ubuntu
-```
-
-`~/.ssh/config`に設定したホスト群に接続できることを確認してください。
-
-```
-ssh fedml
-```
-
-次にssh鍵の生成例を記します。
-
-ansibleホストの共通鍵を構築対象ホストに配布します。
-
-```
-# ansibleホスト側
-ssh ssh-keygen -t ed25519 -f ~/.ssh/key_`hostname`
-cat ~/.ssh/key_`hostname`.pub
-
-# 構築されるサーバ側
-echo [ansibleホストの公開鍵] >> .ssh/authorized_keys
+sudo apt update
+sudo apt-get install -y software-properties-common
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt-get install -y ansible
 ```
 
 
+##
+
 
 ```
-# nfs兼head or nodes の場合は自身にsshできるようにする
-ssh ssh-keygen -t ed25519 -f ~/.ssh/key_`hostname`
-cat ~/.ssh/key_`hostname`.pub >> ~/.ssh/authorized_keys
+git clone <URL> fedml_sample
+cd fedml_sample/ansible
 ```
+
 
 
 
@@ -180,8 +147,6 @@ cat ~/.ssh/key_`hostname`.pub >> ~/.ssh/authorized_keys
 必要に応じてansible.cfgを定義します。
 
 ```
-cd ansible
-
 cat << EOS > ansible.cfg
 [defaults]
 log_path=/var/tmp/ansible.log
@@ -194,19 +159,18 @@ EOS
 環境構築対象となるホスト群を`hosts`（iniファイル形式）に定義します。
 
 ```
-cd ansible
-
 cat << EOS > hosts
 [nfs]
-fedml
+fedml-nfs
 
 [head]
-fedml
+fedml-head
 
 [nodes]
-fedml
+fedml-node_1
 EOS
 ```
+
 
 次のコマンドを実行し疎通確認します。
 
