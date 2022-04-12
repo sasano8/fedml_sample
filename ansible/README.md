@@ -77,6 +77,10 @@ sudo useradd -m -d /home/fedml -s /bin/bash -g ubuntu fedml
 echo ansible:ubuntu | sudo chpasswd
 echo nfs:ubuntu | sudo chpasswd
 echo fedml:ubuntu | sudo chpasswd
+
+su -c "ln -s /home/ubuntu/.ssh /home/ansible/.ssh" ansible
+su -c "ln -s /home/ubuntu/.ssh /home/nfs/.ssh" nfs
+su -c "ln -s /home/ubuntu/.ssh /home/fedml/.ssh" fedml
 ```
 
 
