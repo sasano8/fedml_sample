@@ -92,20 +92,24 @@ sudo chown fedml /home/fedml/.ssh/key_fedml
 
 
 ```
+su ansible
+
+cat << EOS >> .ssh/config
 Host fedml-nfs
-  HostName host_1
-  IdentityFile ~/.ssh/<your_key>
+  HostName localhost
+  IdentityFile ~/.ssh/key_ansible
   User nfs
 
 Host fedml-head
-  HostName host_1
-  IdentityFile ~/.ssh/<your_key>
-  User head
+  HostName localhost
+  IdentityFile ~/.ssh/key_ansible
+  User fedml
 
 Host fedml-node_1
-  HostName host_1
-  IdentityFile ~/.ssh/<your_key>
-  User node_1
+  HostName localhost
+  IdentityFile ~/.ssh/key_ansible
+  User fedml
+EOS
 ```
 
 
