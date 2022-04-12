@@ -62,54 +62,60 @@
 
 ### スタンドアロン
 
-```
-multipass launch 20.04 --name ansible  # 環境構築用のマシン 兼 nfs 兼 head
-multipass launch 20.04 --name fedml  # ノードはn個に増やしてかまいません
+``` shell
+# multipass launch 20.04 --name ansible  # 環境構築用のマシン 兼 nfs 兼 head
+# multipass launch 20.04 --name fedml  # ノードはn個に増やしてかまいません
+multipass launch 20.04 --name fedml
 ```
 
-```
-sudo useradd -m -d /home/ansible -s /bin/bash -g ubuntu ansible
+``` shell
+# sudo useradd -m -d /home/ansible -s /bin/bash -g ubuntu ansible
 sudo useradd -m -d /home/nfs -s /bin/bash -g ubuntu nfs
 
 # head & nodes
 sudo useradd -m -d /home/fedml -s /bin/bash -g ubuntu fedml
 
-echo ansible:ubuntu | sudo chpasswd
-echo nfs:ubuntu | sudo chpasswd
-echo fedml:ubuntu | sudo chpasswd
+# echo ansible:ubuntu | sudo chpasswd
+# echo nfs:ubuntu | sudo chpasswd
+# echo fedml:ubuntu | sudo chpasswd
 
 ssh-keygetn -t ed25519 -f ~/.ssh/key_`hostname`
 
-cat ~/.ssh/key_`hostname`.pub | sudo tee /home/ansible/.ssh/authorized_keys
+sudo touch /home/nfs/.ssh/authorized_keys | sudo chown nfs /home/nfs/.ssh/authorized_keys
+sudo touch /home/fedml/.ssh/authorized_keys | sudo chown fedml /home/fedml/.ssh/authorized_keys
+
+# cat ~/.ssh/key_`hostname`.pub | sudo tee /home/ansible/.ssh/authorized_keys
 cat ~/.ssh/key_`hostname`.pub | sudo tee /home/nfs/.ssh/authorized_keys
 cat ~/.ssh/key_`hostname`.pub | sudo tee /home/fedml/.ssh/authorized_keys
 
-sudo cp ~/.ssh/key_`hostname` /home/ansible/.ssh/key_ansible
+# sudo cp ~/.ssh/key_`hostname` /home/ansible/.ssh/key_ansible
 sudo cp ~/.ssh/key_`hostname` /home/fedml/.ssh/key_fedml
-sudo chown ansible /home/ansible/.ssh/key_ansible
+# sudo chown ansible /home/ansible/.ssh/key_ansible
 sudo chown fedml /home/fedml/.ssh/key_fedml
 ```
 
 
-```
-su - ansible
+``` shell
+# su - ansible
 
 cat << EOS >> .ssh/config
 Host fedml-nfs
   HostName localhost
-  IdentityFile ~/.ssh/key_ansible
+  IdentityFile ~/.ssh/key_`hostname`
   User nfs
 
 Host fedml-head
   HostName localhost
-  IdentityFile ~/.ssh/key_ansible
+  IdentityFile ~/.ssh/key_`hostname`
   User fedml
 
 Host fedml-node_1
   HostName localhost
-  IdentityFile ~/.ssh/key_ansible
+  IdentityFile ~/.ssh/key_`hostname`
   User fedml
 EOS
+
+# exit
 ```
 
 ```
@@ -121,6 +127,8 @@ Host fedml-nfs
   IdentityFile ~/.ssh/key_fedml
   User nfs
 EOS
+
+exit
 ```
 
 
