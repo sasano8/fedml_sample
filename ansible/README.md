@@ -78,9 +78,16 @@ echo ansible:ubuntu | sudo chpasswd
 echo nfs:ubuntu | sudo chpasswd
 echo fedml:ubuntu | sudo chpasswd
 
-su -c "ln -s /home/ubuntu/.ssh /home/ansible/.ssh" ansible
-su -c "ln -s /home/ubuntu/.ssh /home/nfs/.ssh" nfs
-su -c "ln -s /home/ubuntu/.ssh /home/fedml/.ssh" fedml
+ssh-keygetn -t ed25519 -f ~/.ssh/key_`hostname`
+
+cat ~/.ssh/key_`hostname`.pub | sudo tee /home/ansible/.ssh/authorized_keys
+cat ~/.ssh/key_`hostname`.pub | sudo tee /home/nfs/.ssh/authorized_keys
+cat ~/.ssh/key_`hostname`.pub | sudo tee /home/fedml/.ssh/authorized_keys
+
+sudo cp ~/.ssh/key_`hostname` /home/ansible/.ssh/key_ansible
+sudo cp ~/.ssh/key_`hostname` /home/fedml/.ssh/key_fedml
+sudo chown ansible /home/ansible/.ssh/key_ansible
+sudo chown fedml /home/fedml/.ssh/key_fedml
 ```
 
 
