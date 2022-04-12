@@ -76,9 +76,9 @@ sudo useradd -m -d /home/nfs -s /bin/bash -g fedml nfs
 # head & nodes
 sudo useradd -m -d /home/fedml -s /bin/bash -g fedml fedml
 
-echo ubuntu | sudo passwd --stdin ansible
-echo ubuntu | sudo passwd --stdin nfs
-echo ubuntu | sudo passwd --stdin fedml
+echo ansible:ubuntu | sudo chpasswd
+echo nfs:ubuntu | sudo chpasswd
+echo fedml:ubuntu | sudo chpasswd
 ```
 
 
