@@ -1,4 +1,10 @@
+#!/usr/bin/env bash
 set -eu
+
+cd ~
+
+# sudo apt-get install -y python3-pip
+pip3 --version
 
 if [ ! -e `pwd`/miniconda ]; then
     wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.11.0-Linux-x86_64.sh -O Miniconda3-py38_4.11.0-Linux-x86_64.sh
@@ -8,6 +14,8 @@ if [ ! -e `pwd`/miniconda ]; then
 fi
 
 source miniconda/bin/activate
+
 conda install -y pytorch=1.7.1 torchvision cudatoolkit=11.0 -c pytorch
-conda install -y -c anaconda mpi4py
-pip install --upgrade wandb
+conda install -y -c anaconda mpi4py h5py
+# mpi4py:  mpi通信に必要
+# h5py: HDF5（階層的データ形式フォーマットファイル）を取り扱うライブラリ

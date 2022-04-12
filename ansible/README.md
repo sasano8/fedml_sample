@@ -178,8 +178,14 @@ EOS
 ansible all -i hosts -m ping
 ```
 
-次のコマンドで環境構築に必要なスクリプトを配布&インストールします。
+次のコマンドで環境構築に必要なスクリプトを配布します。
 
 ```
 ansible-playbook -i hosts playbooks/delivery.yml
+```
+
+次のコマンドで配布されたスクリプトを実行し環境を構築を行います。
+
+```
+ansible-playbook -i hosts playbooks/install.yml
 ```

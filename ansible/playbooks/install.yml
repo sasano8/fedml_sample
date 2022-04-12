@@ -1,0 +1,11 @@
+- hosts: ~(head|nodes)
+  tasks:
+    - name: install prerequisite for fedml
+      args:
+        executable: /bin/bash
+      shell: ./scripts/install_common.sh >> logs/install_common.log 2>&1
+
+    - name: install fedml
+      args:
+        executable: /bin/bash
+      shell: ./scripts/install_fedml.sh >> logs/install_fedml.log 2>&1

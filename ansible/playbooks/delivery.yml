@@ -12,3 +12,8 @@
   tasks:
     - name: Fetch the file from the mwiapp01 to master
       copy: src=../scripts dest=. mode=+x
+
+- hosts: ~(head|nodes)
+  tasks:
+    - name: create log directory
+      shell: mkdir -p logs
