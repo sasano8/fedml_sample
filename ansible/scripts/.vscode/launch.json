@@ -1,0 +1,29 @@
+{
+  // https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: debug fedavg",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/fedml_experiments/standalone/fedavg",
+      "program": "main_fedavg.py",
+      "args": [
+        "--gpu=0",
+        "--dataset=fed_shakespeare",
+        "--data_dir=./../../../data/fed_shakespeare/datasets",
+        "--model=rnn",
+        "--partition_method=hetero",
+        "--client_num_in_total=10",
+        "--client_num_per_round=10",
+        "--comm_round=1000",
+        "--epochs=1",
+        "--batch_size=10",
+        "--client_optimizer=sgd",
+        "--lr=0.8",
+        "--ci=0"
+      ],
+      "justMyCode": false
+    }
+  ]
+}

@@ -9,18 +9,6 @@
 
 ## 構成要件
 
-次のホストに対して、必要なスクリプトの配布とテストの実施をansibleで行います
-
-- nfs: モデルを共有するためファイルストレージが1台必要です
-- head: 計算ノード管理のホストが1台必要です
-- nodes: 複数台の計算ノードが必要です
-
-上記ホストの他に、ansibleホストが必要です。
-検証の場合、ansibleホストは自身のメインマシンになります。
-
-
-## 構成要件
-
 必要となるマシンの最低スペックは次の通りです。
 
 
@@ -46,15 +34,19 @@
 - ansible（オプション）:
     - OS: Ubuntu20.04
     - Volume: 5GB ~
-    - memo: nfs/head/nodesに対して、一括でスクリプトを配布、構成変更するための構成管理サーバが１台必要です
+    - memo: nfs/head/nodesに対して、一括でスクリプトを配布、構成変更するためansibleという構成管理ソフトを使用します。ansibleを使用しない場合は、手動で構成する必要があります。
 
 
-また、透過的に次の方向でssh接続できる必要があります。
+## 通信要件
 
-- head  ???  nodes
-- nodes <- -> nfs
-- head ??? nfs
-- ansible --> nfs, head, nodes
+- nfs:
+    - ssh接続が許可されていること
+- head:
+    - ?
+- nodes:
+    - nfsへssh接続が可能であること
+- ansible:
+    - nfs, head, nodesへssh接続が可能であること
 
 
 ## 検証環境構築
@@ -62,12 +54,25 @@
 
 ### スタンドアロン
 
+nfs, head, nodes, ansibleを１台のホスト上に構築する例を示します。
+
+
+仮想マシンを用意します。
+この例では、仮想マシンの準備にmultipassを使用しますが、任意のソフトウェアを使ってかまいません。
+
 ``` shell
 multipass launch 20.04 --disk 20G --name fedml
 multipass shell fedml
 ```
 
+デフォルトのユーザであるubuntuをansible実行ホストとみなします。
+
+加えて、nfs用ユーザ、head用ユーザ、nodesユーザを作成し、通信要件を満たすようにssh接続設定を行います。
+ここでは、head用ユーザ、nodesユーザはfedmlというユーザで兼任することとします。
+
 ``` shell
+whoami  # ubuntu
+
 sudo useradd -m -d /home/nfs -s /bin/bash nfs
 sudo useradd -m -d /home/fedml -s /bin/bash fedml  # head & nodes
 
@@ -86,8 +91,11 @@ sudo cp ~/.ssh/key_`hostname` /home/fedml/.ssh/key_fedml
 sudo chown fedml /home/fedml/.ssh/key_fedml
 ```
 
+ansibleユーザ（ubuntu）で、`~/.ssh/config`を作成します。
 
 ``` shell
+whoami  # ubuntu
+
 cat << EOS >> .ssh/config
 Host fedml-nfs
   HostName localhost
@@ -106,8 +114,10 @@ Host fedml-node_1
 EOS
 ```
 
+計算ノードからnfsへssh接続できるようにします。
+
 ``` shell
-ssh fedml-head
+ssh fedml-node_1
 
 cat << EOS >> .ssh/config
 Host fedml-nfs
