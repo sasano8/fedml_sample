@@ -212,3 +212,33 @@ ansible-playbook -i hosts playbooks/delivery.yml
 ```
 ansible-playbook -i hosts playbooks/install.yml
 ```
+
+管理ノードで次のコマンドを実行
+
+```
+export WANDB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+次のコマンドを実行します。エラーになる実験はコメントアウトしてください。
+
+```
+bash CI-script-fedavg.sh
+```
+
+
+```
+sh run_fedavg_standalone_pytorch.sh 0 2 2 4 mnist ./../../../data/mnist lr hetero 1 1 0.03 sgd 1
+
+INFO:root:load_data. dataset_name = mnist
+Traceback (most recent call last):
+  File "./main_fedavg.py", line 305, in <module>
+    dataset = load_data(args, args.dataset)
+  File "./main_fedavg.py", line 110, in load_data
+    class_num = load_partition_data_mnist(args.batch_size)
+  File "/home/fedml/FedML/fedml_api/data_preprocessing/MNIST/data_loader.py", line 90, in load_partition_data_mnist
+    users, groups, train_data, test_data = read_data(train_path, test_path)
+  File "/home/fedml/FedML/fedml_api/data_preprocessing/MNIST/data_loader.py", line 28, in read_data
+    train_files = os.listdir(train_data_dir)
+FileNotFoundError: [Errno 2] No such file or directory: './../../../data/MNIST/train'
+```
+
