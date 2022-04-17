@@ -6,5 +6,6 @@
     "EditorConfig.EditorConfig",
     "redhat.vscode-yaml",
     "sidneys1.gitconfig",
+    "redhat.ansible"
   ]
 }

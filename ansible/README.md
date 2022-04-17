@@ -139,6 +139,15 @@ cat ~/.ssh/key_`hostname`.pub | sudo tee -a /home/`whoami`/.ssh/authorized_keys
 ```
 
 
+## clone repository
+
+```
+git clone <URL> fedml_sample
+cd fedml_sample/ansible
+```
+
+
+
 ## install ansible
 
 https://docs.ansible.com/ansible/2.9_ja/installation_guide/intro_installation.html#ubuntu-ansible
@@ -149,18 +158,6 @@ sudo apt-get install -y software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt-get install -y ansible
 ```
-
-
-##
-
-
-```
-git clone <URL> fedml_sample
-cd fedml_sample/ansible
-```
-
-
-
 
 ## config定義
 
@@ -177,17 +174,23 @@ EOS
 ## hosts定義
 
 環境構築対象となるホスト群を`hosts`（iniファイル形式）に定義します。
+standaloneの場合、headとndoesは同一ユーザを想定しています。
+
+standaloneの場合、headとnodesを定義すると、インストール処理が衝突し失敗するため、明示的にstandaloneと伝える必要があります。
 
 ```
 cat << EOS > hosts
 [nfs]
 fedml-nfs
 
-[head]
-fedml-head
+# [head]
+# fedml-head
 
-[nodes]
-fedml-node_1
+# [nodes]
+# fedml-node_1
+
+[standalone]
+fedml-head
 EOS
 ```
 

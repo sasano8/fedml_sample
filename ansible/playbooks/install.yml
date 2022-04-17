@@ -1,11 +1,26 @@
-- hosts: ~(head|nodes)
+- hosts: ~(head|nodes|standalone)
   tasks:
-    - name: install prerequisite for fedml
-      args:
-        executable: /bin/bash
-      shell: ./scripts/install_common.sh >> logs/install_common.log 2>&1
+    - name: check FedML exists
+      stat:
+        path: ~/FedML
+      register: fedml_dir
 
-    - name: install fedml
-      args:
-        executable: /bin/bash
-      shell: ./scripts/install_fedml.sh >> logs/install_fedml.log 2>&1
+    - name: clone fedml
+      when: fedml_dir.stat.exists == False
+      ansible.builtin.git:
+        repo: "https://github.com/FedML-AI/FedML.git"
+        dest: ~/FedML
+        # force: true # force clone
+
+    - name: install fedml[expected processing time 15 minutes]
+      shell: ./scripts/install_official.sh >> logs/install_official.log 2>&1
+
+    # - name: install prerequisite for fedml
+    #   args:
+    #     executable: /bin/bash
+    #   shell: ./scripts/install_common.sh >> logs/install_common.log 2>&1
+
+    # - name: install fedml
+    #   args:
+    #     executable: /bin/bash
+    #   shell: ./scripts/install_fedml.sh >> logs/install_fedml.log 2>&1
