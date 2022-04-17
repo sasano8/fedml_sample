@@ -129,6 +129,16 @@ EOS
 exit
 ```
 
+sshでVMのホストから繋ぎたい場合は、次の追加作業が必要です。
+
+```
+# 共通鍵をauthorized_keysに追加
+cat ~/.ssh/key_`hostname`.pub | sudo tee -a /home/`whoami`/.ssh/authorized_keys
+
+# VMホスト上にcat ~/.ssh/key_`hostname`の中身（秘密鍵）をコピーし、VMホスト上の~/.ssh/configの設定をする。
+```
+
+
 ## install ansible
 
 https://docs.ansible.com/ansible/2.9_ja/installation_guide/intro_installation.html#ubuntu-ansible
