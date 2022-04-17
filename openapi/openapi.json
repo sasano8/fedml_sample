@@ -12,10 +12,11 @@
                 "operationId": "fedavg_fedml_fedavg_post",
                 "parameters": [
                     {
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "title": "Gpu",
-                            "type": "integer"
+                            "type": "integer",
+                            "default": 0
                         },
                         "name": "gpu",
                         "in": "query"
@@ -43,7 +44,8 @@
                         "schema": {
                             "title": "Model",
                             "enum": [
-                                "rnn"
+                                "rnn",
+                                "resnet56"
                             ],
                             "type": "string",
                             "default": "rnn"
@@ -52,10 +54,16 @@
                         "in": "query"
                     },
                     {
-                        "required": true,
+                        "description": "how to partition the dataset on local workers",
+                        "required": false,
                         "schema": {
                             "title": "Partition Method",
-                            "type": "string"
+                            "enum": [
+                                "hetero"
+                            ],
+                            "type": "string",
+                            "description": "how to partition the dataset on local workers",
+                            "default": "hetero"
                         },
                         "name": "partition_method",
                         "in": "query"
@@ -79,12 +87,12 @@
                         "in": "query"
                     },
                     {
-                        "description": "ラウンド数？",
+                        "description": "how many round of communications we should use",
                         "required": false,
                         "schema": {
                             "title": "Comm Round",
                             "type": "integer",
-                            "description": "ラウンド数？",
+                            "description": "how many round of communications we should use",
                             "default": 1000
                         },
                         "name": "comm_round",
@@ -117,27 +125,35 @@
                         "required": true,
                         "schema": {
                             "title": "Client Optimizer",
+                            "enum": [
+                                "sgd",
+                                "adam"
+                            ],
                             "type": "string"
                         },
                         "name": "client_optimizer",
                         "in": "query"
                     },
                     {
-                        "description": "学習率のこと？",
-                        "required": true,
+                        "description": "学習率",
+                        "required": false,
                         "schema": {
                             "title": "Lr",
                             "type": "number",
-                            "description": "学習率のこと？"
+                            "description": "学習率",
+                            "default": 0.0001
                         },
                         "name": "lr",
                         "in": "query"
                     },
                     {
-                        "required": true,
+                        "description": "CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。",
+                        "required": false,
                         "schema": {
                             "title": "Ci",
-                            "type": "integer"
+                            "type": "integer",
+                            "description": "CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。",
+                            "default": 0
                         },
                         "name": "ci",
                         "in": "query"
@@ -180,6 +196,35 @@
                         }
                     }
                 }
+            },
+            "MpiHost": {
+                "title": "MpiHost",
+                "required": [
+                    "host",
+                    "slots"
+                ],
+                "type": "object",
+                "properties": {
+                    "host": {
+                        "title": "Host",
+                        "type": "string",
+                        "description": "host名またはipを指定"
+                    },
+                    "slots": {
+                        "title": "Slots",
+                        "type": "integer",
+                        "description": "CPU数を指定"
+                    }
+                },
+                "description": "計算を実行する"
+            },
+            "MpiHostFile": {
+                "title": "MpiHostFile",
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/MpiHost"
+                },
+                "description": "形式はバージョンにより２つある。\nnode1:4\nnode1 slots=4"
             },
             "ValidationError": {
                 "title": "ValidationError",
