@@ -84,8 +84,8 @@ sudo mkdir -p /home/fedml/.ssh; sudo chown fedml:fedml /home/fedml/.ssh
 sudo touch /home/nfs/.ssh/authorized_keys; sudo chown nfs /home/nfs/.ssh/authorized_keys
 sudo touch /home/fedml/.ssh/authorized_keys; sudo chown fedml /home/fedml/.ssh/authorized_keys
 
-cat ~/.ssh/key_`hostname`.pub | sudo tee /home/nfs/.ssh/authorized_keys
-cat ~/.ssh/key_`hostname`.pub | sudo tee /home/fedml/.ssh/authorized_keys
+cat ~/.ssh/key_`hostname`.pub | sudo tee -a /home/nfs/.ssh/authorized_keys
+cat ~/.ssh/key_`hostname`.pub | sudo tee -a /home/fedml/.ssh/authorized_keys
 
 sudo cp ~/.ssh/key_`hostname` /home/fedml/.ssh/key_fedml
 sudo chown fedml /home/fedml/.ssh/key_fedml
