@@ -76,7 +76,8 @@ whoami  # ubuntu
 sudo useradd -m -d /home/nfs -s /bin/bash nfs
 sudo useradd -m -d /home/fedml -s /bin/bash fedml  # head & nodes
 
-ssh-keygen -t ed25519 -f ~/.ssh/key_`hostname`
+# キーフレーズなしでキーペアを作成
+ssh-keygen  -N "" -t ed25519 -f ~/.ssh/key_`hostname`
 
 sudo mkdir -p /home/nfs/.ssh; sudo chown nfs:nfs /home/nfs/.ssh
 sudo mkdir -p /home/fedml/.ssh; sudo chown fedml:fedml /home/fedml/.ssh
@@ -216,6 +217,10 @@ ansible-playbook -i hosts playbooks/install.yml
 管理ノードで次のコマンドを実行
 
 ```
+ssh fedml-head
+```
+
+```
 export WANDB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
@@ -242,3 +247,16 @@ Traceback (most recent call last):
 FileNotFoundError: [Errno 2] No such file or directory: './../../../data/MNIST/train'
 ```
 
+```
+ssh fedml-head
+cd ~/FedML/fedml_experiments/distributed/fedavg
+
+cat << EOS > mpi_host_file
+localhost:1
+EOS
+```
+
+```
+source "$HOME/miniconda/etc/profile.d/conda.sh"
+conda activate fedml
+```

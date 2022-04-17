@@ -55,3 +55,11 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 
 微分を用いて求められる関数の傾きを、一般的に「勾配（Gradient）」という。
 
+
+## ResNet
+
+ResNet は、画像認識のコンテスト ILSVRC 2015 にて、top5 error rate で3.57%を記録し、優勝した CNN ネットワークモデルです。
+
+# Heterogeneous Neural Networks（hetero）
+
+異種ニューラルネットワーク
