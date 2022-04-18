@@ -99,12 +99,12 @@
                         "in": "query"
                     },
                     {
-                        "description": "データセットをいくつかに分割し、分割された塊の数",
+                        "description": "データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。",
                         "required": true,
                         "schema": {
                             "title": "Batch Size",
                             "type": "integer",
-                            "description": "データセットをいくつかに分割し、分割された塊の数"
+                            "description": "データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"
                         },
                         "name": "batch_size",
                         "in": "query"
