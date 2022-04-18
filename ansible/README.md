@@ -65,6 +65,12 @@ multipass launch 20.04 --disk 20G --name fedml
 multipass shell fedml
 ```
 
+ストレージの保存場所は次のように変更可能な模様。
+
+```
+multipass set local.storage=D:\vhd
+```
+
 デフォルトのユーザであるubuntuをansible実行ホストとみなします。
 
 加えて、nfs用ユーザ、head用ユーザ、nodesユーザを作成し、通信要件を満たすようにssh接続設定を行います。
@@ -259,4 +265,49 @@ EOS
 ```
 source "$HOME/miniconda/etc/profile.d/conda.sh"
 conda activate fedml
+```
+
+
+```
+sh ./../../../data/fed_cifar100/download_fedcifar100.sh
+
+mpirun -np 2 -hostfile ./mpi_host_file python3 ./main_fedavg.py \
+  --gpu_mapping_file "gpu_mapping.yaml" \
+  --gpu_mapping_key "mapping_default" \
+  --model resnet18_gn \
+  --data_dir ./../../../data/fed_cifar100/datasets \
+  --dataset fed_cifar100 \
+  --partition_method hetero  \
+  --client_num_in_total 1 \
+  --client_num_per_round 1 \
+  --comm_round 10 \
+  --batch_size 512 \
+  --epochs 1 \
+  --lr 0.03 \
+  --client_optimizer adam \
+  --ci 0
+```
+
+
+# MPIのデバッグ
+
+本当にできるかは試していない。
+
+```
+mpirun -np 2 -hostfile ./mpi_host_file python3 -m debugpy --wait-for-client --listen 5678 ./main_fedavg.py \
+  --gpu_mapping_file "gpu_mapping.yaml" \
+  --gpu_mapping_key "mapping_default" \
+  --model resnet18_gn \
+  --data_dir ./../../../data/fed_cifar100/datasets \
+  --dataset fed_cifar100 \
+  --partition_method hetero  \
+  --client_num_in_total 1 \
+  --client_num_per_round 1 \
+  --comm_round 10 \
+  --batch_size 512 \
+  --epochs 1 \
+  --lr 0.03 \
+  --client_optimizer adam \
+  --ci 0
+
 ```

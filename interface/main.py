@@ -55,7 +55,7 @@ def fedavg(
     client_num_in_total: int,
     client_num_per_round: int,
     comm_round: int = Query(1000, description="how many round of communications we should use"),
-    batch_size: int = Query(..., description="データセットをいくつかに分割し、分割された塊の数"),
+    batch_size: int = Query(..., description="データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"),
     epochs: int = Query(
         1,
         # description="It specifies the number of iterations. Epoch mean one complete pass of the training dataset through the algorithm."
