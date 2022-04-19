@@ -49,6 +49,7 @@ nav:
   - インストレーション: "installation.md"
   - 用語集: "glossary.md"
   - api: "openapi/api.html"
+  - コードリーディング: "code_reading.md"
 
 markdown_extensions:
   - admonition
