@@ -5,11 +5,47 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/fedml/fedavg": {
+        "/create_mpi_host_file": {
+            "post": {
+                "summary": "Create Mpi Host File",
+                "operationId": "create_mpi_host_file_create_mpi_host_file_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MpiHostFile"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedavg": {
             "post": {
                 "summary": "Fedavg",
                 "description": "${workspaceFolder}/fedml_experiments/standalone/fedavg",
-                "operationId": "fedavg_fedml_fedavg_post",
+                "operationId": "fedavg_fedavg_post",
                 "parameters": [
                     {
                         "required": false,
@@ -191,10 +227,10 @@
                 }
             }
         },
-        "/fedml/fedavg_internal": {
+        "/fedavg_internal": {
             "post": {
                 "summary": "Fedavg Internal",
-                "operationId": "fedavg_internal_fedml_fedavg_internal_post",
+                "operationId": "fedavg_internal_fedavg_internal_post",
                 "parameters": [
                     {
                         "required": true,
@@ -251,10 +287,10 @@
                 }
             }
         },
-        "/fedml/train": {
+        "/train": {
             "post": {
                 "summary": "Train",
-                "operationId": "train_fedml_train_post",
+                "operationId": "train_train_post",
                 "parameters": [
                     {
                         "required": true,
