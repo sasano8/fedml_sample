@@ -65,10 +65,12 @@ multipass launch 20.04 --disk 20G --name fedml
 multipass shell fedml
 ```
 
-ストレージの保存場所は次のように変更可能な模様。
+ストレージの保存場所を変更したい場合は、powershellを管理者で起動し次のコマンドを実行する。
 
-```
-multipass set local.storage=D:\vhd
+``` powershell
+PS> Stop-Service Multipass
+PS> Set-ItemProperty -Path "HKLM:System\CurrentControlSet\Control\Session Manager\Environment" -Name MULTIPASS_STORAGE -Value "D:/vhd"
+PS> Start-Service Multipass
 ```
 
 デフォルトのユーザであるubuntuをansible実行ホストとみなします。
