@@ -40,11 +40,11 @@ class MpiHostFile(BaseModel):
     __root__: List[MpiHost]
 
 
-@app.post("/fedml/fedavg")
+@app.post("/create_mpi_host_file")
 def create_mpi_host_file(mpi_host_file: MpiHostFile):
     return "\n".join(x.host + f":{x.slots}" for x in mpi_host_file.__root__)
 
-@app.post("/fedml/fedavg")
+@app.post("/fedavg")
 def fedavg(
     *,
     gpu: int = Query(0, description=""),
@@ -68,11 +68,11 @@ def fedavg(
     "${workspaceFolder}/fedml_experiments/standalone/fedavg"
 
 
-@app.post("/fedml/fedavg_internal")
+@app.post("/fedavg_internal")
 def fedavg_internal(dataset, device, args, model_trainer):
     ...
 
 
-@app.post("/fedml/train")
+@app.post("/train")
 def train(table_name, output_model_name, params: dict):
     ...
