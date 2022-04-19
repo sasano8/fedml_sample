@@ -52,8 +52,8 @@ def fedavg(
     data_dir: str,
     model: MODELS = "rnn",
     partition_method: PARTITION_METHODS = Query("hetero", description="how to partition the dataset on local workers"),
-    client_num_in_total: int = Query(description="number of workers in a distributed cluster"),
-    client_num_per_round: int = Query(description="number of workers"),
+    client_num_in_total: int = Query(1, description="number of workers in a distributed cluster"),
+    client_num_per_round: int = Query(1, description="number of workers"),
     comm_round: int = Query(1000, description="how many round of communications we should use"),
     batch_size: int = Query(..., description="データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"),
     epochs: int = Query(
