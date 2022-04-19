@@ -45,7 +45,11 @@
                             "title": "Model",
                             "enum": [
                                 "rnn",
-                                "resnet56"
+                                "resnet56",
+                                "lr",
+                                "cnn",
+                                "resnet18_gn",
+                                "mobilenet"
                             ],
                             "type": "string",
                             "default": "rnn"
@@ -69,19 +73,25 @@
                         "in": "query"
                     },
                     {
-                        "required": true,
+                        "description": "number of workers in a distributed cluster",
+                        "required": false,
                         "schema": {
                             "title": "Client Num In Total",
-                            "type": "integer"
+                            "type": "integer",
+                            "description": "number of workers in a distributed cluster",
+                            "default": 1
                         },
                         "name": "client_num_in_total",
                         "in": "query"
                     },
                     {
-                        "required": true,
+                        "description": "number of workers",
+                        "required": false,
                         "schema": {
                             "title": "Client Num Per Round",
-                            "type": "integer"
+                            "type": "integer",
+                            "description": "number of workers",
+                            "default": 1
                         },
                         "name": "client_num_per_round",
                         "in": "query"
@@ -159,6 +169,121 @@
                         "in": "query"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/fedavg_internal": {
+            "post": {
+                "summary": "Fedavg Internal",
+                "operationId": "fedavg_internal_fedml_fedavg_internal_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Dataset"
+                        },
+                        "name": "dataset",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Device"
+                        },
+                        "name": "device",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Args"
+                        },
+                        "name": "args",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Model Trainer"
+                        },
+                        "name": "model_trainer",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/train": {
+            "post": {
+                "summary": "Train",
+                "operationId": "train_fedml_train_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Table Name"
+                        },
+                        "name": "table_name",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Output Model Name"
+                        },
+                        "name": "output_model_name",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Params",
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",

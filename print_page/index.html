@@ -316,6 +316,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code_reading/" class="md-nav__link">
+        コードリーディング
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
@@ -1011,7 +1026,52 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 <h2 id="glossary-resnet">ResNet</h2>
 <p>ResNet は、画像認識のコンテスト ILSVRC 2015 にて、top5 error rate で3.57%を記録し、優勝した CNN ネットワークモデルです。</p>
 <h1 id="glossary-heterogeneous-neural-networkshetero">Heterogeneous Neural Networks（hetero）</h1>
-<p>異種ニューラルネットワーク</p></section></div>
+<p>異種ニューラルネットワーク</p>
+<h1 id="glossary-hdf5">HDF5</h1>
+<p>Hierarchical Data Formatの略（5はバージョン）で、階層化された形でデータを保存することができるファイル形式。
+pickleより若干遅いが、他言語でも使える汎用フォーマット。</p>
+<p>Pythonライブラリのh5pyを使うと、NumPyのようなインターフェースのオブジェクトを得る。</p>
+<h1 id="glossary-_5">テンソル</h1>
+<p>線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。</p></section><section class="print-page" id="code_reading"><div class="highlight"><pre><span></span><code>- wandb.init
+    - どう作動するか分からん
+    - 何をウォッチする？
+- torchを準備する
+    - gpu か cpuか
+    - 色々初期化
+- load_data(args, args.dataset)
+    - centralized = True if args.client_num_in_total == 1 else False
+    - full_batch = args.batch_size &lt;= 0  args.batch_size = 128
+    - class_num = load_partition_data_federated_shakespeare(args.dataset, args.data_dir)
+        - DEFAULT_TRAIN_CLIENTS_NUM = 715 の数だけデータセットを分割する？
+            - get_dataloader(dataset, data_dir, train_bs, test_bs, client_idx=None) -&gt; クライアント分のデータローダを作成する
+                - train用データセットとtest用データセットを読み込む
+                - utils.preprocess: よく分からないが前処理をしているようだ
+                - utils.split: datasetをx, yにsplitする
+                - テンソルデータセット（pytorchで提供する型）
+                - data.DataLoader(dataset=train_ds, batch_size=train_bs,shuffle=True,drop_last=False) クラスを初期化し、train用data_loaderとtest用data_loaderを初期化する
+        - クライアント分のデータローダを１つにし、train用とtest用loaderを作成する（なんか意味ないようにみえる）
+        - 統計情報やtrain用・test用データローダ色々返す
+    - args.client_num_in_total = client_num  # standaloneだからクライアント数は無視される？
+    - centralizedならなんかする
+    - full_batchならなんかする
+    - 色々一つに含めてそれを返す
+- create_model(dataset, model_name, output_dim): モデルを作成する。これは一般的な機械学習と同じ
+    - modelのインターフェースは何か？
+- custom_model_trainer
+- FedAvgAPI(dataset, device, args, model_trainer).train() -&gt; トレーナーを実行する
+    - comm_roundの数繰り返す
+        - clientの数？繰り返す
+            - trainする
+    - aggregate（グローバルパラメータを更新）する
+    - トレーナーのパラメータをグローバルパラメータでアップデートする
+    - テストする
+</code></pre></div>
+<p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
+<div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
+
+def load_partition_data_distributed_federated_shakespeare(...
+def load_partition_data_federated_shakespeare(...
+</code></pre></div></section></div>
                 
               
 
