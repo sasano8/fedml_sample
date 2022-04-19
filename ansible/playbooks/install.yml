@@ -1,17 +1,5 @@
 - hosts: ~(head|nodes|standalone)
   tasks:
-    - name: check FedML exists
-      stat:
-        path: ~/FedML
-      register: fedml_dir
-
-    - name: clone fedml
-      when: fedml_dir.stat.exists == False
-      ansible.builtin.git:
-        repo: "https://github.com/FedML-AI/FedML.git"
-        dest: ~/FedML
-        # force: true # force clone
-
     - name: install fedml[expected processing time 15 minutes]
       shell: ./scripts/install_official.sh >> logs/install_official.log 2>&1
 

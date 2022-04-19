@@ -1,5 +1,6 @@
 {
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  // "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "python.defaultInterpreterPath": "/home/fedml/miniconda/envs/fedml/bin/python",
   "editor.formatOnSave": true,
   "python.linting.lintOnSave": true,
   "python.linting.enabled": true,

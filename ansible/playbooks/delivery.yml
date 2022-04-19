@@ -5,7 +5,22 @@
 
 - hosts: ~(head|nodes|standalone)
   tasks:
+    - name: check FedML exists
+      stat:
+        path: ~/FedML
+      register: fedml_dir
+
+    - name: clone fedml
+      when: fedml_dir.stat.exists == False
+      ansible.builtin.git:
+        repo: "https://github.com/FedML-AI/FedML.git"
+        dest: ~/FedML
+
     - name: Fetch the file from the mwiapp01 to master
       copy: src=../scripts dest=. mode=+x
+
+    - name: Fetch the file from the mwiapp01 to master
+      copy: src=../scripts/.vscode dest=./FedML mode=+x
+
     - name: create log directory
       shell: mkdir -p logs

@@ -52,6 +52,19 @@
 ## 検証環境構築
 
 
+### 事前準備
+
+本手順では、multipassで仮想マシンを準備します。
+
+ストレージの保存場所を変更したい場合は、powershellを管理者で起動し次のコマンドを実行してください。
+
+``` powershell
+PS> Stop-Service Multipass
+PS> Set-ItemProperty -Path "HKLM:System\CurrentControlSet\Control\Session Manager\Environment" -Name MULTIPASS_STORAGE -Value "D:/vhd"
+PS> Start-Service Multipass
+```
+
+
 ### スタンドアロン
 
 nfs, head, nodes, ansibleを１台のホスト上に構築する例を示します。
@@ -63,14 +76,6 @@ nfs, head, nodes, ansibleを１台のホスト上に構築する例を示しま�
 ``` shell
 multipass launch 20.04 --disk 20G --name fedml
 multipass shell fedml
-```
-
-ストレージの保存場所を変更したい場合は、powershellを管理者で起動し次のコマンドを実行する。
-
-``` powershell
-PS> Stop-Service Multipass
-PS> Set-ItemProperty -Path "HKLM:System\CurrentControlSet\Control\Session Manager\Environment" -Name MULTIPASS_STORAGE -Value "D:/vhd"
-PS> Start-Service Multipass
 ```
 
 デフォルトのユーザであるubuntuをansible実行ホストとみなします。
@@ -312,4 +317,14 @@ mpirun -np 2 -hostfile ./mpi_host_file python3 -m debugpy --wait-for-client --li
   --client_optimizer adam \
   --ci 0
 
+```
+
+
+### 複数構成
+
+``` shell
+multipass launch 20.04 --disk 20G --name ansible
+multipass launch 20.04 --disk 20G --name nfs
+multipass launch 20.04 --disk 20G --name head
+multipass launch 20.04 --disk 20G --name node-1
 ```

@@ -18,7 +18,7 @@ app = FastAPI()
 #         "--lr=0.8",
 #         "--ci=0"
 
-MODELS = Literal["rnn", "resnet56"]
+MODELS = Literal["rnn", "resnet56", "lr", "cnn", "resnet18_gn", "mobilenet"]
 OPTIMIZERS = Literal["sgd", "adam"]
 PARTITION_METHODS = Literal["hetero"]
 DISTRIBUTIONS = Literal["homo", "lumo"]  # 満足がいくデータセットが得られない場合に、テストデータセットを予測し、データセットを補完する。
@@ -52,8 +52,8 @@ def fedavg(
     data_dir: str,
     model: MODELS = "rnn",
     partition_method: PARTITION_METHODS = Query("hetero", description="how to partition the dataset on local workers"),
-    client_num_in_total: int,
-    client_num_per_round: int,
+    client_num_in_total: int = Field(description="number of workers in a distributed cluster"),
+    client_num_per_round: int = Field(description="number of workers"),
     comm_round: int = Query(1000, description="how many round of communications we should use"),
     batch_size: int = Query(..., description="データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"),
     epochs: int = Query(
@@ -66,3 +66,13 @@ def fedavg(
     ci: int = Query(0, description="CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。")
 ):
     "${workspaceFolder}/fedml_experiments/standalone/fedavg"
+
+
+@app.post("/fedml/fedavg_internal")
+def fedavg_internal(dataset, device, args, model_trainer):
+    ...
+
+
+@app.post("/fedml/train")
+def train(table_name, output_model_name, params: dict):
+    ...

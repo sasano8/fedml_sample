@@ -63,3 +63,15 @@ ResNet は、画像認識のコンテスト ILSVRC 2015 にて、top5 error rate
 # Heterogeneous Neural Networks（hetero）
 
 異種ニューラルネットワーク
+
+
+# HDF5
+
+Hierarchical Data Formatの略（5はバージョン）で、階層化された形でデータを保存することができるファイル形式。
+pickleより若干遅いが、他言語でも使える汎用フォーマット。
+
+Pythonライブラリのh5pyを使うと、NumPyのようなインターフェースのオブジェクトを得る。
+
+# テンソル
+
+線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。

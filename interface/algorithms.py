@@ -1,0 +1,29 @@
+
+
+class FedAvgAPI(object):
+    def __init__(self, dataset, device, args, model_trainer):
+        ...
+
+    def _setup_clients(self, train_data_local_num_dict, train_data_local_dict, test_data_local_dict, model_trainer):
+        ...
+
+    def train(self):
+        ...
+
+    def _client_sampling(self, round_idx, client_num_in_total, client_num_per_round):
+        ...
+
+    def _generate_validation_set(self, num_samples=10000):
+        ...
+
+    def _aggregate(self, w_locals):
+        ...
+
+    def _aggregate_noniid_avg(self, w_locals):
+        ...
+
+    def _local_test_on_all_clients(self, round_idx):
+        ...
+
+    def _local_test_on_validation_set(self, round_idx):
+        ...
