@@ -138,13 +138,13 @@
                         "in": "query"
                     },
                     {
-                        "description": "how many round of communications we should use",
+                        "description": "how many round of communications we should use. roundの数だけepochsを繰り返すようだ。",
                         "required": false,
                         "schema": {
                             "title": "Comm Round",
                             "type": "integer",
-                            "description": "how many round of communications we should use",
-                            "default": 1000
+                            "description": "how many round of communications we should use. roundの数だけepochsを繰り返すようだ。",
+                            "default": 2
                         },
                         "name": "comm_round",
                         "in": "query"
