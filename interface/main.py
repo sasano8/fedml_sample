@@ -31,17 +31,14 @@ class MpiHost(BaseModel):
     host: str = Field(description="host名またはipを指定")
     slots: int = Field(description="CPU数を指定")
 
-class MpiHostFile(BaseModel):
+
+@app.post("/create_mpi_host_file")
+def create_mpi_host_file(mpi_host_file: List[MpiHost]):
     """
     形式はバージョンにより２つある。
     node1:4
     node1 slots=4
     """
-    __root__: List[MpiHost]
-
-
-@app.post("/create_mpi_host_file")
-def create_mpi_host_file(mpi_host_file: MpiHostFile):
     return "\n".join(x.host + f":{x.slots}" for x in mpi_host_file.__root__)
 
 @app.post("/fedavg")

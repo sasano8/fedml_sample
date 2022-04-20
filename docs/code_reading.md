@@ -1,6 +1,7 @@
 
 
 ```
+standalone/fedavg/main_fedavg.py
 
 - wandb.init
     - どう作動するか分からん
@@ -37,6 +38,69 @@
     - テストする
 
 ```
+
+```
+# distributed/fedavg/main_fedavg.py
+
+- device = mapping_processes_to_gpu_device_from_yaml_file(...)
+- dataset = load_data(args, args.dataset)
+- model = create_model(args, model_name=args.model, output_dim=dataset[7])
+- FedML_FedAvg_distributed(
+        process_id,
+        worker_number,
+        device,
+        comm,
+        model,
+        train_data_num,
+        train_data_global,
+        test_data_global,
+        train_data_local_num_dict,
+        train_data_local_dict,
+        test_data_local_dict,
+        args,
+    )
+    - if process_id == 0:
+        - init_server
+            - トレーナを初期化
+            - アグリゲータを初期化 aggregator = FedAVGAggregator
+            - サーバマネージャを初期化 server_manager = FedAVGServerManager(args, aggregator, comm, rank, size, backend)
+            - 初期化メッセージを送信: server_manager.send_init_msg()
+                - self.aggregator.get_global_model_params(): トレーナのモデルからグローバルパラメータを取得
+                - グローバルパラメータと共に、MyMessage.MSG_TYPE_S2C_INIT_CONFIGを送信（FedAVGClientManager.handle_message_initが受け取る）
+            - 実行＆待機: server_manager.run()
+                - messageを監視する
+    - else:
+        - init_client
+            - トレーナを初期化
+            - FedAVGTrainerを初期化
+            - FedAVGClientManagerを初期化
+            - FedAVGClientManagerを実行
+```
+
+```
+Server: FedAVGServerManager
+Client: FedAVGClientManager
+
+Server -> MyMessage.MSG_TYPE_S2C_INIT_CONFIG -> Client
+Server <- MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT <- Client
+Server -> MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT -> Client
+Server <- MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER <- Client
+```
+
+``` mermaid
+sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice->>John: Hello John, how are you?
+    loop Healthcheck
+        John->>John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts <br/>prevail!
+    John-->>Alice: Great!
+    John->>Bob: How about you?
+    Bob-->>John: Jolly good!
+```
+
 
 fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ
 
