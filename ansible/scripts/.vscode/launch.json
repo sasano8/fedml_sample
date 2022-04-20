@@ -24,6 +24,30 @@
         "--ci=0"
       ],
       "justMyCode": false
+    },
+    {
+      "name": "Python: debug server fedavg",
+      "type": "python",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5678
+      },
+      // "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
+      // "program": "main_fedavg.py",
+      "justMyCode": false
+    },
+    {
+      "name": "Python: debug client fedavg",
+      "type": "python",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5679
+      },
+      // "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
+      // "program": "main_fedavg.py",
+      "justMyCode": false
     }
   ]
 }

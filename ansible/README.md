@@ -328,3 +328,35 @@ multipass launch 20.04 --disk 20G --name nfs
 multipass launch 20.04 --disk 20G --name head
 multipass launch 20.04 --disk 20G --name node-1
 ```
+
+
+# デバッグ
+
+vscodeのデバッガを利用するには、次のような設定が必要。
+
+``` json
+{
+  "name": "Python: debug attach fedavg",
+  "type": "python",
+  "request": "attach",
+  "connect": {
+    "host": "localhost",
+    "port": 5678
+  },
+  // "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
+  // "program": "main_fedavg.py",
+  "justMyCode": false
+}
+```
+
+デバッグしたいコードに仕込む。
+並列実行時は、process_idで別ポートを監視する。
+
+```
+comm, process_id, worker_number = FedML_init()
+
+import debugpy
+
+debugpy.listen(5678 + process_id)  # 5678, 5679...
+debugpy.wait_for_client()
+```
