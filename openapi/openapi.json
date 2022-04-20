@@ -8,12 +8,17 @@
         "/create_mpi_host_file": {
             "post": {
                 "summary": "Create Mpi Host File",
+                "description": "形式はバージョンにより２つある。\nnode1:4\nnode1 slots=4",
                 "operationId": "create_mpi_host_file_create_mpi_host_file_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/MpiHostFile"
+                                "title": "Mpi Host File",
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/MpiHost"
+                                }
                             }
                         }
                     },
@@ -378,14 +383,6 @@
                     }
                 },
                 "description": "計算を実行する"
-            },
-            "MpiHostFile": {
-                "title": "MpiHostFile",
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/MpiHost"
-                },
-                "description": "形式はバージョンにより２つある。\nnode1:4\nnode1 slots=4"
             },
             "ValidationError": {
                 "title": "ValidationError",

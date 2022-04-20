@@ -1032,7 +1032,9 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 pickleより若干遅いが、他言語でも使える汎用フォーマット。</p>
 <p>Pythonライブラリのh5pyを使うと、NumPyのようなインターフェースのオブジェクトを得る。</p>
 <h1 id="glossary-_5">テンソル</h1>
-<p>線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。</p></section><section class="print-page" id="code_reading"><div class="highlight"><pre><span></span><code>- wandb.init
+<p>線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。</p></section><section class="print-page" id="code_reading"><div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
+
+- wandb.init
     - どう作動するか分からん
     - 何をウォッチする？
 - torchを準備する
@@ -1066,6 +1068,61 @@ pickleより若干遅いが、他言語でも使える汎用フォーマット�
     - トレーナーのパラメータをグローバルパラメータでアップデートする
     - テストする
 </code></pre></div>
+<div class="highlight"><pre><span></span><code># distributed/fedavg/main_fedavg.py
+
+- device = mapping_processes_to_gpu_device_from_yaml_file(...)
+- dataset = load_data(args, args.dataset)
+- model = create_model(args, model_name=args.model, output_dim=dataset[7])
+- FedML_FedAvg_distributed(
+        process_id,
+        worker_number,
+        device,
+        comm,
+        model,
+        train_data_num,
+        train_data_global,
+        test_data_global,
+        train_data_local_num_dict,
+        train_data_local_dict,
+        test_data_local_dict,
+        args,
+    )
+    - if process_id == 0:
+        - init_server
+            - トレーナを初期化
+            - アグリゲータを初期化 aggregator = FedAVGAggregator
+            - サーバマネージャを初期化 server_manager = FedAVGServerManager(args, aggregator, comm, rank, size, backend)
+            - 初期化メッセージを送信: server_manager.send_init_msg()
+                - self.aggregator.get_global_model_params(): トレーナのモデルからグローバルパラメータを取得
+                - グローバルパラメータと共に、MyMessage.MSG_TYPE_S2C_INIT_CONFIGを送信（FedAVGClientManager.handle_message_initが受け取る）
+            - 実行＆待機: server_manager.run()
+                - messageを監視する
+    - else:
+        - init_client
+            - トレーナを初期化
+            - FedAVGTrainerを初期化
+            - FedAVGClientManagerを初期化
+            - FedAVGClientManagerを実行
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Server: FedAVGServerManager
+Client: FedAVGClientManager
+
+Server -&gt; MyMessage.MSG_TYPE_S2C_INIT_CONFIG -&gt; Client
+Server &lt;- MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT &lt;- Client
+Server -&gt; MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT -&gt; Client
+Server &lt;- MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER &lt;- Client
+</code></pre></div>
+<div class="mermaid">sequenceDiagram
+    participant Alice
+    participant Bob
+    Alice-&gt;&gt;John: Hello John, how are you?
+    loop Healthcheck
+        John-&gt;&gt;John: Fight against hypochondria
+    end
+    Note right of John: Rational thoughts &lt;br/&gt;prevail!
+    John--&gt;&gt;Alice: Great!
+    John-&gt;&gt;Bob: How about you?
+    Bob--&gt;&gt;John: Jolly good!</div>
 <p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
 <div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
 
