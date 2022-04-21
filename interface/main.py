@@ -73,3 +73,62 @@ def fedavg_internal(dataset, device, args, model_trainer):
 @app.post("/train")
 def train(table_name, output_model_name, params: dict):
     ...
+
+
+@app.post("/instantiate_model")
+def instantiate_model(model_name: str, model_args: dict):
+    import torch
+    torch.nn.Module
+    model_args = {"output_dim": 1}
+    LogisticRegression
+    CNN_DropOut
+    resnet18
+    RNN_OriginalFedAvg
+    LogisticRegression
+    RNN_StackOverFlow
+    resnet56
+    mobilenet
+
+
+@app.post("/instantiate_trainer")
+def instantiate_trainer(trainer_name: str, trainer_args: dict, model=None):
+    MyModelTrainerTAG(model)
+    MyModelTrainerNWP(model)
+    MyModelTrainerCLS(model)
+
+
+
+from typing import NamedTuple
+
+class Discriminator(NamedTuple):
+    name: str
+    args: dict
+
+class FederateConfig(BaseModel):
+    aggregator: str
+    model: Discriminator
+    trainer: Discriminator
+
+    class Config:
+        schema_extra = {
+            'examples': [
+                {
+                    "aggregator": "xxx.com",
+                    "model": [
+                        "LogisticRegression",
+                        {
+                            "input_dim": 1,
+                            "output_dim": 1
+                        }
+                    ],
+                    "trainer": [
+                        "MyModelTrainerTAG",
+                        {}
+                    ]
+                }
+            ]
+        }
+
+@app.post("/federated")
+def federated(config: FederateConfig):
+    return config
