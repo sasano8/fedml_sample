@@ -1104,25 +1104,24 @@ pickleより若干遅いが、他言語でも使える汎用フォーマット�
             - FedAVGClientManagerを初期化
             - FedAVGClientManagerを実行
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>Server: FedAVGServerManager
+<!-- ```
+Server: FedAVGServerManager
 Client: FedAVGClientManager
 
-Server -&gt; MyMessage.MSG_TYPE_S2C_INIT_CONFIG -&gt; Client
-Server &lt;- MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT &lt;- Client
-Server -&gt; MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT -&gt; Client
-Server &lt;- MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER &lt;- Client
-</code></pre></div>
+Server -> MyMessage.MSG_TYPE_S2C_INIT_CONFIG -> Client
+Server <- MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT <- Client
+Server -> MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT -> Client
+Server <- MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER <- Client
+``` -->
+
 <div class="mermaid">sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice-&gt;&gt;John: Hello John, how are you?
-    loop Healthcheck
-        John-&gt;&gt;John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts &lt;br/&gt;prevail!
-    John--&gt;&gt;Alice: Great!
-    John-&gt;&gt;Bob: How about you?
-    Bob--&gt;&gt;John: Jolly good!</div>
+    participant Server
+    participant Client
+
+    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
+    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER</div>
 <p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
 <div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
 
