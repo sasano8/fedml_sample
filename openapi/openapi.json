@@ -398,6 +398,7 @@
         "/instantiate_trainer": {
             "post": {
                 "summary": "Instantiate Trainer",
+                "description": "トレーナは、データロード、学習、テスト、グローバルパラメータの更新など、\n一連の学習工程を管理するオブジェクトである。",
                 "operationId": "instantiate_trainer_instantiate_trainer_post",
                 "parameters": [
                     {
@@ -511,15 +512,31 @@
             "FederateConfig": {
                 "title": "FederateConfig",
                 "required": [
-                    "aggregator",
+                    "mode",
+                    "federation",
                     "model",
-                    "trainer"
+                    "trainer",
+                    "dataloader"
                 ],
                 "type": "object",
                 "properties": {
-                    "aggregator": {
-                        "title": "Aggregator",
-                        "type": "string"
+                    "mode": {
+                        "title": "Mode",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        }
+                    },
+                    "federation": {
+                        "title": "Federation",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        }
                     },
                     "model": {
                         "title": "Model",
@@ -538,11 +555,53 @@
                         "items": {
                             "title": "type"
                         }
+                    },
+                    "distributed": {
+                        "title": "Distributed",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        },
+                        "default": [
+                            "standalone",
+                            {}
+                        ]
+                    },
+                    "dataloader": {
+                        "title": "Dataloader",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        }
                     }
                 },
                 "examples": [
                     {
-                        "aggregator": "xxx.com",
+                        "mode": [
+                            "client",
+                            {
+                                "aggregator": "xxx.com"
+                            }
+                        ],
+                        "federation": [
+                            "fedavg"
+                        ],
+                        "distributed": [
+                            "distributed",
+                            {
+                                "gpu": 0,
+                                "communicator": "mpi",
+                                "nodes": []
+                            }
+                        ],
+                        "trainer": [
+                            "MyModelTrainerTAG",
+                            {}
+                        ],
                         "model": [
                             "LogisticRegression",
                             {
@@ -550,9 +609,12 @@
                                 "output_dim": 1
                             }
                         ],
-                        "trainer": [
-                            "MyModelTrainerTAG",
-                            {}
+                        "dataloader": [
+                            "csvloader",
+                            {
+                                "data_dir": "",
+                                "data_set": ""
+                            }
                         ]
                     }
                 ]
