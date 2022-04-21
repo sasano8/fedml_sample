@@ -77,7 +77,7 @@ standalone/fedavg/main_fedavg.py
             - FedAVGClientManagerを実行
 ```
 
-```
+<!-- ```
 Server: FedAVGServerManager
 Client: FedAVGClientManager
 
@@ -85,20 +85,18 @@ Server -> MyMessage.MSG_TYPE_S2C_INIT_CONFIG -> Client
 Server <- MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT <- Client
 Server -> MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT -> Client
 Server <- MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER <- Client
-```
+``` -->
+
 
 ``` mermaid
 sequenceDiagram
-    participant Alice
-    participant Bob
-    Alice->>John: Hello John, how are you?
-    loop Healthcheck
-        John->>John: Fight against hypochondria
-    end
-    Note right of John: Rational thoughts <br/>prevail!
-    John-->>Alice: Great!
-    John->>Bob: How about you?
-    Bob-->>John: Jolly good!
+    participant Server
+    participant Client
+
+    Server->>Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
+    Client->>Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Server->>Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Client->>Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER
 ```
 
 
