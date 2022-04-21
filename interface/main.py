@@ -92,6 +92,9 @@ def instantiate_model(model_name: str, model_args: dict):
 
 @app.post("/instantiate_trainer")
 def instantiate_trainer(trainer_name: str, trainer_args: dict, model=None):
+    """トレーナは、データロード、学習、テスト、グローバルパラメータの更新など、
+    一連の学習工程を管理するオブジェクトである。
+    """
     MyModelTrainerTAG(model)
     MyModelTrainerNWP(model)
     MyModelTrainerCLS(model)
@@ -102,18 +105,53 @@ from typing import NamedTuple
 
 class Discriminator(NamedTuple):
     name: str
-    args: dict
+    args: dict = {}
 
 class FederateConfig(BaseModel):
-    aggregator: str
+    mode: Discriminator
+    federation: Discriminator
     model: Discriminator
     trainer: Discriminator
+    distributed: Discriminator = Discriminator("standalone")
+    dataloader: Discriminator
 
     class Config:
         schema_extra = {
             'examples': [
                 {
-                    "aggregator": "xxx.com",
+                    "mode": [
+                        "client",
+                        {"aggregator": "xxx.com"}
+                    ],
+                    # "mode": [
+                    #     "server",
+                    #     {
+                    #         "comm_round": 1,
+                    #         "batch_size": 1,
+                    #         "epochs": 1,
+                    #         "client_optimizer": "",
+                    #         "lr": 1,
+                    #         "ci": 0,
+                    #         "partition_method": "hetero",
+                    #         "client_num_in_total": 1,
+                    #         "client_num_per_round": 1
+                    #     }
+                    # ],
+                    "federation": [
+                        "fedavg"
+                    ],
+                    "distributed": [
+                        "distributed",  # standalone, distributed, auto
+                        {
+                            "gpu": 0,
+                            "communicator": "mpi",
+                            "nodes": []
+                        }
+                    ],
+                    "trainer": [
+                        "MyModelTrainerTAG",
+                        {}
+                    ],
                     "model": [
                         "LogisticRegression",
                         {
@@ -121,14 +159,44 @@ class FederateConfig(BaseModel):
                             "output_dim": 1
                         }
                     ],
-                    "trainer": [
-                        "MyModelTrainerTAG",
-                        {}
+                    "dataloader": [
+                        "csvloader",
+                        {
+                            "data_dir": "",
+                            "data_set": ""
+                        }
                     ]
                 }
             ]
         }
 
+
+class FederateFactory:
+    def __init__(
+        self,
+        mode={},
+        model={},
+        trainer={},
+        distributed={},
+        dataloader={}
+    ):
+        ...
+
+    def create(self, config: FederateConfig):
+        model = create(config.model.name, config.mode.args)
+        trainer = create(config.trainer.name, config.trainer.args, model)
+        distributor = create(config.distributed.name, config.distributed.args)
+        server_or_client = create(config.mode.name, config.mode.args)
+        data_loader = create(config.dataloader.name, config.dataloader.args)
+        manager = Manager(server_or_client, model, trainer, distributor)
+        return manager
+
+def create(*args):
+    ...
+
+
+federate_facotry = FederateFactory()
+
 @app.post("/federated")
 def federated(config: FederateConfig):
-    return config
+    manager = federate_facotry(config)
