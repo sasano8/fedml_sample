@@ -50,6 +50,7 @@ nav:
   - 用語集: "glossary.md"
   - api: "openapi/api.html"
   - コードリーディング: "code_reading.md"
+  - 技術選定: "tech_selection.md"
 
 markdown_extensions:
   - admonition

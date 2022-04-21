@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Request
 from pydantic import BaseModel, Field
 from typing import Literal, List
 
@@ -20,8 +20,8 @@ app = FastAPI()
 
 MODELS = Literal["rnn", "resnet56", "lr", "cnn", "resnet18_gn", "mobilenet"]
 OPTIMIZERS = Literal["sgd", "adam"]
-PARTITION_METHODS = Literal["hetero"]
-DISTRIBUTIONS = Literal["homo", "lumo"]  # 満足がいくデータセットが得られない場合に、テストデータセットを予測し、データセットを補完する。
+PARTITION_METHODS = Literal["hetero", "homo"]  # heterogeneity 不均一性  homogeneous 同種性
+# DISTRIBUTIONS = Literal["homo", "lumo"]  # 満足がいくデータセットが得られない場合に、テストデータセットを予測し、データセットを補完する？
 
 class MpiHost(BaseModel):
     """
@@ -101,29 +101,34 @@ def instantiate_trainer(trainer_name: str, trainer_args: dict, model=None):
 
 
 
-from typing import NamedTuple
+from typing import NamedTuple, Tuple, Union
 
-class Discriminator(NamedTuple):
-    name: str
-    args: dict = {}
+# class Discriminator(NamedTuple):
+#     name: str
+#     args: dict = {}
+
+Discriminator = Tuple[str, Union[dict, None]]
 
 class FederateConfig(BaseModel):
-    mode: Discriminator
     federation: Discriminator
-    model: Discriminator
-    trainer: Discriminator
+    manager: Discriminator
     distributed: Discriminator = Discriminator("standalone")
-    dataloader: Discriminator
+    trainer: Discriminator
+    loader: Discriminator
+    model: Discriminator
 
     class Config:
         schema_extra = {
             'examples': [
                 {
-                    "mode": [
+                    "federation": [
+                        "fedavg"
+                    ],
+                    "manager": [
                         "client",
                         {"aggregator": "xxx.com"}
                     ],
-                    # "mode": [
+                    # "manager": [
                     #     "server",
                     #     {
                     #         "comm_round": 1,
@@ -137,9 +142,6 @@ class FederateConfig(BaseModel):
                     #         "client_num_per_round": 1
                     #     }
                     # ],
-                    "federation": [
-                        "fedavg"
-                    ],
                     "distributed": [
                         "distributed",  # standalone, distributed, auto
                         {
@@ -152,18 +154,18 @@ class FederateConfig(BaseModel):
                         "MyModelTrainerTAG",
                         {}
                     ],
+                    "loader": [
+                        "remotefileloader",
+                        {
+                            "type": "csv",
+                            "path": "./aaa/bbb/ccc/aaaa.csv"
+                        }
+                    ],
                     "model": [
                         "LogisticRegression",
                         {
                             "input_dim": 1,
                             "output_dim": 1
-                        }
-                    ],
-                    "dataloader": [
-                        "csvloader",
-                        {
-                            "data_dir": "",
-                            "data_set": ""
                         }
                     ]
                 }
@@ -197,6 +199,24 @@ def create(*args):
 
 federate_facotry = FederateFactory()
 
-@app.post("/federated")
-def federated(config: FederateConfig):
+fed_configs = {}
+fed_runs = {}
+
+@app.post("/create_federation")
+def create_federation(config: FederateConfig):
     manager = federate_facotry(config)
+    fed_configs[0] = config
+    fed_runs[0] = {"id": 0, "config": config}
+    return 0
+
+
+@app.post("/federated")
+def join_federation(request: Request, run_id: int):
+    def create_token(run_id, device):
+        return "xxxx"
+
+    dic = fed_runs[run_id]
+    id = dic["id"]
+    config = dic["config"]
+    token = create_token(run_id, request["device"])
+    return token
