@@ -346,10 +346,217 @@
                     }
                 }
             }
+        },
+        "/instantiate_model": {
+            "post": {
+                "summary": "Instantiate Model",
+                "operationId": "instantiate_model_instantiate_model_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Model Name",
+                            "type": "string"
+                        },
+                        "name": "model_name",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Model Args",
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/instantiate_trainer": {
+            "post": {
+                "summary": "Instantiate Trainer",
+                "operationId": "instantiate_trainer_instantiate_trainer_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Trainer Name",
+                            "type": "string"
+                        },
+                        "name": "trainer_name",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Model"
+                        },
+                        "name": "model",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Trainer Args",
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/federated": {
+            "post": {
+                "summary": "Federated",
+                "operationId": "federated_federated_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/FederateConfig"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "Discriminator": {
+                "title": "Discriminator",
+                "required": [
+                    "name",
+                    "args"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "args": {
+                        "title": "Args",
+                        "type": "object"
+                    }
+                }
+            },
+            "FederateConfig": {
+                "title": "FederateConfig",
+                "required": [
+                    "aggregator",
+                    "model",
+                    "trainer"
+                ],
+                "type": "object",
+                "properties": {
+                    "aggregator": {
+                        "title": "Aggregator",
+                        "type": "string"
+                    },
+                    "model": {
+                        "title": "Model",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        }
+                    },
+                    "trainer": {
+                        "title": "Trainer",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": {
+                            "title": "type"
+                        }
+                    }
+                },
+                "examples": [
+                    {
+                        "aggregator": "xxx.com",
+                        "model": [
+                            "LogisticRegression",
+                            {
+                                "input_dim": 1,
+                                "output_dim": 1
+                            }
+                        ],
+                        "trainer": [
+                            "MyModelTrainerTAG",
+                            {}
+                        ]
+                    }
+                ]
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
