@@ -129,17 +129,19 @@ class FederateConfig(BaseModel):
         schema_extra = {
             'examples': [
                 {
+                    "parent": "xxx.com",
                     "federation": [
                         "fedavg",
                         {
                             "config_name": "config_1",
                             "description": "",
-                            "output_model_name": "mymodel"
+                            "output_model_name": "mymodel",
+                            "allow_anonymous_domain": True,
+                            "allow_anonymous_device": True
                         }
                     ],
                     "manager": [
-                        "client",
-                        {"aggregator": "xxx.com"}
+                        "client"
                     ],
                     # "manager": [
                     #     "server",
