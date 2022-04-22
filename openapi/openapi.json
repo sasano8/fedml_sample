@@ -599,6 +599,7 @@
             "FederateConfig": {
                 "title": "FederateConfig",
                 "required": [
+                    "version",
                     "federation",
                     "manager",
                     "trainer",
@@ -607,6 +608,10 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "version": {
+                        "title": "Version",
+                        "type": "string"
+                    },
                     "federation": {
                         "title": "Federation",
                         "maxItems": 2,
@@ -697,6 +702,7 @@
                 },
                 "examples": [
                     {
+                        "version": "0.1",
                         "federation": [
                             "fedavg",
                             {
