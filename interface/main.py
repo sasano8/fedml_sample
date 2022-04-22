@@ -118,6 +118,7 @@ from typing import NamedTuple, Tuple, Union
 Discriminator = Tuple[str, Union[dict, None]]
 
 class FederateConfig(BaseModel):
+    version: str
     federation: Discriminator
     manager: Discriminator
     distributed: Discriminator = ("standalone",)
@@ -129,6 +130,7 @@ class FederateConfig(BaseModel):
         schema_extra = {
             'examples': [
                 {
+                    "version": "0.1",
                     "federation": [
                         "fedavg",
                         {
