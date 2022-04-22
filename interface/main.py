@@ -112,7 +112,7 @@ Discriminator = Tuple[str, Union[dict, None]]
 class FederateConfig(BaseModel):
     federation: Discriminator
     manager: Discriminator
-    distributed: Discriminator = Discriminator("standalone")
+    distributed: Discriminator = ("standalone",)
     trainer: Discriminator
     loader: Discriminator
     model: Discriminator
