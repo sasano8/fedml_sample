@@ -129,7 +129,6 @@ class FederateConfig(BaseModel):
         schema_extra = {
             'examples': [
                 {
-                    "parent": "xxx.com",
                     "federation": [
                         "fedavg",
                         {
@@ -138,6 +137,12 @@ class FederateConfig(BaseModel):
                             "output_model_name": "mymodel",
                             "allow_anonymous_domain": True,
                             "allow_anonymous_device": True
+                        }
+                    ],
+                    "topology": [
+                        "vertical",  # or p2p
+                        {
+                            "upstream": "xxx.com"
                         }
                     ],
                     "manager": [
