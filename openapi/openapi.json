@@ -453,6 +453,73 @@
                 }
             }
         },
+        "/instantiate_federator": {
+            "post": {
+                "summary": "Instantiate Federator",
+                "description": "フェデレータは複数のトレーナの調整役である。\n    ",
+                "operationId": "instantiate_federator_instantiate_federator_post",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Trainer"
+                        },
+                        "name": "trainer",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Client Id",
+                            "type": "integer"
+                        },
+                        "name": "client_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Backend",
+                            "type": "string",
+                            "default": "MQTT"
+                        },
+                        "name": "backend",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "title": "Args",
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/create_federation": {
             "post": {
                 "summary": "Create Federation",

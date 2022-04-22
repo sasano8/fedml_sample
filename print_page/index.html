@@ -1047,7 +1047,15 @@ MNISTは、7万枚の手書き数字の「画像＋ラベル」データが格�
 pickleより若干遅いが、他言語でも使える汎用フォーマット。</p>
 <p>Pythonライブラリのh5pyを使うと、NumPyのようなインターフェースのオブジェクトを得る。</p>
 <h1 id="glossary-_5">テンソル</h1>
-<p>線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。</p></section><section class="print-page" id="code_reading"><div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
+<p>線形的な量または線形的な幾何概念を一般化したもので、基底を選べば、多次元の配列として表現できるようなものである。</p></section><section class="print-page" id="code_reading"><div class="mermaid">sequenceDiagram
+    participant Server
+    participant Client
+
+    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
+    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER</div>
+<div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
 
 - wandb.init
     - どう作動するか分からん
@@ -1119,14 +1127,31 @@ pickleより若干遅いが、他言語でも使える汎用フォーマット�
             - FedAVGClientManagerを初期化
             - FedAVGClientManagerを実行
 </code></pre></div>
-<div class="mermaid">sequenceDiagram
-    participant Server
-    participant Client
+<div class="highlight"><pre><span></span><code># https://github.com/FedML-AI/FedML-IoT/blob/master/raspberry_pi/fedavg/fedavg_rpi_client.py
 
-    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
-    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER</div>
+## server
+- サーバを起動しておく
+
+
+## client
+
+- client_ID, args = register(server_ip, uuid, args): サーバに任意のclient_uuidを登録
+    - result = requests.post(url=URL, params={&quot;device_id&quot;: uuid})
+    - client_id = result[&quot;client_id&quot;]
+    - training_task_args = result[&#39;training_task_args&#39;]
+    - return training_task_args
+    - シードを初期化
+    - init_training_device(client_ID - 1, args.client_num_per_round - 1, 4)  # 4 - gpu_num_per_machine
+        - torch.deviceを返す
+    - load_data
+    - create_model
+    - trainerを初期化（他のトレーナと変わりなし）&amp;&amp; model_trainer.set_id(client_index)
+    - FedAVGTrainerを初期化
+    - FedAVGClientManager(args, trainer, rank=client_ID, size=size, backend=&quot;MQTT&quot;)
+    - client_manager.run()
+    - client_manager.start_training()
+    - time.sleep(100000): !???
+</code></pre></div>
 <p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
 <div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
 
