@@ -101,6 +101,14 @@ def instantiate_trainer(trainer_name: str, trainer_args: dict, model=None):
 
 
 
+@app.post("/instantiate_federator")
+def instantiate_federator(trainer=None, *, args: dict, client_id: int, backend: str = "MQTT"):
+    """フェデレータは複数のトレーナの調整役である。
+    """
+
+
+
+
 from typing import NamedTuple, Tuple, Union
 
 # class Discriminator(NamedTuple):

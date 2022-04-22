@@ -1,4 +1,15 @@
 
+``` mermaid
+sequenceDiagram
+    participant Server
+    participant Client
+
+    Server->>Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
+    Client->>Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Server->>Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
+    Client->>Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER
+```
+
 
 ```
 standalone/fedavg/main_fedavg.py
@@ -77,18 +88,36 @@ standalone/fedavg/main_fedavg.py
             - FedAVGClientManagerを実行
 ```
 
-
-
-``` mermaid
-sequenceDiagram
-    participant Server
-    participant Client
-
-    Server->>Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
-    Client->>Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Server->>Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Client->>Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER
 ```
+# https://github.com/FedML-AI/FedML-IoT/blob/master/raspberry_pi/fedavg/fedavg_rpi_client.py
+
+## server
+- サーバを起動しておく
+
+
+## client
+
+- client_ID, args = register(server_ip, uuid, args): サーバに任意のclient_uuidを登録
+    - result = requests.post(url=URL, params={"device_id": uuid})
+    - client_id = result["client_id"]
+    - training_task_args = result['training_task_args']
+    - return training_task_args
+    - シードを初期化
+    - init_training_device(client_ID - 1, args.client_num_per_round - 1, 4)  # 4 - gpu_num_per_machine
+        - torch.deviceを返す
+    - load_data
+    - create_model
+    - trainerを初期化（他のトレーナと変わりなし）&& model_trainer.set_id(client_index)
+    - FedAVGTrainerを初期化
+    - FedAVGClientManager(args, trainer, rank=client_ID, size=size, backend="MQTT")
+    - client_manager.run()
+    - client_manager.start_training()
+    - time.sleep(100000): !???
+
+```
+
+
+
 
 
 fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ
