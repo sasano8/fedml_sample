@@ -737,9 +737,9 @@
                         "loader": [
                             "fileloader",
                             {
-                                "locale": "server",
                                 "type": "csv",
-                                "path": "aaa/bbb/ccc/aaaa.csv"
+                                "path": "aaa/bbb/ccc/aaaa.csv",
+                                "cache": true
                             }
                         ],
                         "model": [
