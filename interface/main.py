@@ -179,9 +179,9 @@ class FederateConfig(BaseModel):
                     "loader": [
                         "fileloader",
                         {
-                            "locale": "server",  # or client
                             "type": "csv",
-                            "path": "aaa/bbb/ccc/aaaa.csv"
+                            "path": "aaa/bbb/ccc/aaaa.csv",
+                            "cache": True
                         }
                     ],
                     "model": [
