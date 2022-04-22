@@ -32,6 +32,11 @@ class MpiHost(BaseModel):
     slots: int = Field(description="CPU数を指定")
 
 
+class GrpcHost(BaseModel):
+    receiver_id: int
+    host: str
+
+
 @app.post("/create_mpi_host_file")
 def create_mpi_host_file(mpi_host_file: List[MpiHost]):
     """
@@ -169,7 +174,7 @@ class FederateConfig(BaseModel):
                         {
                             "gpu": 0,
                             "communicator": "mpi",
-                            "nodes": []
+                            "nodes": []  # or grpc hosts
                         }
                     ],
                     "trainer": [
