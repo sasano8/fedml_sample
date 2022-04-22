@@ -240,6 +240,7 @@ export WANDB_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxx
 次のコマンドを実行します。エラーになる実験はコメントアウトしてください。
 
 ```
+cd FedML-Server/FedML
 bash CI-script-fedavg.sh
 ```
 
@@ -262,7 +263,7 @@ FileNotFoundError: [Errno 2] No such file or directory: './../../../data/MNIST/t
 
 ```
 ssh fedml-head
-cd ~/FedML/fedml_experiments/distributed/fedavg
+cd ~/FedML-Server/FedML/fedml_experiments/distributed/fedavg
 
 cat << EOS > mpi_host_file
 localhost:1

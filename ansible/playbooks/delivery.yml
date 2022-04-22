@@ -7,20 +7,23 @@
   tasks:
     - name: check FedML exists
       stat:
-        path: ~/FedML
+        path: ~/FedML-Server
       register: fedml_dir
 
     - name: clone fedml
       when: fedml_dir.stat.exists == False
       ansible.builtin.git:
-        repo: "https://github.com/FedML-AI/FedML.git"
-        dest: ~/FedML
+        repo: "https://github.com/FedML-AI/FedML-Server.git"
+        dest: ~/FedML-Server
+
+    - name: clone fedml submodule
+      shell: cd FedML-Server && git submodule init && git submodule update && cd FedML && git checkout master
 
     - name: Fetch the file from the mwiapp01 to master
       copy: src=../scripts dest=. mode=+x
 
     - name: Fetch the file from the mwiapp01 to master
-      copy: src=../scripts/.vscode dest=./FedML mode=+x
+      copy: src=../scripts/.vscode dest=./FedML-Server/FedML
 
     - name: create log directory
       shell: mkdir -p logs
