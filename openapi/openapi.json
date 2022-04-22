@@ -104,7 +104,8 @@
                         "schema": {
                             "title": "Partition Method",
                             "enum": [
-                                "hetero"
+                                "hetero",
+                                "homo"
                             ],
                             "type": "string",
                             "description": "how to partition the dataset on local workers",
@@ -452,10 +453,10 @@
                 }
             }
         },
-        "/federated": {
+        "/create_federation": {
             "post": {
-                "summary": "Federated",
-                "operationId": "federated_federated_post",
+                "summary": "Create Federation",
+                "operationId": "create_federation_create_federation_post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -487,108 +488,156 @@
                     }
                 }
             }
+        },
+        "/federated": {
+            "post": {
+                "summary": "Join Federation",
+                "operationId": "join_federation_federated_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Run Id",
+                            "type": "integer"
+                        },
+                        "name": "run_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
-            "Discriminator": {
-                "title": "Discriminator",
-                "required": [
-                    "name",
-                    "args"
-                ],
-                "type": "object",
-                "properties": {
-                    "name": {
-                        "title": "Name",
-                        "type": "string"
-                    },
-                    "args": {
-                        "title": "Args",
-                        "type": "object"
-                    }
-                }
-            },
             "FederateConfig": {
                 "title": "FederateConfig",
                 "required": [
-                    "mode",
                     "federation",
-                    "model",
+                    "manager",
                     "trainer",
-                    "dataloader"
+                    "loader",
+                    "model"
                 ],
                 "type": "object",
                 "properties": {
-                    "mode": {
-                        "title": "Mode",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": {
-                            "title": "type"
-                        }
-                    },
                     "federation": {
                         "title": "Federation",
                         "maxItems": 2,
                         "minItems": 2,
                         "type": "array",
-                        "items": {
-                            "title": "type"
-                        }
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
                     },
-                    "model": {
-                        "title": "Model",
+                    "manager": {
+                        "title": "Manager",
                         "maxItems": 2,
                         "minItems": 2,
                         "type": "array",
-                        "items": {
-                            "title": "type"
-                        }
-                    },
-                    "trainer": {
-                        "title": "Trainer",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": {
-                            "title": "type"
-                        }
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
                     },
                     "distributed": {
                         "title": "Distributed",
                         "maxItems": 2,
                         "minItems": 2,
                         "type": "array",
-                        "items": {
-                            "title": "type"
-                        },
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ],
                         "default": [
-                            "standalone",
-                            {}
+                            "standalone"
                         ]
                     },
-                    "dataloader": {
-                        "title": "Dataloader",
+                    "trainer": {
+                        "title": "Trainer",
                         "maxItems": 2,
                         "minItems": 2,
                         "type": "array",
-                        "items": {
-                            "title": "type"
-                        }
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "loader": {
+                        "title": "Loader",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
+                    },
+                    "model": {
+                        "title": "Model",
+                        "maxItems": 2,
+                        "minItems": 2,
+                        "type": "array",
+                        "items": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
                     }
                 },
                 "examples": [
                     {
-                        "mode": [
+                        "federation": [
+                            "fedavg"
+                        ],
+                        "manager": [
                             "client",
                             {
                                 "aggregator": "xxx.com"
                             }
-                        ],
-                        "federation": [
-                            "fedavg"
                         ],
                         "distributed": [
                             "distributed",
@@ -602,18 +651,18 @@
                             "MyModelTrainerTAG",
                             {}
                         ],
+                        "loader": [
+                            "remotefileloader",
+                            {
+                                "type": "csv",
+                                "path": "./aaa/bbb/ccc/aaaa.csv"
+                            }
+                        ],
                         "model": [
                             "LogisticRegression",
                             {
                                 "input_dim": 1,
                                 "output_dim": 1
-                            }
-                        ],
-                        "dataloader": [
-                            "csvloader",
-                            {
-                                "data_dir": "",
-                                "data_set": ""
                             }
                         ]
                     }

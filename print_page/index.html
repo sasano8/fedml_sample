@@ -331,6 +331,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../tech_selection/" class="md-nav__link">
+        技術選定
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
@@ -1117,7 +1132,37 @@ pickleより若干遅いが、他言語でも使える汎用フォーマット�
 
 def load_partition_data_distributed_federated_shakespeare(...
 def load_partition_data_federated_shakespeare(...
-</code></pre></div></section></div>
+</code></pre></div></section><section class="print-page" id="tech_selection"><h1 id="tech_selection-_1">技術選定</h1>
+<h2 id="tech_selection-data-management-tracking">data management / tracking</h2>
+<ul>
+<li>dvc</li>
+<li>mlflow</li>
+<li>sqllineage</li>
+</ul>
+<h2 id="tech_selection-grpc">GRPC</h2>
+<h3 id="tech_selection-framework">framework</h3>
+<ul>
+<li><a href="https://github.com/bali-framework/bali">bali</a>: fastapiとGRPCを統合</li>
+<li><a href="https://github.com/public/sonora">sonora</a>: ASGIとGRPCを統合</li>
+<li><a href="https://github.com/pgjones/hypercorn">Hypercorn</a>: 高速HTTP/2 ASGIサーバ。uvicornはHTTP/1.1の対応？</li>
+</ul>
+<h3 id="tech_selection-converter">Converter</h3>
+<ul>
+<li><a href="https://github.com/OpenAPITools/openapi-generator/pull/3818">openapi-generator</a>: java製。プロダクトに組み込む場合は、dockerなどを用意。</li>
+<li><a href="https://github.com/google/gnostic">gnostic</a>: go製。googleが開発。openapi to grpcのみに特化。star 1.3k</li>
+<li><a href="https://github.com/nytimes/openapi2proto">openapi2proto</a>: go製。 star: 0.8k</li>
+</ul>
+<h2 id="tech_selection-ml-format">ML Format</h2>
+<ul>
+<li>ONNX（Open Neural Network Exchange）:機械学習のモデルを表現するための代表的なフォーマット。全てのライブラリがこのフォーマットに準拠しているわけではない。</li>
+</ul>
+<h2 id="tech_selection-ml-serving">ML Serving</h2>
+<p>学習したモデルを本番環境にAPIとして公開する</p>
+<ul>
+<li>TensorFlow Serving</li>
+<li>Multi Model Server</li>
+<li>TorchServe</li>
+</ul></section></div>
                 
               
 

@@ -14,7 +14,7 @@
     
     
       
-        <title>コードリーディング - Federated Learning</title>
+        <title>技術選定 - Federated Learning</title>
       
     
     
@@ -72,6 +72,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -100,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              コードリーディング
+              技術選定
             
           </span>
         </div>
@@ -308,19 +313,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../code_reading/" class="md-nav__link">
         コードリーディング
       </a>
-      
     </li>
   
 
@@ -331,11 +328,92 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../tech_selection/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          技術選定
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         技術選定
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-management-tracking" class="md-nav__link">
+    data management / tracking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grpc" class="md-nav__link">
+    GRPC
+  </a>
+  
+    <nav class="md-nav" aria-label="GRPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#framework" class="md-nav__link">
+    framework
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converter" class="md-nav__link">
+    Converter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-format" class="md-nav__link">
+    ML Format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-serving" class="md-nav__link">
+    ML Serving
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -362,6 +440,79 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#data-management-tracking" class="md-nav__link">
+    data management / tracking
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grpc" class="md-nav__link">
+    GRPC
+  </a>
+  
+    <nav class="md-nav" aria-label="GRPC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#framework" class="md-nav__link">
+    framework
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converter" class="md-nav__link">
+    Converter
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-format" class="md-nav__link">
+    ML Format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ml-serving" class="md-nav__link">
+    ML Serving
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -375,99 +526,42 @@
 
 
                 
-                  <a href="https://github.com/sasano8/fedml_sample/edit/main/docs/code_reading.md" title="編集" class="md-content__button md-icon">
+                  <a href="https://github.com/sasano8/fedml_sample/edit/main/docs/tech_selection.md" title="編集" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>コードリーディング</h1>
-                
-                <div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
-
-- wandb.init
-    - どう作動するか分からん
-    - 何をウォッチする？
-- torchを準備する
-    - gpu か cpuか
-    - 色々初期化
-- load_data(args, args.dataset)
-    - centralized = True if args.client_num_in_total == 1 else False
-    - full_batch = args.batch_size &lt;= 0  args.batch_size = 128
-    - class_num = load_partition_data_federated_shakespeare(args.dataset, args.data_dir)
-        - DEFAULT_TRAIN_CLIENTS_NUM = 715 の数だけデータセットを分割する？
-            - get_dataloader(dataset, data_dir, train_bs, test_bs, client_idx=None) -&gt; クライアント分のデータローダを作成する
-                - train用データセットとtest用データセットを読み込む
-                - utils.preprocess: よく分からないが前処理をしているようだ
-                - utils.split: datasetをx, yにsplitする
-                - テンソルデータセット（pytorchで提供する型）
-                - data.DataLoader(dataset=train_ds, batch_size=train_bs,shuffle=True,drop_last=False) クラスを初期化し、train用data_loaderとtest用data_loaderを初期化する
-        - クライアント分のデータローダを１つにし、train用とtest用loaderを作成する（なんか意味ないようにみえる）
-        - 統計情報やtrain用・test用データローダ色々返す
-    - args.client_num_in_total = client_num  # standaloneだからクライアント数は無視される？
-    - centralizedならなんかする
-    - full_batchならなんかする
-    - 色々一つに含めてそれを返す
-- create_model(dataset, model_name, output_dim): モデルを作成する。これは一般的な機械学習と同じ
-    - modelのインターフェースは何か？
-- custom_model_trainer
-- FedAvgAPI(dataset, device, args, model_trainer).train() -&gt; トレーナーを実行する
-    - comm_roundの数繰り返す
-        - clientの数？繰り返す
-            - trainする
-    - aggregate（グローバルパラメータを更新）する
-    - トレーナーのパラメータをグローバルパラメータでアップデートする
-    - テストする
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># distributed/fedavg/main_fedavg.py
-
-- device = mapping_processes_to_gpu_device_from_yaml_file(...)
-- dataset = load_data(args, args.dataset)
-- model = create_model(args, model_name=args.model, output_dim=dataset[7])
-- FedML_FedAvg_distributed(
-        process_id,
-        worker_number,
-        device,
-        comm,
-        model,
-        train_data_num,
-        train_data_global,
-        test_data_global,
-        train_data_local_num_dict,
-        train_data_local_dict,
-        test_data_local_dict,
-        args,
-    )
-    - if process_id == 0:
-        - init_server
-            - トレーナを初期化
-            - アグリゲータを初期化 aggregator = FedAVGAggregator
-            - サーバマネージャを初期化 server_manager = FedAVGServerManager(args, aggregator, comm, rank, size, backend)
-            - 初期化メッセージを送信: server_manager.send_init_msg()
-                - self.aggregator.get_global_model_params(): トレーナのモデルからグローバルパラメータを取得
-                - グローバルパラメータと共に、MyMessage.MSG_TYPE_S2C_INIT_CONFIGを送信（FedAVGClientManager.handle_message_initが受け取る）
-            - 実行＆待機: server_manager.run()
-                - messageを監視する
-    - else:
-        - init_client
-            - トレーナを初期化
-            - FedAVGTrainerを初期化
-            - FedAVGClientManagerを初期化
-            - FedAVGClientManagerを実行
-</code></pre></div>
-<div class="mermaid">sequenceDiagram
-    participant Server
-    participant Client
-
-    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_INIT_CONFIG
-    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
-    Client-&gt;&gt;Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER</div>
-<p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
-<div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
-
-def load_partition_data_distributed_federated_shakespeare(...
-def load_partition_data_federated_shakespeare(...
-</code></pre></div>
+                <h1 id="_1">技術選定</h1>
+<h2 id="data-management-tracking">data management / tracking</h2>
+<ul>
+<li>dvc</li>
+<li>mlflow</li>
+<li>sqllineage</li>
+</ul>
+<h2 id="grpc">GRPC</h2>
+<h3 id="framework">framework</h3>
+<ul>
+<li><a href="https://github.com/bali-framework/bali">bali</a>: fastapiとGRPCを統合</li>
+<li><a href="https://github.com/public/sonora">sonora</a>: ASGIとGRPCを統合</li>
+<li><a href="https://github.com/pgjones/hypercorn">Hypercorn</a>: 高速HTTP/2 ASGIサーバ。uvicornはHTTP/1.1の対応？</li>
+</ul>
+<h3 id="converter">Converter</h3>
+<ul>
+<li><a href="https://github.com/OpenAPITools/openapi-generator/pull/3818">openapi-generator</a>: java製。プロダクトに組み込む場合は、dockerなどを用意。</li>
+<li><a href="https://github.com/google/gnostic">gnostic</a>: go製。googleが開発。openapi to grpcのみに特化。star 1.3k</li>
+<li><a href="https://github.com/nytimes/openapi2proto">openapi2proto</a>: go製。 star: 0.8k</li>
+</ul>
+<h2 id="ml-format">ML Format</h2>
+<ul>
+<li>ONNX（Open Neural Network Exchange）:機械学習のモデルを表現するための代表的なフォーマット。全てのライブラリがこのフォーマットに準拠しているわけではない。</li>
+</ul>
+<h2 id="ml-serving">ML Serving</h2>
+<p>学習したモデルを本番環境にAPIとして公開する</p>
+<ul>
+<li>TensorFlow Serving</li>
+<li>Multi Model Server</li>
+<li>TorchServe</li>
+</ul>
                 
               
 
@@ -488,7 +582,7 @@ def load_partition_data_federated_shakespeare(...
     <nav class="md-footer__inner md-grid" aria-label="フッター">
       
         
-        <a href="../openapi/api.html" class="md-footer__link md-footer__link--prev" aria-label="前: api" rel="prev">
+        <a href="../code_reading/" class="md-footer__link md-footer__link--prev" aria-label="前: コードリーディング" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -497,26 +591,11 @@ def load_partition_data_federated_shakespeare(...
               <span class="md-footer__direction">
                 前
               </span>
-              api
+              コードリーディング
             </div>
           </div>
         </a>
       
-      
-        
-        <a href="../tech_selection/" class="md-footer__link md-footer__link--next" aria-label="次: 技術選定" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                次
-              </span>
-              技術選定
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
