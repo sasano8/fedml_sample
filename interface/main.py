@@ -130,7 +130,12 @@ class FederateConfig(BaseModel):
             'examples': [
                 {
                     "federation": [
-                        "fedavg"
+                        "fedavg",
+                        {
+                            "config_name": "config_1",
+                            "description": "",
+                            "output_model_name": "mymodel"
+                        }
                     ],
                     "manager": [
                         "client",
@@ -163,10 +168,11 @@ class FederateConfig(BaseModel):
                         {}
                     ],
                     "loader": [
-                        "remotefileloader",
+                        "fileloader",
                         {
+                            "locale": "server",  # or client
                             "type": "csv",
-                            "path": "./aaa/bbb/ccc/aaaa.csv"
+                            "path": "aaa/bbb/ccc/aaaa.csv"
                         }
                     ],
                     "model": [
