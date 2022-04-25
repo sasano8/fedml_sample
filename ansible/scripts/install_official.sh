@@ -6,6 +6,11 @@ cd ~/FedML-Server/FedML
 # pip3が必要（次のコマンドを実行するとsudoにパスワードが必要な場合、永遠に待機してしまう
 # sudo apt-get install -y python3-pip
 
+# data loaderはunzipを使うことがあるのでインストールしておく
+# sudo apt-get install -y unzip
+
+# sudo apt-get install -y fswatch
+
 # install
 pip3 --version
 
@@ -23,3 +28,8 @@ bash ./CI-install.sh
 
 # data loaderで使用していることがあるのでインストール
 conda install tqdm
+
+# conda install grpcio
+# conda install grpcio-tools
+# conda install boto3
+pip install mnn

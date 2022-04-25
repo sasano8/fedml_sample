@@ -10,22 +10,23 @@
 ## 構成要件
 
 必要となるマシンの最低スペックは次の通りです。
+データ容量が大きいためできるだけ大きめの容量を確保するのをおススメします。
 
 
 - nfs:
-    - Volume: 5GB ~
+    - Volume: 30GB ~
     - memo: モデルを共有するためファイルストレージが1台必要です
 
 - head:
     - OS: Ubuntu20.04
-    - Volume: 10GB ~
+    - Volume: 30GB ~
     - memo:
         - nodes（計算ノード）の管理用ホストが1台必要です
         - 機械学習に関するライブラリ一式がインストールされます。
 
 - nodes:
     - OS: Ubuntu20.04
-    - Volume: 10GB ~
+    - Volume: 30GB ~
     - memo:
         - 計算ノードです
         - 計算ノードは複数台構成できます
@@ -128,6 +129,21 @@ Host fedml-node_1
 EOS
 ```
 
+管理ノード
+
+``` shell
+ssh fedml-head
+
+cat << EOS >> .ssh/config
+Host fedml-node_1
+  HostName localhost
+  IdentityFile ~/.ssh/key_fedml
+  User fedml
+EOS
+exit
+```
+
+
 計算ノードからnfsへssh接続できるようにします。
 
 ``` shell
@@ -138,8 +154,12 @@ Host fedml-nfs
   HostName localhost
   IdentityFile ~/.ssh/key_fedml
   User nfs
-EOS
 
+Host fedml-node_1
+  HostName localhost
+  IdentityFile ~/.ssh/key_fedml
+  User fedml
+EOS
 exit
 ```
 
@@ -360,4 +380,107 @@ import debugpy
 
 debugpy.listen(5678 + process_id)  # 5678, 5679...
 debugpy.wait_for_client()
+```
+
+## client server grpc 実行
+
+### cross cilo
+
+https://github.com/FedML-AI/FedML/blob/b0fd3776bd01328f06d92ea92298221afca61b68/fedml_experiments/distributed/fedavg/README_RPC.md
+
+データローダのファイル解凍に失敗してしまう！
+
+
+
+概要
+
+- 管理ノード１つ
+- ノードを２つ
+- ソースコードを同期
+- 全てのクライアントでスクリプトを実行しておく
+- その後、サーバを実行する
+- サーバーはアクティブなクライアントに従って接続を構築する必要があり、この手順が必要。
+- ハンドシェイクを実装することで、この制約が解決されるかもしれない
+
+管理ノードで計算ノード分の同期スクリプトをそれぞれ実行する。
+
+
+```
+# rsync_fedml-node_1.sh
+# 管理ノードのソースを計算ノードと同期する
+
+#!/bin/bash
+LOCAL_PATH=/home/fedml/FedML-Server
+
+DEV_NODE=fedml-node_1
+REMOTE_PATH=/home/fedml
+
+alias ws-sync='rsync -avP -e ssh --exclude '.idea' $LOCAL_PATH $DEV_NODE:$REMOTE_PATH --progress --append'
+ws-sync; fswatch -o $LOCAL_PATH | while read f; do ws-sync; done
+```
+
+```
+sh rsync_fedml-node_1.sh
+```
+
+計算ノードで学習スクリプトを実行する。
+
+```
+FedML_WORKSPACE=/home/fedml/FedML-Server/FedML
+
+# run the client first
+
+cd $FedML_WORKSPACE/fedml_experiments/distributed/fedavg
+sh run_fedavg_cross_zone.sh 1
+sh run_fedavg_cross_zone.sh 2
+
+# after all clients are up, run the server 
+# this order is important because server needs to build connection according to active clients.
+# we will solve this contraints by developing a shaking hand protocol.
+
+cd $FedML_WORKSPACE/fedml_experiments/distributed/fedavg
+sh run_fedavg_cross_zone.sh 0
+
+
+# kill processes
+kill $(ps aux | grep "main_fedavg.py" | grep -v grep | awk '{print $2}')
+
+```
+
+上は、無効化になっているのでドキュメントが古い。
+
+https://github.com/FedML-AI/FedML/blob/master/fedml_experiments/distributed/fedavg/run_fedavg_grpc.sh
+
+
+```
+# とりあえずスタンドアロンで検証
+cat grpc_ipconfig.csv
+
+receiver_id,ip
+0,127.0.0.1
+```
+
+```
+sh run_fedavg_distributed_pytorch.sh 10 mobilenet homo 100 20 64 0.001 cinic10 "./../../../data/cinic10" adam 0
+```
+
+```
+python ./main_fedavg2y.py \
+    --gpu_mapping_file gpu_mapping.yaml \
+    --gpu_mapping_key mapping_FedML_gRPC \
+    --model lr \
+    --dataset mnist \
+    --data_dir ./../../../data/MNIST \
+    --partition_method hetero \
+    --client_num_in_total 2 \
+    --client_num_per_round 2 \
+    --comm_round 50 \
+    --epochs 2 \
+    --client_optimizer adam \
+    --batch_size 32 \
+    --lr 0.01 \
+    --ci 0 \
+    --backend GRPC \
+    --grpc_ipconfig_path grpc_ipconfig.csv \
+    --fl_worker_index 1
 ```

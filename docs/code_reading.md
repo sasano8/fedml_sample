@@ -10,6 +10,17 @@ sequenceDiagram
     Client->>Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER
 ```
 
+GRPCのポートは、ServerManagerによってrank（プロセス番号）+ 50000となっている。
+単一ジョブでポートが重複しないが、複数のジョブを実行すると衝突してしまうと思われる。
+また、クライアントもClientManagerによってGRPCサーバを起動する（GRPCCommManagerはServer/Client共通）。
+
+これはクロスサイロ構成（組織等ドメイン間でデータ非共有・モデル共有）に向いている。
+
+
+```
+PORT = 50000 + rank
+```
+
 
 ```
 standalone/fedavg/main_fedavg.py
@@ -128,3 +139,4 @@ fedml_api/data_preprocessing/fed_shakespeare
 def load_partition_data_distributed_federated_shakespeare(...
 def load_partition_data_federated_shakespeare(...
 ```
+
