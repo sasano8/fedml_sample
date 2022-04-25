@@ -1,4 +1,4 @@
-from interface import app
+from fedml_sample import app
 from fastapi.openapi.docs import get_redoc_html
 import json
 
