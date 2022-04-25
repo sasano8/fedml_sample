@@ -1055,6 +1055,12 @@ pickleより若干遅いが、他言語でも使える汎用フォーマット�
     Client-&gt;&gt;Server: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
     Server-&gt;&gt;Client: MyMessage.MSG_TYPE_S2C_SYNC_MODEL_TO_CLIENT
     Client-&gt;&gt;Server: MyMessage.MSG_TYPE_C2S_SEND_MODEL_TO_SERVER</div>
+<p>GRPCのポートは、ServerManagerによってrank（プロセス番号）+ 50000となっている。
+単一ジョブでポートが重複しないが、複数のジョブを実行すると衝突してしまうと思われる。
+また、クライアントもClientManagerによってGRPCサーバを起動する（GRPCCommManagerはServer/Client共通）。</p>
+<p>これはクロスサイロ構成（組織等ドメイン間でデータ非共有・モデル共有）に向いている。</p>
+<div class="highlight"><pre><span></span><code>PORT = 50000 + rank
+</code></pre></div>
 <div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
 
 - wandb.init
