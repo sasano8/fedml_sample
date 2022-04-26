@@ -452,8 +452,9 @@ kill $(ps aux | grep "main_fedavg.py" | grep -v grep | awk '{print $2}')
 https://github.com/FedML-AI/FedML/blob/master/fedml_experiments/distributed/fedavg/run_fedavg_grpc.sh
 
 
+## スタンドアロンで検証
+
 ```
-# とりあえずスタンドアロンで検証
 cat grpc_ipconfig.csv
 
 receiver_id,ip
@@ -464,16 +465,73 @@ receiver_id,ip
 sh run_fedavg_distributed_pytorch.sh 10 mobilenet homo 100 20 64 0.001 cinic10 "./../../../data/cinic10" adam 0
 ```
 
+
+## クライアント・サーバ構成（同一ホストの疑似CS構成）で検証
+
+GRPCで動かすとき、`FedML/fedml_core/distributed/communication/gRPC/grpc_comm_manager.py`
+マネージャはPORTを50000番 + 連番を払い出していく（サーバは0で50000番となる）が、
+メッセージ送信時なぜか`PORT_BASE = 8888`となっているので50000に書き換える。
+
 ```
-python ./main_fedavg2y.py \
+def send_message(self, msg: Message):
+        payload = msg.to_json()
+
+        receiver_id = msg.get_receiver_id()
+        PORT_BASE = 8888
+```
+
+サーバ・クライアント軍を指定。
+ipはhost名でもよい。
+
+```
+receiver_id,ip
+0,127.0.0.1
+1,127.0.0.1
+```
+
+`gpu_mapping.yaml`を編集する。
+
+次は、
+
+- サーバ: CPU : 1
+- クライアント: CPU : 1
+
+の例で、必要に応じてノードやCPUを数を編集する。
+
+``` yaml
+mapping_FedML_gRPC:
+    hostname_node_server: [1]
+    hostname_node_1: [1]
+```
+
+`main_fedavg_rpc.py`がパスの設定がイマイチで動かないので、`main_fedavg.py`からパス設定をコピーする。
+
+```
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "./../../../../")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "./../../../")))
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "")))
+```
+
+VSCODEのlaunch.jsonにデバッガを用意したので、
+- クライアントを起動
+- サーバを起動
+
+の順でスクリプトを実行する（その順序のプロトコルしか実装されていない）。
+
+なお、`fl_worker_index`は0がサーバ、それ以外はクライアントとなる（重複しないようにインクリメントする）。
+
+```
+# 参考
+python ./main_fedavg_rpc.py \
     --gpu_mapping_file gpu_mapping.yaml \
     --gpu_mapping_key mapping_FedML_gRPC \
     --model lr \
     --dataset mnist \
     --data_dir ./../../../data/MNIST \
     --partition_method hetero \
-    --client_num_in_total 2 \
-    --client_num_per_round 2 \
+    --client_num_in_total 1 \
+    --client_num_per_round 1 \
     --comm_round 50 \
     --epochs 2 \
     --client_optimizer adam \
@@ -482,5 +540,5 @@ python ./main_fedavg2y.py \
     --ci 0 \
     --backend GRPC \
     --grpc_ipconfig_path grpc_ipconfig.csv \
-    --fl_worker_index 1
+    --fl_worker_index 0
 ```

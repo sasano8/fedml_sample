@@ -48,6 +48,61 @@
       // "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
       // "program": "main_fedavg.py",
       "justMyCode": false
-    }
+    },
+    // Python: debug fedavg clientを起動してからPython: debug fedavg serverを実行します
+    {
+      "name": "Python: debug fedavg server",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
+      "program": "main_fedavg_rpc.py",
+      "args": [
+        "--gpu_mapping_file=gpu_mapping.yaml",
+        "--gpu_mapping_key=mapping_FedML_gRPC",
+        "--model=lr",
+        "--dataset=mnist",
+        "--data_dir=./../../../data/MNIST",
+        "--partition_method=hetero",
+        "--client_num_in_total=1",
+        "--client_num_per_round=1",
+        "--comm_round=50",
+        "--epochs=2",
+        "--client_optimizer=adam",
+        "--batch_size=32",
+        "--lr=0.01",
+        "--ci=0",
+        "--backend=GRPC",
+        "--grpc_ipconfig_path=grpc_ipconfig.csv",
+        "--fl_worker_index=0"
+      ],
+      "justMyCode": false
+    },
+    {
+      "name": "Python: debug fedavg client",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/fedml_experiments/distributed/fedavg",
+      "program": "main_fedavg_rpc.py",
+      "args": [
+        "--gpu_mapping_file=gpu_mapping.yaml",
+        "--gpu_mapping_key=mapping_FedML_gRPC",
+        "--model=lr",
+        "--dataset=mnist",
+        "--data_dir=./../../../data/MNIST",
+        "--partition_method=hetero",
+        "--client_num_in_total=1",
+        "--client_num_per_round=1",
+        "--comm_round=50",
+        "--epochs=2",
+        "--client_optimizer=adam",
+        "--batch_size=32",
+        "--lr=0.01",
+        "--ci=0",
+        "--backend=GRPC",
+        "--grpc_ipconfig_path=grpc_ipconfig.csv",
+        "--fl_worker_index=1"
+      ],
+      "justMyCode": false
+    },
   ]
 }
