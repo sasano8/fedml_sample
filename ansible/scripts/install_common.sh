@@ -20,6 +20,11 @@ conda install -y -c anaconda mpi4py h5py
 # mpi4py:  mpi通信に必要
 # h5py: HDF5（階層的データ形式フォーマットファイル）を取り扱うライブラリ
 
+# flask app serverを起動するのに必要
+# server用のrequirements.txtを読ませるとかもっといい方法あるかも
+conda install -y jinja2, itsdangerous
+conda install werkzeug==2.0.2
+
 # 学習＆結果のモニタリング
 pip3 install --upgrade wandb
 # 何のためのID?

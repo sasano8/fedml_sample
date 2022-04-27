@@ -126,6 +126,12 @@ Host fedml-node_1
   HostName localhost
   IdentityFile ~/.ssh/key_`hostname`
   User fedml
+
+# TODO: 手順に追加
+Host fedml-iot_1
+  HostName localhost
+  IdentityFile ~/.ssh/key_`hostname`
+  User iot
 EOS
 ```
 
@@ -542,3 +548,44 @@ python ./main_fedavg_rpc.py \
     --grpc_ipconfig_path grpc_ipconfig.csv \
     --fl_worker_index 0
 ```
+
+
+## クロスデバイス構成
+
+```
+vi ~/FedML-Server/executor/grpc_ipconfig.csv
+
+receiver_id,ip
+0,127.0.0.1
+1,127.0.0.1
+```
+
+app.pyのパスがイマイチなのでとりあえず下記を追加する
+
+```
+sys.path.insert(0, os.path.abspath(os.path.join(os.getcwd(), "../FedML/")))
+```
+
+sudo useradd -m -d /home/iot -s /bin/bash iot
+sudo mkdir -p /home/iot/.ssh; sudo chown iot:iot /home/iot/.ssh
+
+sudo touch /home/iot/.ssh/authorized_keys; sudo chown iot /home/iot/.ssh/authorized_keys
+
+cat ~/.ssh/key_`hostname`.pub | sudo tee -a /home/iot/.ssh/authorized_keys
+
+
+https://github.com/FedML-AI/FedML-IoT
+
+```
+whoami # iot
+mkdir sourcecode
+
+git clone https://github.com/FedML-AI/FedML-IoT.git
+cd FedML-Iot
+cd FedML
+git submodule init
+git submodule update
+```
+
+ln -s ../FedML-Server/FedML FedML
+cd ./raspberry_pi/fedavg

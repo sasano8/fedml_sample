@@ -29,7 +29,9 @@ bash ./CI-install.sh
 # data loaderで使用していることがあるのでインストール
 conda install tqdm
 
-# conda install grpcio
-# conda install grpcio-tools
-# conda install boto3
+# iotバージョンを動かすにはこれが必要
+# conda install opencv
+# conda install pandas
+# conda install matplotlib
+
 pip install mnn
