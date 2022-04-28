@@ -1,10 +1,10 @@
 from .communicators import CommunicatorBase
 
 
-class ServerFederator:
-    def __init__(self, comm: CommunicatorBase):
+class Federator:
+    def __init__(self, comm: CommunicatorBase, mode: str):
         self.comm = comm
-        self.mode = "server"
+        self.mode = mode
 
     async def __aenter__(self):
         await self.comm.accept()
@@ -72,9 +72,3 @@ class ServerFederator:
 
     async def s8_revieve_ok(self):
         msg = await self.comm.wait("s7_revieve_model_and_send_ok")
-
-
-class ClientFederatorBase:
-    def __init__(self, comm: CommunicatorBase):
-        self.comm = comm
-        self.mode = "client"

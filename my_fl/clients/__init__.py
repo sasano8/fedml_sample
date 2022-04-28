@@ -1,5 +1,5 @@
 from my_fl.core.communicators import StandaloneCommunicator
-from my_fl.core.federators import ServerFederator, ClientFederatorBase
+from my_fl.core.federators import Federator, ClientFederatorBase
 
 
 class ClientBase:
@@ -13,14 +13,13 @@ class ClientBase:
 class StandaloneClient(ClientBase):
     def __init__(self, cwd):
         self.comm = StandaloneCommunicator()
+        self.comm.add_events([self.on_connect, self.on_ready, self.on_success])
 
     async def run(self):
-        server = ServerFederator(self.comm)
+        server = Federator(self.comm, mode="server")
 
         async with server:
-            import asyncio
-
-            asyncio.gather(server.run(), self._run_client())
+            await server.run()
 
     async def _run_client(self):
         comm = self.comm
@@ -30,7 +29,25 @@ class StandaloneClient(ClientBase):
         await comm.wait("s6_revieve_model_diff_and_send_model")
         await comm.send("s7_revieve_model_and_send_ok")
 
+    async def on_connect_to_server(self, val):
+        await self.comm.send("on_connect")
+
     async def on_connect(self, val):
+        await self.comm.send("on_ready_to_server")
+
+    async def on_ready_to_server(self, val):
+        await self.comm.send("on_ready")
+
+    async def on_ready(self, val):
+        ...
+
+    async def on_success(self, val):
+        ...
+
+    async def on_error(self, val):
+        ...
+
+    async def on_complete(self, result: bool):
         ...
 
 

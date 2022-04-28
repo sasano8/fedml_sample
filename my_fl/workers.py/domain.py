@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, WebSocket
 from my_fl.core.params import FederateConfig
-from my_fl.core.communicators import WebsocketServerCommunicator
-from my_fl.core.federators import ServerFederator
+from my_fl.core.communicators import WebsocketCommunicator
+from my_fl.core.federators import Federator
 from typing import Type
 
 app = FastAPI()
@@ -86,8 +86,8 @@ def monitor_job():
 
 @app.websocket("/start_job_1_to_1")
 async def start_job_1_to_1(websocket: WebSocket):
-    comm = WebsocketServerCommunicator(websocket)
-    federator = ServerFederator(comm)
+    comm = WebsocketCommunicator(websocket)
+    federator = Federator(comm, mode="server")
 
     async with federator:
         await federator.run()

@@ -5,12 +5,12 @@ description = ""
 authors = ["sasano8 <y-sasahara@ys-method.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.7,<3.11"
 typer = "^0.4.1"
 # mpi4py = "^3.1.3"
 fastapi = "^0.75.1"
 uvicorn = "^0.17.6"
-pydantic = "^1.9.0"
+pydantic = "^1.8.2"
 websocket-client = "^1.3.2"
 
 [tool.poetry.dev-dependencies]
@@ -31,6 +31,10 @@ mkautodoc = "^0.1.0"
 mkdocs-material = "^7.2.2"
 pymdown-extensions = "^8.2"
 mkdocs-print-site-plugin = "^1.2.3"
+ipykernel = "^6.13.0"
+tensorflow = "^2.8.0"
+torchvision = "^0.12.0"
+
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -55,8 +55,20 @@ class CommunicatorBase:
         else:
             raise Exception(f"Unkown msg type: {data['type']}")
 
+    def add_events(self, events):
+        if isinstance(events, list):
+            events = {x.__name__: x for x in events}
 
-class WebsocketServerCommunicator(CommunicatorBase):
+        if not isinstance(events, dict):
+            raise TypeError()
+
+        if not hasattr(self, "events"):
+            self.events = events.copy()
+        else:
+            self.events = {**self.events, **events}
+
+
+class WebsocketCommunicator(CommunicatorBase):
     def __init__(self, websocket: WebSocket):
         if not isinstance(websocket, WebSocket):
             raise Exception()
@@ -82,12 +94,8 @@ class WebsocketServerCommunicator(CommunicatorBase):
         return await self.comm.receive_json()
 
 
-class WebsocketClientCommunicator(CommunicatorBase):
-    ...
-
-
 class StandaloneCommunicator(CommunicatorBase):
-    def __init__(self, buf):
+    def __init__(self):
         from collections import deque
 
         self.buf = deque()
