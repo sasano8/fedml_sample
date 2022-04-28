@@ -1,4 +1,11 @@
-from fastapi import WebSocket
+import json
+from typing import TYPE_CHECKING
+import asyncio
+
+if TYPE_CHECKING:
+    from fastapi import WebSocket
+else:
+    WebSocket = None
 
 
 class CommunicatorBase:
@@ -49,8 +56,11 @@ class CommunicatorBase:
             raise Exception(f"Unkown msg type: {data['type']}")
 
 
-class WebsocketCommunicator(CommunicatorBase):
+class WebsocketServerCommunicator(CommunicatorBase):
     def __init__(self, websocket: WebSocket):
+        if not isinstance(websocket, WebSocket):
+            raise Exception()
+
         self.comm = websocket
 
     async def accept(self) -> None:
@@ -70,3 +80,50 @@ class WebsocketCommunicator(CommunicatorBase):
 
     async def receive_json(self):
         return await self.comm.receive_json()
+
+
+class WebsocketClientCommunicator(CommunicatorBase):
+    ...
+
+
+class StandaloneCommunicator(CommunicatorBase):
+    def __init__(self, buf):
+        from collections import deque
+
+        self.buf = deque()
+
+    async def accept(self) -> None:
+        ...
+
+    async def close(self) -> None:
+        ...
+
+    async def send_bytes(self, data) -> None:
+        if not isinstance(data, bytes):
+            raise TypeError()
+        self.buf.append(data)
+
+    async def send_json(self, data) -> None:
+        self.buf.append(json.dumps(data))
+
+    async def receive_bytes(self):
+        buff = self.buff
+        while not buff:
+            await asyncio.sleep(0.05)
+
+        data = self.buf.popleft()
+
+        if isinstance(data, str):
+            return data.encode("utf-8")
+        elif isinstance(data, bytes):
+            return data
+        else:
+            raise TypeError()
+
+    async def receive_json(self):
+        buff = self.buff
+        while not buff:
+            await asyncio.sleep(0.05)
+
+        data = self.buf.popleft()
+        return json.load(data)

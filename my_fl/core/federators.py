@@ -1,10 +1,10 @@
 from .communicators import CommunicatorBase
 
 
-class Federator:
-    def __init__(self, comm: CommunicatorBase, mode: str = "server"):
+class ServerFederator:
+    def __init__(self, comm: CommunicatorBase):
         self.comm = comm
-        self.mode = mode
+        self.mode = "server"
 
     async def __aenter__(self):
         await self.comm.accept()
@@ -42,29 +42,39 @@ class Federator:
     async def s2_recieve_identifier_and_send_job_config(self):
         identifier = await self.comm.wait("s1_send_identifer")
         msg = {"msg": "job_config"}
-        await self.comm.send_json(msg)
+        await self.comm.send_json("s2_recieve_identifier_and_send_job_config", msg)
 
     async def s3_recieve_job_config_and_send_ok(self):
-        result = await self.comm.receive_json()
+        result = await self.comm.wait("s2_recieve_identifier_and_send_job_config")
         msg = {"msg": "ok"}
-        await self.comm.send_json(msg)
+        await self.comm.send_json("s3_recieve_job_config_and_send_ok", msg)
 
     async def s4_recieve_ok_and_send_model(self):
-        result = await self.comm.receive_json()
+        result = await self.comm.wait("s3_recieve_job_config_and_send_ok")
         msg = {"msg": "send_binary_model"}
-        await self.comm.send_json(msg)
+        await self.comm.send("s4_recieve_ok_and_send_model", msg)
 
     async def s5_revieve_model_and_send_model_diff(self):
-        msg = await self.comm.receive_json()
-        await self.comm.send_json({"msg": "global_parameter"})
+        msg = await self.comm.wait("s4_recieve_ok_and_send_model")
+        await self.comm.send(
+            "s5_revieve_model_and_send_model_diff", {"msg": "global_parameter"}
+        )
 
     async def s6_revieve_model_diff_and_send_model(self):
-        msg = await self.comm.receive_json()
-        await self.comm.send_json({"msg": "aggrated_model"})
+        msg = await self.comm.wait("s5_revieve_model_and_send_model_diff")
+        await self.comm.send(
+            "s6_revieve_model_diff_and_send_model", {"msg": "aggrated_model"}
+        )
 
     async def s7_revieve_model_and_send_ok(self):
-        msg = await self.comm.receive_json()
-        await self.comm.send_json({"msg": "ok"})
+        msg = await self.comm.wait("s6_revieve_model_diff_and_send_model")
+        await self.comm.send("s7_revieve_model_and_send_ok", {"msg": "ok"})
 
     async def s8_revieve_ok(self):
-        msg = await self.comm.receive_json()
+        msg = await self.comm.wait("s7_revieve_model_and_send_ok")
+
+
+class ClientFederatorBase:
+    def __init__(self, comm: CommunicatorBase):
+        self.comm = comm
+        self.mode = "client"
