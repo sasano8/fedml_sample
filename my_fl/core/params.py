@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import NamedTuple, Tuple, Union
+from typing import Tuple, Union
 
 # class Discriminator(NamedTuple):
 #     name: str
