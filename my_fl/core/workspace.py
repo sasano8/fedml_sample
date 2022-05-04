@@ -1,48 +1,9 @@
 import os
 import json
 
+from typing import Union
 from .exceptions import ConfigKeyError
-
-
-default_conf = {
-    "version": "0.1",
-    "federation": [
-        "fedavg",
-        {
-            "config_name": "config_1",
-            "description": "",
-            "output_model_name": "mymodel",
-            "allow_anonymous_domain": True,
-            "allow_anonymous_device": True,
-        },
-    ],
-    "topology": ["vertical", {"upstream": "xxx.com"}],  # or p2p
-    "manager": ["client"],
-    # "manager": [
-    #     "server",
-    #     {
-    #         "comm_round": 1,
-    #         "batch_size": 1,
-    #         "epochs": 1,
-    #         "client_optimizer": "",
-    #         "lr": 1,
-    #         "ci": 0,
-    #         "partition_method": "hetero",
-    #         "client_num_in_total": 1,
-    #         "client_num_per_round": 1
-    #     }
-    # ],
-    "distributed": [
-        "distributed",  # standalone, distributed, auto
-        {"gpu": 0, "communicator": "mpi", "nodes": []},  # or grpc hosts
-    ],
-    "trainer": ["MyModelTrainerTAG", {}],
-    "loader": [
-        "fileloader",
-        {"type": "csv", "path": "aaa/bbb/ccc/aaaa.csv", "cache": True},
-    ],
-    "model": ["LogisticRegression", {"input_dim": 1, "output_dim": 1}],
-}
+from .params import DEFAULT_CONFIG
 
 
 # TODO: 第一階層しか対応していない
@@ -59,7 +20,7 @@ def deep_merge(dic1, dic2):
     return result
 
 
-class RootDir:
+class WorkSpace:
     def __init__(self, path):
         if isinstance(path, str):
             from pathlib import Path
@@ -76,6 +37,19 @@ class RootDir:
         self.file_ignore = conf_dir / ".gitignore"
 
         self.dir_root = conf_dir
+        self.path = path
+
+    @classmethod
+    def as_tmp_dir(cls):
+        import tempfile
+        from contextlib import contextmanager
+
+        @contextmanager
+        def tmp_dir():
+            with tempfile.TemporaryDirectory() as path:
+                yield cls(path)
+
+        return tmp_dir()
 
     @classmethod
     def from_cwd(cls):
@@ -105,7 +79,7 @@ class RootDir:
 
         if not file_conf.exists():
             with open(file_conf, "w") as f:
-                json.dump({"default": default_conf}, f, indent=2, ensure_ascii=False)
+                json.dump({"default": DEFAULT_CONFIG}, f, indent=2, ensure_ascii=False)
 
         if not file_override.exists():
             with open(file_override, "w") as f:
@@ -136,17 +110,45 @@ class RootDir:
         except KeyError:
             raise ConfigKeyError(config_name)
 
+    def get_stores(self):
+        from .store import LocalConfigStore, LocalDataStore, LocalModelStore
+
+        return LocalConfigStore(self), LocalDataStore(self), LocalModelStore(self)
+
 
 class LocalRepository:
-    def __init__(self, conf: RootDir):
-        self.conf = conf
+    def __init__(self, dir: WorkSpace, config_name: Union[str, None] = "default"):
+        if config_name is None:
+            config_name = "default"
+
+        self.dir = dir
+        self.config_name = config_name
+
+    @classmethod
+    def from_cwd(cls, config_name: Union[str, None] = "default"):
+        root = WorkSpace(os.getcwd())
+        return cls(root, config_name)
+
+    def get_config(self, config_name=None):
+        if config_name is None:
+            config_name = self.config_name
+
+        return self.dir.get(config_name)
 
     def get_datasets(self):
-        return [x.name for x in self.conf.datasets.iterdir()]
+        return [x.name for x in self.dir.datasets.iterdir()]
 
     def get_dataset(self, name: str):
-        with open(self.conf.datasets / name) as f:
+        with open(self.dir.datasets / name) as f:
             return f.read()
 
     def get_models(self):
-        return [x.name for x in self.conf.models.iterdir() if x.is_file()]
+        return [x.name for x in self.dir.models.iterdir() if x.is_file()]
+
+    def get_model(self, name):
+        arr = set(x.name for x in self.dir.models.iterdir() if x.is_file())
+        if name not in arr:
+            raise KeyError(name)
+
+        with open(self.dir.models / name) as f:
+            return f.read()

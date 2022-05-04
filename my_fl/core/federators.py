@@ -5,6 +5,7 @@ class Federator:
     def __init__(self, comm: CommunicatorBase, mode: str):
         self.comm = comm
         self.mode = mode
+        self.closed = False
 
     async def __aenter__(self):
         await self.comm.accept()
@@ -20,18 +21,20 @@ class Federator:
         return self.mode == "client"
 
     async def run(self):
-        if self.mode == "client":
-            await self.s1_send_identifer()
-            await self.s3_recieve_job_config_and_send_ok()
-            await self.s5_revieve_model_and_send_model_diff()  # train on client
-            await self.s7_revieve_model_and_send_ok()
-        elif self.mode == "server":
-            await self.s2_recieve_identifier_and_send_job_config()
-            await self.s4_recieve_ok_and_send_model()  # train on server
-            await self.s6_revieve_model_diff_and_send_model()  # aggregate/transfer
-            await self.s8_revieve_ok()
-        else:
-            raise Exception()
+        await self.comm.wait_disconnected(interval=0.1)
+
+        # if self.mode == "client":
+        #     await self.s1_send_identifer()
+        #     await self.s3_recieve_job_config_and_send_ok()
+        #     await self.s5_revieve_model_and_send_model_diff()  # train on client
+        #     await self.s7_revieve_model_and_send_ok()
+        # elif self.mode == "server":
+        #     await self.s2_recieve_identifier_and_send_job_config()
+        #     await self.s4_recieve_ok_and_send_model()  # train on server
+        #     await self.s6_revieve_model_diff_and_send_model()  # aggregate/transfer
+        #     await self.s8_revieve_ok()
+        # else:
+        #     raise Exception()
 
     async def s1_send_identifer(self):
         await self.comm.send(

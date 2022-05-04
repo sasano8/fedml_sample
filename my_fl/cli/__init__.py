@@ -1,7 +1,9 @@
 import json
 import typer
 
-from my_fl.core.directory import RootDir as Config, LocalRepository
+from my_fl.core.workspace import WorkSpace as Config, LocalRepository
+from my_fl.server_factories import build_server
+from .utils import echo
 
 common_opt = {"no_args_is_help": True}
 
@@ -17,7 +19,14 @@ federate = typer.Typer(**common_opt)
 
 
 @app.command()
-def init():
+def init(use_remote: bool = True):
+    import os
+    from my_fl import server_config
+
+    host = os.environ.get(server_config.ENV_DEFAULT_HOST, None)
+    if use_remote and host:
+        raise NotImplementedError()
+
     Config.from_cwd().init()
 
 
@@ -49,7 +58,7 @@ def validate(config_name: str = None):
 @config.command()
 def show(config_name: str = None):
     conf = Config.from_cwd().get(config_name)
-    typer.echo(json.dumps(conf, indent=2, ensure_ascii=False))
+    echo(json.dumps(conf, indent=2, ensure_ascii=False))
 
 
 @config.command()
@@ -95,6 +104,30 @@ def run(config_name: str = None, standalone: bool = False):
 @train.command()
 def dry_run(config_name: str = None, standalone: bool = False):
     conf = Config.from_cwd().get(config_name)
+    logs = [
+        "[client]request hello",
+        "[server]response hello",
+        "[client]request pull_config",
+        "[server]response pull_config",
+        "[client]start train",
+        "[client]request pull_model",
+        "[server]response pull_model",
+        "[client]request pull_data",
+        "[server]response pull_data",
+        "[client]request push_model",
+        "[server]response push_model",
+        "[client]request pull_model",
+        "[server]response pull_model",
+        "[client]request commit",
+        "[server]request push_model",
+        "[upstream]response push_model",
+        "[server]response commit",
+        "[client]finish train",
+        "[client]request bye",
+        "[server]response bye",
+    ]
+
+    echo(logs)
 
 
 @federate.command()
@@ -119,16 +152,14 @@ def dry_run(config_name: str = None):
 
 @dataset.command("list")
 def dataset_list(config_name: str = None):
-    dir = Config.from_cwd()
-    conf = dir.get(config_name)
-    typer.echo(LocalRepository(dir).get_datasets())
+    result = LocalRepository.from_cwd(config_name).get_datasets()
+    echo(result)
 
 
 @dataset.command("show")
 def dataset_show(name: str, *, config_name: str = None):
-    dir = Config.from_cwd()
-    conf = dir.get(config_name)
-    typer.echo(LocalRepository(dir).get_dataset(name))
+    result = LocalRepository.from_cwd(config_name).get_dataset(name)
+    echo(result)
 
 
 @dataset.command("pull")
@@ -172,13 +203,29 @@ def users(config_name: str = None):
 
 
 @server.command()
-def start(config_name: str = None):
-    conf = Config.from_cwd().get(config_name)
+def run(
+    config_name: str = None,
+    port: int = 5000,
+    log_level: str = "info",
+):
+    import uvicorn
+    from my_fl import server_config
 
-
-@server.command()
-def stop(config_name: str = None):
     conf = Config.from_cwd().get(config_name)
+    config_store = {}
+    data_store = {}
+    model_store = {}
+
+    server = build_server(
+        root_prefix=server_config.ROOT_PREFIX,
+        router_prefix=server_config.ROUTER_PREFIX,
+        path=server_config.PATH,
+        config_store=config_store,
+        data_store=data_store,
+        model_store=model_store,
+    )
+
+    uvicorn.run(server, port=port, log_level=log_level)
 
 
 @domain.command()
