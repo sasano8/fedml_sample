@@ -12,6 +12,15 @@ cd ~/.pyenv && src/configure && make -C src
 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+
+# シェル再起動
+
+# インストールしたい環境を確認
+pyenv install -l | grep miniconda
+pyenv install miniconda3-3.8-4.11.0
+conda create -n fml python=3.8.12
+conda init bash
 ```
 
 
