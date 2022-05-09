@@ -25,6 +25,7 @@ conda init bash
 # シェル再起動
 
 conda create -n fml python=3.8.12
+conda activate fml
 ```
 
 
