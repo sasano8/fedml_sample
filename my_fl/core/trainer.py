@@ -43,3 +43,14 @@ class LocalTrainer(TrainerBase):
 
     def save(self):
         torch.save(model.state_dict(), model_path)
+
+
+class DummyTrainer:
+    def __init__(self, comm):
+        self.comm = comm
+
+    async def train(self, comm):
+        ...
+
+    async def serve(self, comm):
+        ...

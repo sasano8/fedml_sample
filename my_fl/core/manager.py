@@ -11,6 +11,7 @@ class IManager:
 
     async def __aenter__(self):
         await self.comm.accept()
+        self._state = {}
         return self
 
     async def __aexit__(self, *args, **kwargs):
@@ -24,6 +25,10 @@ class IManager:
 
     async def wait_disconnected(self):
         raise NotImplementedError()
+
+    @classmethod
+    def create(cls, comm):
+        ...
 
 
 class ClientDrivenServerManager(IManager):
@@ -47,6 +52,7 @@ class ClientDrivenServerManager(IManager):
         return True
 
     async def run(self):
+
         await self.comm.wait_disconnected()
 
     async def wait_disconnected(self):
@@ -67,6 +73,25 @@ class ClientDrivenServerManager(IManager):
     async def model_push(self, **kwargs):
         result = await self.store.model_push(**kwargs)
         return await self.comm.send("model_push", {"info": True, "result": result})
+
+    async def train(self):
+        class Trainer:
+            def __init__(self, comm: CommunicatorBase):
+                self.comm = comm
+
+            async def train(self):
+                await self.comm.wait("hello")
+                await self.comm.send("hello", "test hello!")
+                await self.comm.wait("pull_config")
+                await self.comm.wait("pull_model")
+                await self.comm.wait("pull_data")
+                await self.comm.wait("aggregate_model")
+                await self.comm.wait("feedback_model")
+                await self.comm.wait("commit")
+                # self.comm.upstream.send()
+                await self.comm.wait("bye")
+
+        return await Trainer(self.comm).train()
 
 
 class ClientDrivenClientManager(IManager):

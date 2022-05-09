@@ -105,6 +105,7 @@ def build_websocket_router(
     # @router.websocket("/monitor_job")
     # def monitor_job():
     #     ...
+    import logging
 
     @router.websocket(path)
     async def federate(websocket: WebSocket):

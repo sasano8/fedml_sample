@@ -59,13 +59,11 @@ def build_server(
 def build_websocket_server(
     manager_cls=ClientDrivenServerManager, *, config_store, data_store, model_store
 ):
-    async def run(websocket):
-        comm = WebsocketCommunicator(websocket)
+    def create_server(comm):
         server = manager_cls(comm, config_store, data_store, model_store)
-        async with server as server:
-            server.run()
+        return server
 
-    return run
+    return create_server
 
 
 def build_websocket_router(
@@ -108,17 +106,42 @@ def build_websocket_router(
     # def monitor_job():
     #     ...
 
+    @router.get("/aaa")
+    async def asdfasd():
+        return 1
+
     @router.websocket(path)
     async def federate(websocket: WebSocket):
-        websocket_server_factory = build_websocket_server(
-            WebsocketCommunicator,
+        # create_server = build_websocket_server(
+        #     ClientDrivenServerManager,
+        #     config_store=config_store,
+        #     data_store=data_store,
+        #     model_store=model_store,
+        # )
+        comm = WebsocketCommunicator(websocket)
+        server = ClientDrivenServerManager(
+            comm,
             config_store=config_store,
             data_store=data_store,
             model_store=model_store,
         )
+        async with server as server:
+            # await server.run()
+            await server.train()
 
-        server = websocket_server_factory(websocket)
-        await server.run()
+        # import asyncio
+
+        # global connection_count
+        # connection_count += 1
+
+        # await websocket.accept()
+        # while True:
+        #     await websocket.receive_bytes()
+        #     await asyncio.sleep(0.1)
+        #     # print(websocket.client_state)
+        #     # print(websocket.application_state)
+
+        # await websocket.close()
 
         # comm = WebsocketCommunicator(websocket)
 

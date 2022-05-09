@@ -1,8 +1,15 @@
-from typing import Literal
+from typing import Literal, TYPE_CHECKING, Type, Any
+
+if TYPE_CHECKING:
+    from .core import WorkSpace
+else:
+    WorkSpace = Any
 
 
 PKG_NAME = "my_fl"
 DEFAULT_DIR = ".fed"
+WS_CLS: Type[WorkSpace] = None  # type: ignore
+MANAGER = None
 
 # DEFAULT SERVER
 ENV_DEFAULT_HOST = ""
@@ -17,6 +24,7 @@ DEFAULT_PORT = 5000
 def customize_pkg(
     PKG_NAME: str = None,
     DEFAULT_DIR: str = None,
+    WS_CLS: Type[WorkSpace] = None,
     ENV_DEFAULT_HOST: str = None,
     ROOT_PREFIX: str = None,
     ROUTER_PREFIX: str = None,
@@ -30,6 +38,9 @@ def customize_pkg(
 
     if DEFAULT_DIR is not None:
         server_config.DEFAULT_DIR = DEFAULT_DIR
+
+    if WS_CLS is not None:
+        server_config.WS_CLS = WS_CLS
 
     if ENV_DEFAULT_HOST is not None:
         server_config.ENV_DEFAULT_HOST = ENV_DEFAULT_HOST
@@ -45,6 +56,20 @@ def customize_pkg(
 
     if DEFAULT_PORT is not None:
         server_config.DEFAULT_PORT = DEFAULT_PORT
+
+
+def init_pkg():
+    from my_fl import server_config
+
+    if server_config.WS_CLS is None:
+        from .core import WorkSpace
+
+        server_config.WS_CLS = WorkSpace
+
+    if server_config.MANAGER is None:
+        from .core.manager_trainer import Manager
+
+        server_config.MANAGER = Manager
 
 
 def get_entry_point(host="localhost", port=None):
