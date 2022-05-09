@@ -75,8 +75,19 @@ nfs, head, nodes, ansibleを１台のホスト上に構築する例を示しま�
 この例では、仮想マシンの準備にmultipassを使用しますが、任意のソフトウェアを使ってかまいません。
 
 ``` shell
-multipass launch 20.04 --disk 20G --name fedml
+multipass launch 20.04 --cpus 1 --mem 1G --disk 20G --name fedml
 multipass shell fedml
+```
+
+```
+# CPUの数
+grep physical.id /proc/cpuinfo | sort -u | wc -l
+
+# CPUごとのコア数
+grep cpu.cores /proc/cpuinfo | sort -u
+
+# メモリ（GB表示）
+free -g
 ```
 
 デフォルトのユーザであるubuntuをansible実行ホストとみなします。
