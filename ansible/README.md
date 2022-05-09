@@ -1,3 +1,34 @@
+# 計算ノード構築メモ
+
+```
+sudo apt-get update;
+sudo apt-get install make build-essential libssl-dev zlib1g-dev \
+libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
+git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+cd ~/.pyenv && src/configure && make -C src
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+
+# シェル再起動
+
+# インストールしたい環境を確認
+pyenv install -l | grep miniconda
+pyenv install miniconda3-3.8-4.11.0
+pyenv global miniconda3-3.8-4.11.0
+conda init bash
+
+# シェル再起動
+
+conda create -n fml python=3.8.12
+conda activate fml
+```
+
+
 # クラスター構築
 
 クラスタ構築手順を記します。
@@ -75,8 +106,19 @@ nfs, head, nodes, ansibleを１台のホスト上に構築する例を示しま�
 この例では、仮想マシンの準備にmultipassを使用しますが、任意のソフトウェアを使ってかまいません。
 
 ``` shell
-multipass launch 20.04 --disk 20G --name fedml
+multipass launch 20.04 --cpus 1 --mem 1G --disk 20G --name fedml
 multipass shell fedml
+```
+
+```
+# CPUの数
+grep physical.id /proc/cpuinfo | sort -u | wc -l
+
+# CPUごとのコア数
+grep cpu.cores /proc/cpuinfo | sort -u
+
+# メモリ（GB表示）
+free -g
 ```
 
 デフォルトのユーザであるubuntuをansible実行ホストとみなします。
