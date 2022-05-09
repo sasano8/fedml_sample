@@ -19,8 +19,12 @@ echo 'eval "$(pyenv init -)"' >> ~/.bashrc
 # インストールしたい環境を確認
 pyenv install -l | grep miniconda
 pyenv install miniconda3-3.8-4.11.0
-conda create -n fml python=3.8.12
+pyenv global miniconda3-3.8-4.11.0
 conda init bash
+
+# シェル再起動
+
+conda create -n fml python=3.8.12
 ```
 
 
