@@ -5,59 +5,17 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/create_mpi_host_file": {
-            "post": {
-                "summary": "Create Mpi Host File",
-                "description": "形式はバージョンにより２つある。\nnode1:4\nnode1 slots=4",
-                "operationId": "create_mpi_host_file_create_mpi_host_file_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Mpi Host File",
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/components/schemas/MpiHost"
-                                }
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedavg": {
+        "/fedml/fedavg": {
             "post": {
                 "summary": "Fedavg",
                 "description": "${workspaceFolder}/fedml_experiments/standalone/fedavg",
-                "operationId": "fedavg_fedavg_post",
+                "operationId": "fedavg_fedml_fedavg_post",
                 "parameters": [
                     {
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "title": "Gpu",
-                            "type": "integer",
-                            "default": 0
+                            "type": "integer"
                         },
                         "name": "gpu",
                         "in": "query"
@@ -85,12 +43,7 @@
                         "schema": {
                             "title": "Model",
                             "enum": [
-                                "rnn",
-                                "resnet56",
-                                "lr",
-                                "cnn",
-                                "resnet18_gn",
-                                "mobilenet"
+                                "rnn"
                             ],
                             "type": "string",
                             "default": "rnn"
@@ -99,64 +52,51 @@
                         "in": "query"
                     },
                     {
-                        "description": "how to partition the dataset on local workers",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "title": "Partition Method",
-                            "enum": [
-                                "hetero",
-                                "homo"
-                            ],
-                            "type": "string",
-                            "description": "how to partition the dataset on local workers",
-                            "default": "hetero"
+                            "type": "string"
                         },
                         "name": "partition_method",
                         "in": "query"
                     },
                     {
-                        "description": "number of workers in a distributed cluster",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "title": "Client Num In Total",
-                            "type": "integer",
-                            "description": "number of workers in a distributed cluster",
-                            "default": 1
+                            "type": "integer"
                         },
                         "name": "client_num_in_total",
                         "in": "query"
                     },
                     {
-                        "description": "number of workers",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "title": "Client Num Per Round",
-                            "type": "integer",
-                            "description": "number of workers",
-                            "default": 1
+                            "type": "integer"
                         },
                         "name": "client_num_per_round",
                         "in": "query"
                     },
                     {
-                        "description": "how many round of communications we should use. roundの数だけepochsを繰り返すようだ。",
+                        "description": "ラウンド数？",
                         "required": false,
                         "schema": {
                             "title": "Comm Round",
                             "type": "integer",
-                            "description": "how many round of communications we should use. roundの数だけepochsを繰り返すようだ。",
-                            "default": 2
+                            "description": "ラウンド数？",
+                            "default": 1000
                         },
                         "name": "comm_round",
                         "in": "query"
                     },
                     {
-                        "description": "データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。",
+                        "description": "データセットをいくつかに分割し、分割された塊の数",
                         "required": true,
                         "schema": {
                             "title": "Batch Size",
                             "type": "integer",
-                            "description": "データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"
+                            "description": "データセットをいくつかに分割し、分割された塊の数"
                         },
                         "name": "batch_size",
                         "in": "query"
@@ -177,397 +117,29 @@
                         "required": true,
                         "schema": {
                             "title": "Client Optimizer",
-                            "enum": [
-                                "sgd",
-                                "adam"
-                            ],
                             "type": "string"
                         },
                         "name": "client_optimizer",
                         "in": "query"
                     },
                     {
-                        "description": "学習率",
-                        "required": false,
+                        "description": "学習率のこと？",
+                        "required": true,
                         "schema": {
                             "title": "Lr",
                             "type": "number",
-                            "description": "学習率",
-                            "default": 0.0001
+                            "description": "学習率のこと？"
                         },
                         "name": "lr",
                         "in": "query"
                     },
                     {
-                        "description": "CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。",
-                        "required": false,
+                        "required": true,
                         "schema": {
                             "title": "Ci",
-                            "type": "integer",
-                            "description": "CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。",
-                            "default": 0
+                            "type": "integer"
                         },
                         "name": "ci",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/fedavg_internal": {
-            "post": {
-                "summary": "Fedavg Internal",
-                "operationId": "fedavg_internal_fedavg_internal_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Dataset"
-                        },
-                        "name": "dataset",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Device"
-                        },
-                        "name": "device",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Args"
-                        },
-                        "name": "args",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Model Trainer"
-                        },
-                        "name": "model_trainer",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/train": {
-            "post": {
-                "summary": "Train",
-                "operationId": "train_train_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Table Name"
-                        },
-                        "name": "table_name",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Output Model Name"
-                        },
-                        "name": "output_model_name",
-                        "in": "query"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Params",
-                                "type": "object"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/instantiate_model": {
-            "post": {
-                "summary": "Instantiate Model",
-                "operationId": "instantiate_model_instantiate_model_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Model Name",
-                            "type": "string"
-                        },
-                        "name": "model_name",
-                        "in": "query"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Model Args",
-                                "type": "object"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/instantiate_trainer": {
-            "post": {
-                "summary": "Instantiate Trainer",
-                "description": "トレーナは、データロード、学習、テスト、グローバルパラメータの更新など、\n一連の学習工程を管理するオブジェクトである。",
-                "operationId": "instantiate_trainer_instantiate_trainer_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Trainer Name",
-                            "type": "string"
-                        },
-                        "name": "trainer_name",
-                        "in": "query"
-                    },
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Model"
-                        },
-                        "name": "model",
-                        "in": "query"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Trainer Args",
-                                "type": "object"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/instantiate_federator": {
-            "post": {
-                "summary": "Instantiate Federator",
-                "description": "フェデレータは複数のトレーナの調整役である。\n    ",
-                "operationId": "instantiate_federator_instantiate_federator_post",
-                "parameters": [
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Trainer"
-                        },
-                        "name": "trainer",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Client Id",
-                            "type": "integer"
-                        },
-                        "name": "client_id",
-                        "in": "query"
-                    },
-                    {
-                        "required": false,
-                        "schema": {
-                            "title": "Backend",
-                            "type": "string",
-                            "default": "MQTT"
-                        },
-                        "name": "backend",
-                        "in": "query"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "title": "Args",
-                                "type": "object"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/create_federation": {
-            "post": {
-                "summary": "Create Federation",
-                "operationId": "create_federation_create_federation_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/FederateConfig"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/federated": {
-            "post": {
-                "summary": "Join Federation",
-                "operationId": "join_federation_federated_post",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Run Id",
-                            "type": "integer"
-                        },
-                        "name": "run_id",
                         "in": "query"
                     }
                 ],
@@ -596,162 +168,6 @@
     },
     "components": {
         "schemas": {
-            "FederateConfig": {
-                "title": "FederateConfig",
-                "required": [
-                    "version",
-                    "federation",
-                    "manager",
-                    "trainer",
-                    "loader",
-                    "model"
-                ],
-                "type": "object",
-                "properties": {
-                    "version": {
-                        "title": "Version",
-                        "type": "string"
-                    },
-                    "federation": {
-                        "title": "Federation",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "manager": {
-                        "title": "Manager",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "distributed": {
-                        "title": "Distributed",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ],
-                        "default": [
-                            "standalone"
-                        ]
-                    },
-                    "trainer": {
-                        "title": "Trainer",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "loader": {
-                        "title": "Loader",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    },
-                    "model": {
-                        "title": "Model",
-                        "maxItems": 2,
-                        "minItems": 2,
-                        "type": "array",
-                        "items": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "type": "object"
-                            }
-                        ]
-                    }
-                },
-                "examples": [
-                    {
-                        "version": "0.1",
-                        "federation": [
-                            "fedavg",
-                            {
-                                "config_name": "config_1",
-                                "description": "",
-                                "output_model_name": "mymodel",
-                                "allow_anonymous_domain": true,
-                                "allow_anonymous_device": true
-                            }
-                        ],
-                        "topology": [
-                            "vertical",
-                            {
-                                "upstream": "xxx.com"
-                            }
-                        ],
-                        "manager": [
-                            "client"
-                        ],
-                        "distributed": [
-                            "distributed",
-                            {
-                                "gpu": 0,
-                                "communicator": "mpi",
-                                "nodes": []
-                            }
-                        ],
-                        "trainer": [
-                            "MyModelTrainerTAG",
-                            {}
-                        ],
-                        "loader": [
-                            "fileloader",
-                            {
-                                "type": "csv",
-                                "path": "aaa/bbb/ccc/aaaa.csv",
-                                "cache": true
-                            }
-                        ],
-                        "model": [
-                            "LogisticRegression",
-                            {
-                                "input_dim": 1,
-                                "output_dim": 1
-                            }
-                        ]
-                    }
-                ]
-            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -764,27 +180,6 @@
                         }
                     }
                 }
-            },
-            "MpiHost": {
-                "title": "MpiHost",
-                "required": [
-                    "host",
-                    "slots"
-                ],
-                "type": "object",
-                "properties": {
-                    "host": {
-                        "title": "Host",
-                        "type": "string",
-                        "description": "host名またはipを指定"
-                    },
-                    "slots": {
-                        "title": "Slots",
-                        "type": "integer",
-                        "description": "CPU数を指定"
-                    }
-                },
-                "description": "計算を実行する"
             },
             "ValidationError": {
                 "title": "ValidationError",

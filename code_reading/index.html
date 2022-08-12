@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-7.3.0">
+      <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-7.3.0">
     
     
       
@@ -40,7 +40,7 @@
     
       <link rel="stylesheet" href="../css/print-site-material.css">
     
-      <link rel="stylesheet" href="../css/custom.css">
+      <link rel="stylesheet" href="../overrides/css/custom.css">
     
       <link rel="stylesheet" href="https://unpkg.com/mermaid@8.0.0/dist/mermaid.css">
     
@@ -71,6 +71,11 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
+      
+        
+        <a href="#distributedfedavgmain_fedavgpy" class="md-skip">
+          コンテンツにスキップ
+        </a>
       
     </div>
     <div data-md-component="announce">
@@ -316,6 +321,8 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
         コードリーディング
@@ -362,6 +369,23 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -380,8 +404,6 @@
                   </a>
                 
                 
-                  <h1>コードリーディング</h1>
-                
                 <div class="mermaid">sequenceDiagram
     participant Server
     participant Client
@@ -394,50 +416,72 @@
 単一ジョブでポートが重複しないが、複数のジョブを実行すると衝突してしまうと思われる。
 また、クライアントもClientManagerによってGRPCサーバを起動する（GRPCCommManagerはServer/Client共通）。</p>
 <p>これはクロスサイロ構成（組織等ドメイン間でデータ非共有・モデル共有）に向いている。</p>
-<div class="highlight"><pre><span></span><code>PORT = 50000 + rank
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>standalone/fedavg/main_fedavg.py
-
-- wandb.init
-    - どう作動するか分からん
-    - 何をウォッチする？
-- torchを準備する
-    - gpu か cpuか
-    - 色々初期化
-- load_data(args, args.dataset)
-    - centralized = True if args.client_num_in_total == 1 else False
-    - full_batch = args.batch_size &lt;= 0  args.batch_size = 128
-    - class_num = load_partition_data_federated_shakespeare(args.dataset, args.data_dir)
-        - DEFAULT_TRAIN_CLIENTS_NUM = 715 の数だけデータセットを分割する？
-            - get_dataloader(dataset, data_dir, train_bs, test_bs, client_idx=None) -&gt; クライアント分のデータローダを作成する
-                - train用データセットとtest用データセットを読み込む
-                - utils.preprocess: よく分からないが前処理をしているようだ
-                - utils.split: datasetをx, yにsplitする
-                - テンソルデータセット（pytorchで提供する型）
-                - data.DataLoader(dataset=train_ds, batch_size=train_bs,shuffle=True,drop_last=False) クラスを初期化し、train用data_loaderとtest用data_loaderを初期化する
-        - クライアント分のデータローダを１つにし、train用とtest用loaderを作成する（なんか意味ないようにみえる）
-        - 統計情報やtrain用・test用データローダ色々返す
-    - args.client_num_in_total = client_num  # standaloneだからクライアント数は無視される？
-    - centralizedならなんかする
-    - full_batchならなんかする
-    - 色々一つに含めてそれを返す
-- create_model(dataset, model_name, output_dim): モデルを作成する。これは一般的な機械学習と同じ
-    - modelのインターフェースは何か？
-- custom_model_trainer
-- FedAvgAPI(dataset, device, args, model_trainer).train() -&gt; トレーナーを実行する
-    - comm_roundの数繰り返す
-        - clientの数？繰り返す
-            - trainする
-    - aggregate（グローバルパラメータを更新）する
-    - トレーナーのパラメータをグローバルパラメータでアップデートする
-    - テストする
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># distributed/fedavg/main_fedavg.py
-
-- device = mapping_processes_to_gpu_device_from_yaml_file(...)
-- dataset = load_data(args, args.dataset)
-- model = create_model(args, model_name=args.model, output_dim=dataset[7])
-- FedML_FedAvg_distributed(
+<p><code>PORT = 50000 + rank</code></p>
+<p>```
+standalone/fedavg/main_fedavg.py</p>
+<ul>
+<li>wandb.init<ul>
+<li>どう作動するか分からん</li>
+<li>何をウォッチする？</li>
+</ul>
+</li>
+<li>torchを準備する<ul>
+<li>gpu か cpuか</li>
+<li>色々初期化</li>
+</ul>
+</li>
+<li>load_data(args, args.dataset)<ul>
+<li>centralized = True if args.client_num_in_total == 1 else False</li>
+<li>full_batch = args.batch_size &lt;= 0  args.batch_size = 128</li>
+<li>class_num = load_partition_data_federated_shakespeare(args.dataset, args.data_dir)<ul>
+<li>DEFAULT_TRAIN_CLIENTS_NUM = 715 の数だけデータセットを分割する？<ul>
+<li>get_dataloader(dataset, data_dir, train_bs, test_bs, client_idx=None) -&gt; クライアント分のデータローダを作成する<ul>
+<li>train用データセットとtest用データセットを読み込む</li>
+<li>utils.preprocess: よく分からないが前処理をしているようだ</li>
+<li>utils.split: datasetをx, yにsplitする</li>
+<li>テンソルデータセット（pytorchで提供する型）</li>
+<li>data.DataLoader(dataset=train_ds, batch_size=train_bs,shuffle=True,drop_last=False) クラスを初期化し、train用data_loaderとtest用data_loaderを初期化する</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>クライアント分のデータローダを１つにし、train用とtest用loaderを作成する（なんか意味ないようにみえる）</li>
+<li>統計情報やtrain用・test用データローダ色々返す</li>
+</ul>
+</li>
+<li>args.client_num_in_total = client_num  # standaloneだからクライアント数は無視される？</li>
+<li>centralizedならなんかする</li>
+<li>full_batchならなんかする</li>
+<li>色々一つに含めてそれを返す</li>
+</ul>
+</li>
+<li>create_model(dataset, model_name, output_dim): モデルを作成する。これは一般的な機械学習と同じ<ul>
+<li>modelのインターフェースは何か？</li>
+</ul>
+</li>
+<li>custom_model_trainer</li>
+<li>FedAvgAPI(dataset, device, args, model_trainer).train() -&gt; トレーナーを実行する<ul>
+<li>comm_roundの数繰り返す<ul>
+<li>clientの数？繰り返す<ul>
+<li>trainする</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>aggregate（グローバルパラメータを更新）する</li>
+<li>トレーナーのパラメータをグローバルパラメータでアップデートする</li>
+<li>テストする</li>
+</ul>
+</li>
+</ul>
+<p>```</p>
+<p>```</p>
+<h1 id="distributedfedavgmain_fedavgpy">distributed/fedavg/main_fedavg.py</h1>
+<ul>
+<li>device = mapping_processes_to_gpu_device_from_yaml_file(...)</li>
+<li>dataset = load_data(args, args.dataset)</li>
+<li>model = create_model(args, model_name=args.model, output_dim=dataset[7])</li>
+<li>FedML_FedAvg_distributed(
         process_id,
         worker_number,
         device,
@@ -450,55 +494,75 @@
         train_data_local_dict,
         test_data_local_dict,
         args,
-    )
-    - if process_id == 0:
-        - init_server
-            - トレーナを初期化
-            - アグリゲータを初期化 aggregator = FedAVGAggregator
-            - サーバマネージャを初期化 server_manager = FedAVGServerManager(args, aggregator, comm, rank, size, backend)
-            - 初期化メッセージを送信: server_manager.send_init_msg()
-                - self.aggregator.get_global_model_params(): トレーナのモデルからグローバルパラメータを取得
-                - グローバルパラメータと共に、MyMessage.MSG_TYPE_S2C_INIT_CONFIGを送信（FedAVGClientManager.handle_message_initが受け取る）
-            - 実行＆待機: server_manager.run()
-                - messageを監視する
-    - else:
-        - init_client
-            - トレーナを初期化
-            - FedAVGTrainerを初期化
-            - FedAVGClientManagerを初期化
-            - FedAVGClientManagerを実行
-</code></pre></div>
-<div class="highlight"><pre><span></span><code># https://github.com/FedML-AI/FedML-IoT/blob/master/raspberry_pi/fedavg/fedavg_rpi_client.py
-
-## server
-- サーバを起動しておく
-
-
-## client
-
-- client_ID, args = register(server_ip, uuid, args): サーバに任意のclient_uuidを登録
-    - result = requests.post(url=URL, params={&quot;device_id&quot;: uuid})
-    - client_id = result[&quot;client_id&quot;]
-    - training_task_args = result[&#39;training_task_args&#39;]
-    - return training_task_args
-    - シードを初期化
-    - init_training_device(client_ID - 1, args.client_num_per_round - 1, 4)  # 4 - gpu_num_per_machine
-        - torch.deviceを返す
-    - load_data
-    - create_model
-    - trainerを初期化（他のトレーナと変わりなし）&amp;&amp; model_trainer.set_id(client_index)
-    - FedAVGTrainerを初期化
-    - FedAVGClientManager(args, trainer, rank=client_ID, size=size, backend=&quot;MQTT&quot;)
-    - client_manager.run()
-    - client_manager.start_training()
-    - time.sleep(100000): !???
-</code></pre></div>
+    )<ul>
+<li>if process_id == 0:<ul>
+<li>init_server<ul>
+<li>トレーナを初期化</li>
+<li>アグリゲータを初期化 aggregator = FedAVGAggregator</li>
+<li>サーバマネージャを初期化 server_manager = FedAVGServerManager(args, aggregator, comm, rank, size, backend)</li>
+<li>初期化メッセージを送信: server_manager.send_init_msg()<ul>
+<li>self.aggregator.get_global_model_params(): トレーナのモデルからグローバルパラメータを取得</li>
+<li>グローバルパラメータと共に、MyMessage.MSG_TYPE_S2C_INIT_CONFIGを送信（FedAVGClientManager.handle_message_initが受け取る）</li>
+</ul>
+</li>
+<li>実行＆待機: server_manager.run()<ul>
+<li>messageを監視する</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>else:<ul>
+<li>init_client<ul>
+<li>トレーナを初期化</li>
+<li>FedAVGTrainerを初期化</li>
+<li>FedAVGClientManagerを初期化</li>
+<li>FedAVGClientManagerを実行
+```</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>```</p>
+<h1 id="httpsgithubcomfedml-aifedml-iotblobmasterraspberry_pifedavgfedavg_rpi_clientpy">https://github.com/FedML-AI/FedML-IoT/blob/master/raspberry_pi/fedavg/fedavg_rpi_client.py</h1>
+<h2 id="server">server</h2>
+<ul>
+<li>サーバを起動しておく</li>
+</ul>
+<h2 id="client">client</h2>
+<ul>
+<li>client_ID, args = register(server_ip, uuid, args): サーバに任意のclient_uuidを登録<ul>
+<li>result = requests.post(url=URL, params={"device_id": uuid})</li>
+<li>client_id = result["client_id"]</li>
+<li>training_task_args = result['training_task_args']</li>
+<li>return training_task_args</li>
+<li>シードを初期化</li>
+<li>init_training_device(client_ID - 1, args.client_num_per_round - 1, 4)  # 4 - gpu_num_per_machine<ul>
+<li>torch.deviceを返す</li>
+</ul>
+</li>
+<li>load_data</li>
+<li>create_model</li>
+<li>trainerを初期化（他のトレーナと変わりなし）&amp;&amp; model_trainer.set_id(client_index)</li>
+<li>FedAVGTrainerを初期化</li>
+<li>FedAVGClientManager(args, trainer, rank=client_ID, size=size, backend="MQTT")</li>
+<li>client_manager.run()</li>
+<li>client_manager.start_training()</li>
+<li>time.sleep(100000): !???</li>
+</ul>
+</li>
+</ul>
+<p>```</p>
 <p>fedml_apiは汎用的に使えるAPIだと思ったが、かなり具体的なようだ</p>
-<div class="highlight"><pre><span></span><code>fedml_api/data_preprocessing/fed_shakespeare
-
-def load_partition_data_distributed_federated_shakespeare(...
+<p>```
+fedml_api/data_preprocessing/fed_shakespeare</p>
+<p>def load_partition_data_distributed_federated_shakespeare(...
 def load_partition_data_federated_shakespeare(...
-</code></pre></div>
+```</p>
                 
               
 
