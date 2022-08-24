@@ -296,12 +296,12 @@ def fedml_create():
 
 
 class Simulate(BaseModel):
-    args = Field(description="色々入ってる")
-    device = Field(description="")
-    dataset = Field(description="")
-    model = Field(description="モデル")
-    client_trainer = Field(None, description="通信方式に対応するclient")
-    server_aggregator = Field(None, description="通信方式に対応するaggregator")
+    args: Any = Field(description="色々入ってる")
+    device: Any = Field(description="")
+    dataset: Any = Field(description="")
+    model: Any = Field(description="モデル")
+    client_trainer: Any = Field(None, description="通信方式に対応するclient")
+    server_aggregator: Any = Field(None, description="通信方式に対応するaggregator")
 
 
 @app.post("/fedml/simulate")
