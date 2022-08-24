@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query, Request
 from pydantic import BaseModel, Field
-from typing import Literal, List
+from typing import Literal, List, Any
 
 app = FastAPI()
 
@@ -22,6 +22,7 @@ MODELS = Literal["rnn", "resnet56", "lr", "cnn", "resnet18_gn", "mobilenet"]
 OPTIMIZERS = Literal["sgd", "adam"]
 PARTITION_METHODS = Literal["hetero", "homo"]  # heterogeneity 不均一性  homogeneous 同種性
 # DISTRIBUTIONS = Literal["homo", "lumo"]  # 満足がいくデータセットが得られない場合に、テストデータセットを予測し、データセットを補完する？
+
 
 class MpiHost(BaseModel):
     """
@@ -46,6 +47,7 @@ def create_mpi_host_file(mpi_host_file: List[MpiHost]):
     """
     return "\n".join(x.host + f":{x.slots}" for x in mpi_host_file.__root__)
 
+
 @app.post("/fedavg")
 def fedavg(
     *,
@@ -53,11 +55,20 @@ def fedavg(
     dataset: str,
     data_dir: str,
     model: MODELS = "rnn",
-    partition_method: PARTITION_METHODS = Query("hetero", description="how to partition the dataset on local workers"),
-    client_num_in_total: int = Query(1, description="number of workers in a distributed cluster"),
+    partition_method: PARTITION_METHODS = Query(
+        "hetero", description="how to partition the dataset on local workers"
+    ),
+    client_num_in_total: int = Query(
+        1, description="number of workers in a distributed cluster"
+    ),
     client_num_per_round: int = Query(1, description="number of workers"),
-    comm_round: int = Query(2, description="how many round of communications we should use. roundの数だけepochsを繰り返すようだ。"),
-    batch_size: int = Query(..., description="データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"),
+    comm_round: int = Query(
+        2,
+        description="how many round of communications we should use. roundの数だけepochsを繰り返すようだ。",
+    ),
+    batch_size: int = Query(
+        ..., description="データセットを指定したサイズの塊に分割する。大きいほど処理速度が速いが、局所解に陥りやすく、また、メモリ消費量が大きい。"
+    ),
     epochs: int = Query(
         1,
         # description="It specifies the number of iterations. Epoch mean one complete pass of the training dataset through the algorithm."
@@ -65,7 +76,9 @@ def fedavg(
     ),
     client_optimizer: OPTIMIZERS,
     lr: float = Query(0.0001, description="学習率"),
-    ci: int = Query(0, description="CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。")
+    ci: int = Query(
+        0, description="CPUベースで計算します。ただし、トレーニング速度が遅くなるため、クライアントのテストのみ実行されます。"
+    ),
 ):
     "${workspaceFolder}/fedml_experiments/standalone/fedavg"
 
@@ -83,6 +96,7 @@ def train(table_name, output_model_name, params: dict):
 @app.post("/instantiate_model")
 def instantiate_model(model_name: str, model_args: dict):
     import torch
+
     torch.nn.Module
     model_args = {"output_dim": 1}
     LogisticRegression
@@ -105,13 +119,11 @@ def instantiate_trainer(trainer_name: str, trainer_args: dict, model=None):
     MyModelTrainerCLS(model)
 
 
-
 @app.post("/instantiate_federator")
-def instantiate_federator(trainer=None, *, args: dict, client_id: int, backend: str = "MQTT"):
-    """フェデレータは複数のトレーナの調整役である。
-    """
-
-
+def instantiate_federator(
+    trainer=None, *, args: dict, client_id: int, backend: str = "MQTT"
+):
+    """フェデレータは複数のトレーナの調整役である。"""
 
 
 from typing import NamedTuple, Tuple, Union
@@ -121,6 +133,7 @@ from typing import NamedTuple, Tuple, Union
 #     args: dict = {}
 
 Discriminator = Tuple[str, Union[dict, None]]
+
 
 class FederateConfig(BaseModel):
     version: str
@@ -133,7 +146,7 @@ class FederateConfig(BaseModel):
 
     class Config:
         schema_extra = {
-            'examples': [
+            "examples": [
                 {
                     "version": "0.1",
                     "federation": [
@@ -143,18 +156,11 @@ class FederateConfig(BaseModel):
                             "description": "",
                             "output_model_name": "mymodel",
                             "allow_anonymous_domain": True,
-                            "allow_anonymous_device": True
-                        }
+                            "allow_anonymous_device": True,
+                        },
                     ],
-                    "topology": [
-                        "vertical",  # or p2p
-                        {
-                            "upstream": "xxx.com"
-                        }
-                    ],
-                    "manager": [
-                        "client"
-                    ],
+                    "topology": ["vertical", {"upstream": "xxx.com"}],  # or p2p
+                    "manager": ["client"],
                     # "manager": [
                     #     "server",
                     #     {
@@ -171,45 +177,21 @@ class FederateConfig(BaseModel):
                     # ],
                     "distributed": [
                         "distributed",  # standalone, distributed, auto
-                        {
-                            "gpu": 0,
-                            "communicator": "mpi",
-                            "nodes": []  # or grpc hosts
-                        }
+                        {"gpu": 0, "communicator": "mpi", "nodes": []},  # or grpc hosts
                     ],
-                    "trainer": [
-                        "MyModelTrainerTAG",
-                        {}
-                    ],
+                    "trainer": ["MyModelTrainerTAG", {}],
                     "loader": [
                         "fileloader",
-                        {
-                            "type": "csv",
-                            "path": "aaa/bbb/ccc/aaaa.csv",
-                            "cache": True
-                        }
+                        {"type": "csv", "path": "aaa/bbb/ccc/aaaa.csv", "cache": True},
                     ],
-                    "model": [
-                        "LogisticRegression",
-                        {
-                            "input_dim": 1,
-                            "output_dim": 1
-                        }
-                    ]
+                    "model": ["LogisticRegression", {"input_dim": 1, "output_dim": 1}],
                 }
             ]
         }
 
 
 class FederateFactory:
-    def __init__(
-        self,
-        mode={},
-        model={},
-        trainer={},
-        distributed={},
-        dataloader={}
-    ):
+    def __init__(self, mode={}, model={}, trainer={}, distributed={}, dataloader={}):
         ...
 
     def create(self, config: FederateConfig):
@@ -221,6 +203,7 @@ class FederateFactory:
         manager = Manager(server_or_client, model, trainer, distributor)
         return manager
 
+
 def create(*args):
     ...
 
@@ -229,6 +212,7 @@ federate_facotry = FederateFactory()
 
 fed_configs = {}
 fed_runs = {}
+
 
 @app.post("/create_federation")
 def create_federation(config: FederateConfig):
@@ -248,3 +232,78 @@ def join_federation(request: Request, run_id: int):
     config = dic["config"]
     token = create_token(run_id, request["device"])
     return token
+
+
+@app.post("/fedml/init")
+def fedml_init():
+    """
+    simulateのargs引数に渡されるものをinitする
+    """
+    return {}
+
+
+@app.post("/fedml/args")
+def fedml_args(
+    *,
+    # 内部引数
+    training_type: Literal["simulation", "cross_silo", "cross_device", "distributed"],
+    backend: Literal["sp", "MPI", "NCCL"],
+    device_type: Literal["cpu", "gpu", "mps"],
+    scenario: Literal["hierarchical", "horizontal"] = None,
+    using_gpu: bool = True,
+    gpu_util_parse: Any = None,
+    process_id: int = None,
+    worker_num: int = None,
+    gpu_mapping_file: str = None,
+    gpu_mapping_key: str = None,
+    n_proc_in_silo: int = None,
+    proc_rank_in_silo: int = None,
+    cuda_rpc_gpu_mapping: Any = None,
+    enable_cuda_rpc: Any,
+    rank: int = None,
+    gpu_id: Any,
+    client_num_per_round: int = None,
+    data_cache_dir: str = None,
+    data_file_path: str = None,
+    partition_file_path: str = None,
+    part_file: str = None,
+):
+    return {}
+
+
+@app.post("/fedml/device")
+def fedml_device():
+    """
+    argsからdeviceを抽出する
+    """
+    return {}
+
+
+@app.post("/fedml/load")
+def fedml_load():
+    """
+    argsからdatasetをloadする
+    """
+    return {}
+
+
+@app.post("/fedml/create")
+def fedml_create():
+    """
+    モデルを初期化する
+    """
+    return {}
+
+
+class Simulate(BaseModel):
+    args = Field(description="色々入ってる")
+    device = Field(description="")
+    dataset = Field(description="")
+    model = Field(description="モデル")
+    client_trainer = Field(None, description="通信方式に対応するclient")
+    server_aggregator = Field(None, description="通信方式に対応するaggregator")
+
+
+@app.post("/fedml/simulate")
+def simulate(body: Simulate):
+    return {}
