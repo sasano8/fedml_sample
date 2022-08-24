@@ -456,7 +456,7 @@
         "/instantiate_federator": {
             "post": {
                 "summary": "Instantiate Federator",
-                "description": "フェデレータは複数のトレーナの調整役である。\n    ",
+                "description": "フェデレータは複数のトレーナの調整役である。",
                 "operationId": "instantiate_federator_instantiate_federator_post",
                 "parameters": [
                     {
@@ -571,6 +571,344 @@
                         "in": "query"
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/init": {
+            "post": {
+                "summary": "Fedml Init",
+                "description": "simulateのargs引数に渡されるものをinitする",
+                "operationId": "fedml_init_fedml_init_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/args": {
+            "post": {
+                "summary": "Fedml Args",
+                "operationId": "fedml_args_fedml_args_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Type",
+                            "enum": [
+                                "simulation",
+                                "cross_silo",
+                                "cross_device",
+                                "distributed"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "training_type",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Backend",
+                            "enum": [
+                                "sp",
+                                "MPI",
+                                "NCCL"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "backend",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Device Type",
+                            "enum": [
+                                "cpu",
+                                "gpu",
+                                "mps"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "device_type",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Scenario",
+                            "enum": [
+                                "hierarchical",
+                                "horizontal"
+                            ],
+                            "type": "string"
+                        },
+                        "name": "scenario",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Using Gpu",
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "name": "using_gpu",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Gpu Util Parse"
+                        },
+                        "name": "gpu_util_parse",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Process Id",
+                            "type": "integer"
+                        },
+                        "name": "process_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Worker Num",
+                            "type": "integer"
+                        },
+                        "name": "worker_num",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Gpu Mapping File",
+                            "type": "string"
+                        },
+                        "name": "gpu_mapping_file",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Gpu Mapping Key",
+                            "type": "string"
+                        },
+                        "name": "gpu_mapping_key",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "N Proc In Silo",
+                            "type": "integer"
+                        },
+                        "name": "n_proc_in_silo",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Proc Rank In Silo",
+                            "type": "integer"
+                        },
+                        "name": "proc_rank_in_silo",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Cuda Rpc Gpu Mapping"
+                        },
+                        "name": "cuda_rpc_gpu_mapping",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Enable Cuda Rpc"
+                        },
+                        "name": "enable_cuda_rpc",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Rank",
+                            "type": "integer"
+                        },
+                        "name": "rank",
+                        "in": "query"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Gpu Id"
+                        },
+                        "name": "gpu_id",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Client Num Per Round",
+                            "type": "integer"
+                        },
+                        "name": "client_num_per_round",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Data Cache Dir",
+                            "type": "string"
+                        },
+                        "name": "data_cache_dir",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Data File Path",
+                            "type": "string"
+                        },
+                        "name": "data_file_path",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Partition File Path",
+                            "type": "string"
+                        },
+                        "name": "partition_file_path",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Part File",
+                            "type": "string"
+                        },
+                        "name": "part_file",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/device": {
+            "post": {
+                "summary": "Fedml Device",
+                "description": "argsからdeviceを抽出する",
+                "operationId": "fedml_device_fedml_device_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/load": {
+            "post": {
+                "summary": "Fedml Load",
+                "description": "argsからdatasetをloadする",
+                "operationId": "fedml_load_fedml_load_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/create": {
+            "post": {
+                "summary": "Fedml Create",
+                "description": "モデルを初期化する",
+                "operationId": "fedml_create_fedml_create_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/fedml/simulate": {
+            "post": {
+                "summary": "Simulate",
+                "operationId": "simulate_fedml_simulate_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Simulate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -785,6 +1123,34 @@
                     }
                 },
                 "description": "計算を実行する"
+            },
+            "Simulate": {
+                "title": "Simulate",
+                "type": "object",
+                "properties": {
+                    "args": {
+                        "title": "Args",
+                        "description": "色々入ってる"
+                    },
+                    "device": {
+                        "title": "Device"
+                    },
+                    "dataset": {
+                        "title": "Dataset"
+                    },
+                    "model": {
+                        "title": "Model",
+                        "description": "モデル"
+                    },
+                    "client_trainer": {
+                        "title": "Client Trainer",
+                        "description": "通信方式に対応するclient"
+                    },
+                    "server_aggregator": {
+                        "title": "Server Aggregator",
+                        "description": "通信方式に対応するaggregator"
+                    }
+                }
             },
             "ValidationError": {
                 "title": "ValidationError",
